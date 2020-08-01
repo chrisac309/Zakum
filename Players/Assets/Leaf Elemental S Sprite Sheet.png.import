@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/log.png-a5c32d284d544c2c9e64d54fb521ec99.stex"
+path="res://.import/Leaf Elemental S Sprite Sheet.png-76a553084bf679564d4a7e875770f4c8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Enemies/Assets/log.png"
-dest_files=[ "res://.import/log.png-a5c32d284d544c2c9e64d54fb521ec99.stex" ]
+source_file="res://Players/Assets/Leaf Elemental S Sprite Sheet.png"
+dest_files=[ "res://.import/Leaf Elemental S Sprite Sheet.png-76a553084bf679564d4a7e875770f4c8.stex" ]
 
 [params]
 

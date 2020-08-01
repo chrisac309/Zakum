@@ -1,73 +1,96 @@
 extends KinematicBody2D
 
-const ACCELERATION = 100
-const MAX_SPEED = 100
-const FRICTION = 25
+#const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
 
-enum CharacterState {MOVE, ATTACK, SPECIAL}
-export(CharacterState) var state
+export var ACCELERATION = 500
+export var MAX_SPEED = 80
+export var FRICTION = 500
 
+enum {
+	MOVE,
+	ATTACK,
+	SPECIAL
+}
 
+var state = MOVE
 var velocity = Vector2.ZERO
+var stats = PlayerStats
 
+onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
+onready var hitbox = $Hitbox
+onready var hurtbox = $Hurtbox
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
+	stats.connect("no_health", self, "queue_free")
 	animationTree.active = true
+	hitbox.knockback_vector = Vector2.DOWN
 
-	 # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-func _process(delta):
-	if Input.is_key_pressed(KEY_R):
-		get_tree().reload_current_scene()
-	match state:
-		CharacterState.MOVE:
-			move_state(delta)
-			
-		CharacterState.ATTACK:
-			attack_state(delta)
-			
-		CharacterState.SPECIAL:
-			special_state(delta)
-			
 func _physics_process(delta):
-	velocity = move_and_slide(velocity)
-
+	match state:
+		MOVE:
+			move_state(delta)
+		
+		SPECIAL:
+			special_state()
+		
+		ATTACK:
+			attack_state()
+	
 func move_state(delta):
 	var input_vector = Vector2.ZERO
-	# Get and normalize our input
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
 	
 	if input_vector != Vector2.ZERO:
+		hitbox.knockback_vector = input_vector
 		animationTree.set("parameters/Idle/blend_position", input_vector)
-		animationTree.set("parameters/Walk/blend_position", input_vector)
-		animationState.travel("Walk")
-		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION)
+		animationTree.set("parameters/Move/blend_position", input_vector)
+		animationTree.set("parameters/Attack/blend_position", input_vector)
+		animationTree.set("parameters/Special/blend_position", input_vector)
+		animationState.travel("Run")
+		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta)
 	else:
 		animationState.travel("Idle")
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
-		
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+	
+	move()
+	
+	if Input.is_action_just_pressed("special"):
+		state = SPECIAL
+	
 	if Input.is_action_just_pressed("attack"):
-		state = CharacterState.ATTACK
+		state = ATTACK
 
-func attack_state(delta):
-	animationState.travel("Attack")
+func special_state():
 	velocity = Vector2.ZERO
-	
-func on_attack_finished():
-	state = CharacterState.MOVE
-	
-func special_state(delta):
-	pass
+	animationState.travel("Special")
+
+func attack_state():
+	velocity = Vector2.ZERO
+	animationState.travel("Attack")
+
+func move():
+	velocity = move_and_slide(velocity)
+
+func special_animation_finished():
+	state = MOVE
+
+func attack_animation_finished():
+	state = MOVE
+
+func _on_Hurtbox_area_entered(area):
+	stats.health -= area.damage
+	hurtbox.start_invincibility(0.6)
+	hurtbox.create_hit_effect()
+#	var playerHurtSound = PlayerHurtSound.instance()
+#	get_tree().current_scene.add_child(playerHurtSound)
+#
+#func _on_Hurtbox_invincibility_started():
+#	blinkAnimationPlayer.play("Start")
+#
+#func _on_Hurtbox_invincibility_ended():
+#	blinkAnimationPlayer.play("Stop")
