@@ -1,6 +1,7 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Players/Assets/Leaf Elemental S Sprite Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Players/Leafy.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FloatLeft"
@@ -234,13 +235,16 @@ radius = 2.75597
 height = 4.32567
 
 [node name="Leafy" type="KinematicBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -4 )
 texture = ExtResource( 1 )
-offset = Vector2( 0, -16 )
 vframes = 12
 hframes = 7
-frame = 43
+frame = 44
 region_rect = Rect2( 3, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -264,5 +268,6 @@ parameters/Pollen/blend_position = -0.908772
 parameters/Run/blend_position = 0.963158
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 10 )
 rotation = 1.5708
 shape = SubResource( 29 )
