@@ -40,6 +40,8 @@ radius = 12.7963
 radius = 8.39368
 
 [node name="Troll" type="KinematicBody2D"]
+collision_layer = 4
+collision_mask = 7
 script = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -48,7 +50,7 @@ shape = SubResource( 8 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -10, -20 )
 frames = SubResource( 7 )
-frame = 3
+frame = 2
 playing = true
 centered = false
 

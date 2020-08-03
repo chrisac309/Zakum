@@ -4,8 +4,10 @@ onready var target_movement = $TargetMovement
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var currentSprite = $Sprite
+onready var enemyDetector = $EnemyDetector
 
-export var spawned = false
+var spawned = false
+var enemy_detected = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -13,6 +15,14 @@ func _physics_process(delta):
 		target_movement.follow(delta)
 		if target_movement.velocity.length() > 0:
 			animationState.travel("Run")
-			currentSprite.flip_h = target_movement.velocity.x > 0
 		else:
 			animationState.travel("Idle")
+	currentSprite.flip_h = target_movement.velocity.x > 0
+
+func _on_EnemyDetector_area_entered(area):
+	animationState.travel("Pollen")
+	target_movement.shrink_target_zone()
+
+func _on_EnemyDetector_area_exited(area):
+	if !enemyDetector.detects_enemies():
+		target_movement.reset_target_zone()

@@ -1,7 +1,6 @@
 extends KinematicBody2D
 
 #const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
-const LeafyScene = preload("res://Players/Leafy.tscn")
 
 export var ACCELERATION = 10
 export var MAX_SPEED = 80
@@ -19,7 +18,6 @@ enum {
 var state = MOVE
 var velocity = Vector2.ZERO
 var stats = PlayerStats
-var spawnedLeafy = []
 
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -34,13 +32,14 @@ func _ready():
 	hitbox.knockback_vector = Vector2.DOWN
 
 func _physics_process(delta):
-	match state:
-		MOVE:
-			move_state(delta)
-		SPECIAL:
-			special_state()
-		ATTACK:
-			attack_state()
+	if state == MOVE:
+		move_state(delta)
+			
+func _process(delta):
+	if state == SPECIAL:
+		special_state()
+	elif state == ATTACK:
+		attack_state()
 	
 func move_state(delta):
 	var input_vector = Vector2.ZERO
@@ -61,7 +60,7 @@ func move_state(delta):
 		velocity
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
 	
-	move(delta)
+	move_and_collide(velocity * delta)
 	
 	if Input.is_action_just_pressed("special"):
 		state = SPECIAL
@@ -79,24 +78,8 @@ func attack_state():
 	velocity = Vector2.ZERO
 	animationState.travel("Attack")
 
-func move(delta):
-	move_and_collide(velocity * delta)
-
-func special_animation_finished():
-	for leafy in spawnedLeafy:
-		leafy.target_movement.set_target(self)
-	state = MOVE
-
 func attack_animation_finished():
 	state = MOVE
-	
-func spawn_leafy():
-	if spawnedLeafy.size() < MAX_LEAFY:
-		var leafy = LeafyScene.instance()
-		leafy.position = position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
-		get_parent().add_child(leafy)
-		leafy.target_movement.set_target(self)
-		spawnedLeafy.append(leafy)
 
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage

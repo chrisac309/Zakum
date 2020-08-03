@@ -11,6 +11,10 @@ export var ACCELERATION = 50
 export var FOLLOW_DISTANCE_MIN = 20
 export var FOLLOW_DISTANCE_MAX = 25
 
+onready var initial_follow_min = FOLLOW_DISTANCE_MIN
+onready var initial_follow_max = FOLLOW_DISTANCE_MAX
+
+
 func follow(delta):
 	if target != null:
 		var distToTarget = parent.global_position.distance_to(target.global_position)
@@ -26,7 +30,15 @@ func follow(delta):
 			direction = Vector2.ZERO
 
 		velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION)
-		parent.move_and_slide(velocity)
+		parent.move_and_collide(velocity)
 
 func set_target(targetToFollow:KinematicBody2D):
 	target = targetToFollow
+	
+func shrink_target_zone():
+	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 2
+	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX / 2
+
+func reset_target_zone():
+	FOLLOW_DISTANCE_MIN = initial_follow_min
+	FOLLOW_DISTANCE_MAX = initial_follow_max
