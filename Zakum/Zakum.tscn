@@ -59,14 +59,16 @@ radius = 281.258
 radius = 24.03
 height = 317.181
 
-[node name="Zakum" type="KinematicBody2D"]
+[node name="Zakum" type="KinematicBody2D" groups=[
+"Zakum",
+]]
 scale = Vector2( 0.25, 0.25 )
 collision_mask = 15
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -195 )
 frames = SubResource( 9 )
-frame = 5
+frame = 6
 playing = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 2 )]

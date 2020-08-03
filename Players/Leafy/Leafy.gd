@@ -7,22 +7,25 @@ onready var currentSprite = $Sprite
 onready var enemyDetector = $EnemyDetector
 
 var spawned = false
-var enemy_detected = false
+var pursuing_enemy = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if spawned:
 		target_movement.follow(delta)
-		if target_movement.velocity.length() > 0:
-			animationState.travel("Run")
-		else:
-			animationState.travel("Idle")
+		if not pursuing_enemy:
+			if target_movement.velocity.length() > 0:
+				animationState.travel("Run")
+			else:
+				animationState.travel("Idle")
+		elif target_movement.is_near_target:
+			animationState.travel("Pollen")
 	currentSprite.flip_h = target_movement.velocity.x > 0
-
-func _on_EnemyDetector_area_entered(area):
-	animationState.travel("Pollen")
+	
+func pursue_enemy():
+	pursuing_enemy = true
 	target_movement.shrink_target_zone()
-
-func _on_EnemyDetector_area_exited(area):
-	if !enemyDetector.detects_enemies():
-		target_movement.reset_target_zone()
+	
+func follow_stumpy():
+	pursuing_enemy = false
+	target_movement.reset_target_zone()

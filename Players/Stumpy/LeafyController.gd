@@ -21,6 +21,10 @@ func spawn_leafy():
 func set_leafy_targets(targetNode:KinematicBody2D):
 	for leafy in spawnedLeafy:
 		leafy.target_movement.set_target(targetNode)
+		if targetNode.is_in_group("Enemy"):
+			leafy.pursue_enemy()
+		else:
+			leafy.follow_stumpy()
 
 func _on_EnemyDetector_body_entered(body):
 	set_leafy_targets(body)
