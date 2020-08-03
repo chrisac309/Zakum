@@ -7,6 +7,7 @@ export var ACCELERATION = 10
 export var MAX_SPEED = 80
 export var FRICTION = 1
 export var SPAWNING_RANGE = 75
+export var MAX_LEAFY = 10
 
 
 enum {
@@ -71,6 +72,8 @@ func move_state(delta):
 func special_state():
 	velocity = Vector2.ZERO
 	animationState.travel("Special")
+	if Input.is_action_just_released("special"):
+		state = MOVE
 
 func attack_state():
 	velocity = Vector2.ZERO
@@ -80,17 +83,20 @@ func move(delta):
 	move_and_collide(velocity * delta)
 
 func special_animation_finished():
+	for leafy in spawnedLeafy:
+		leafy.target_movement.set_target(self)
 	state = MOVE
 
 func attack_animation_finished():
 	state = MOVE
 	
 func spawn_leafy():
-	var leafy = LeafyScene.instance()
-	leafy.position = position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
-	leafy.set_target(self)
-	get_parent().add_child(leafy)
-	spawnedLeafy.append(leafy)
+	if spawnedLeafy.size() < MAX_LEAFY:
+		var leafy = LeafyScene.instance()
+		leafy.position = position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
+		get_parent().add_child(leafy)
+		leafy.target_movement.set_target(self)
+		spawnedLeafy.append(leafy)
 
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage

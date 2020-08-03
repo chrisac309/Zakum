@@ -1,7 +1,9 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Players/Assets/Leaf Elemental S Sprite Sheet.png" type="Texture" id=1]
-[ext_resource path="res://Players/Leafy.gd" type="Script" id=2]
+[ext_resource path="res://Gameplay/TargetMovement.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Players/Leafy.gd" type="Script" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FloatLeft"
@@ -157,76 +159,57 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 76, 75, 74, 73, 60, 59, 58, 57, 56, 44 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:spawned")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=31]
 animation = "IdleLeft"
 
-[sub_resource type="AnimationNodeAnimation" id=11]
-animation = "IdleRight"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id=12]
-blend_point_0/node = SubResource( 10 )
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource( 11 )
-blend_point_1/pos = 1.0
-value_label = "0"
-
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=32]
 animation = "PollenLeft"
 
-[sub_resource type="AnimationNodeAnimation" id=14]
-animation = "PollenRight"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id=15]
-blend_point_0/node = SubResource( 13 )
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource( 14 )
-blend_point_1/pos = 1.0
-value_label = "0"
-
-[sub_resource type="AnimationNodeAnimation" id=16]
+[sub_resource type="AnimationNodeAnimation" id=33]
 animation = "RunLeft"
-
-[sub_resource type="AnimationNodeAnimation" id=17]
-animation = "RunRight"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id=18]
-blend_point_0/node = SubResource( 16 )
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource( 17 )
-blend_point_1/pos = 1.0
-value_label = "0"
 
 [sub_resource type="AnimationNodeAnimation" id=19]
 animation = "Spawn"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=20]
-auto_advance = true
+[sub_resource type="AnimationNodeStateMachineTransition" id=34]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+[sub_resource type="AnimationNodeStateMachineTransition" id=35]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+[sub_resource type="AnimationNodeStateMachineTransition" id=36]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+[sub_resource type="AnimationNodeStateMachineTransition" id=37]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+[sub_resource type="AnimationNodeStateMachineTransition" id=38]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+[sub_resource type="AnimationNodeStateMachineTransition" id=39]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+[sub_resource type="AnimationNodeStateMachineTransition" id=40]
 
 [sub_resource type="AnimationNodeStateMachine" id=27]
-states/Idle/node = SubResource( 12 )
-states/Idle/position = Vector2( 520, 179 )
-states/Pollen/node = SubResource( 15 )
-states/Pollen/position = Vector2( 757, 280 )
-states/Run/node = SubResource( 18 )
-states/Run/position = Vector2( 337, 282 )
+states/Idle/node = SubResource( 31 )
+states/Idle/position = Vector2( 520, 167 )
+states/Pollen/node = SubResource( 32 )
+states/Pollen/position = Vector2( 387, 268 )
+states/Run/node = SubResource( 33 )
+states/Run/position = Vector2( 652, 273 )
 states/Spawn/node = SubResource( 19 )
-states/Spawn/position = Vector2( 520, 77 )
-transitions = [ "Spawn", "Idle", SubResource( 20 ), "Idle", "Run", SubResource( 21 ), "Run", "Idle", SubResource( 22 ), "Idle", "Pollen", SubResource( 23 ), "Pollen", "Idle", SubResource( 24 ), "Run", "Pollen", SubResource( 25 ), "Pollen", "Run", SubResource( 26 ) ]
+states/Spawn/position = Vector2( 520, 75 )
+transitions = [ "Spawn", "Idle", SubResource( 34 ), "Idle", "Pollen", SubResource( 35 ), "Pollen", "Idle", SubResource( 36 ), "Idle", "Run", SubResource( 37 ), "Run", "Idle", SubResource( 38 ), "Pollen", "Run", SubResource( 39 ), "Run", "Pollen", SubResource( 40 ) ]
 start_node = "Spawn"
-graph_offset = Vector2( -2, 71 )
+graph_offset = Vector2( -2, 48 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=28]
 
@@ -234,10 +217,14 @@ graph_offset = Vector2( -2, 71 )
 radius = 2.75597
 height = 4.32567
 
+[sub_resource type="CircleShape2D" id=30]
+radius = 7.76228
+
 [node name="Leafy" type="KinematicBody2D"]
 collision_layer = 8
-collision_mask = 5
-script = ExtResource( 2 )
+collision_mask = 9
+script = ExtResource( 4 )
+spawned = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -4 )
@@ -263,11 +250,20 @@ tree_root = SubResource( 27 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 28 )
-parameters/Idle/blend_position = -1.0
-parameters/Pollen/blend_position = -0.908772
-parameters/Run/blend_position = 0.963158
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
 rotation = 1.5708
 shape = SubResource( 29 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 3 )]
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( -10, 6 )
+shape = SubResource( 30 )
+
+[node name="TargetMovement" parent="." instance=ExtResource( 2 )]
+FOLLOW_DISTANCE_MIN = 30
+FOLLOW_DISTANCE_MAX = 45
+
+[editable path="Hitbox"]
