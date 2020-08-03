@@ -257,13 +257,14 @@ rotation = 1.5708
 shape = SubResource( 23 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 2 )]
+collision_layer = 8
+collision_mask = 4
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2( -10, 6 )
 shape = SubResource( 24 )
 
 [node name="TargetMovement" parent="." instance=ExtResource( 1 )]
-MAX_SPEED = 100
 FOLLOW_DISTANCE_MIN = 30
 FOLLOW_DISTANCE_MAX = 45
 
@@ -272,3 +273,5 @@ FOLLOW_DISTANCE_MAX = 45
 [connection signal="area_exited" from="EnemyDetector" to="." method="_on_EnemyDetector_area_exited"]
 
 [editable path="Hitbox"]
+
+[editable path="EnemyDetector"]

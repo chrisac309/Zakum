@@ -57,7 +57,6 @@ func move_state(delta):
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION)
 	else:
 		animationState.travel("Idle")
-		velocity
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
 	
 	move_and_collide(velocity * delta)

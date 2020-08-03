@@ -6,8 +6,8 @@ var direction = Vector2.ZERO
 
 onready var parent = get_parent()
 
-export var MAX_SPEED = 80
-export var ACCELERATION = 50
+export var MAX_SPEED = 100
+export var ACCELERATION = 10
 export var FOLLOW_DISTANCE_MIN = 20
 export var FOLLOW_DISTANCE_MAX = 25
 
@@ -30,7 +30,7 @@ func follow(delta):
 			direction = Vector2.ZERO
 
 		velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION)
-		parent.move_and_collide(velocity)
+		parent.move_and_slide(velocity)
 
 func set_target(targetToFollow:KinematicBody2D):
 	target = targetToFollow
