@@ -5,9 +5,6 @@ extends KinematicBody2D
 export var ACCELERATION = 10
 export var MAX_SPEED = 80
 export var FRICTION = 1
-export var SPAWNING_RANGE = 75
-export var MAX_LEAFY = 10
-
 
 enum {
 	MOVE,
@@ -84,11 +81,3 @@ func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
 	hurtbox.start_invincibility(0.6)
 	hurtbox.create_hit_effect()
-#	var playerHurtSound = PlayerHurtSound.instance()
-#	get_tree().current_scene.add_child(playerHurtSound)
-#
-#func _on_Hurtbox_invincibility_started():
-#	blinkAnimationPlayer.play("Start")
-#
-#func _on_Hurtbox_invincibility_ended():
-#	blinkAnimationPlayer.play("Stop")

@@ -72,7 +72,6 @@ shape = SubResource( 7 )
 
 [node name="Timer" parent="Hurtbox" index="1"]
 wait_time = 0.5
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 
 [editable path="Hitbox"]
 

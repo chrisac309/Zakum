@@ -15,16 +15,19 @@ func spawn_leafy():
 		var leafy = LeafyScene.instance()
 		leafy.position = parent.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
 		ySort.add_child(leafy)
-		leafy.target_movement.set_target(parent)
+		set_single_leafy_target(leafy, parent)
 		spawnedLeafy.append(leafy)
 
 func set_leafy_targets(targetNode:KinematicBody2D):
 	for leafy in spawnedLeafy:
-		leafy.target_movement.set_target(targetNode)
-		if targetNode.is_in_group("Enemy"):
-			leafy.pursue_enemy()
-		else:
-			leafy.follow_stumpy()
+		set_single_leafy_target(leafy, targetNode)
+			
+func set_single_leafy_target(leafy, targetNode:KinematicBody2D):
+	leafy.target_movement.set_target(targetNode)
+	if targetNode.is_in_group("Enemy"):
+		leafy.pursue_enemy()
+	else:
+		leafy.follow_stumpy()
 
 func _on_EnemyDetector_body_entered(body):
 	set_leafy_targets(body)
