@@ -1,6 +1,6 @@
 [gd_scene load_steps=45 format=2]
 
-[ext_resource path="res://Players/Stumpy/Stumpy.gd" type="Script" id=1]
+[ext_resource path="res://Players/Player.gd" type="Script" id=1]
 [ext_resource path="res://Players/Stumpy/LeafyController.gd" type="Script" id=2]
 [ext_resource path="res://Gameplay/Hurtbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=4]

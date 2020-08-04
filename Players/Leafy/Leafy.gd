@@ -8,6 +8,7 @@ onready var enemyDetector = $EnemyDetector
 
 var spawned = false
 var pursuing_enemy = false
+export var is_dead = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -29,3 +30,6 @@ func pursue_enemy():
 func follow_stumpy():
 	pursuing_enemy = false
 	target_movement.reset_target_zone()
+
+func _on_Lifespan_timeout():
+	animationState.travel("Die")
