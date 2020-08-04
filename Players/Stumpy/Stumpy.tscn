@@ -1,13 +1,14 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Players/Player.gd" type="Script" id=1]
-[ext_resource path="res://Players/Stumpy/LeafyController.gd" type="Script" id=2]
+[ext_resource path="res://Players/Stumpy/LeafyController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Gameplay/Hurtbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Players/PlayerHitbox.gd" type="Script" id=5]
 [ext_resource path="res://Players/PlayerStats.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Gameplay/EnemyDetector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Players/Assets/log.png" type="Texture" id=8]
+[ext_resource path="res://Players/Stumpy/TreeController.gd" type="Script" id=9]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Attack"
@@ -121,6 +122,20 @@ tracks/1/keys = {
 "values": [ {
 "args": [  ],
 "method": "attack_animation_finished"
+} ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("TreeController")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "spawn_tree"
 } ]
 }
 
@@ -341,15 +356,14 @@ script = ExtResource( 5 )
 
 [node name="PlayerStats" parent="." instance=ExtResource( 6 )]
 
-[node name="LeafyController" type="Node" parent="."]
-script = ExtResource( 2 )
-TARGETING_TYPE = 2
+[node name="LeafyController" parent="." instance=ExtResource( 2 )]
 
 [node name="EnemyDetector" parent="." instance=ExtResource( 7 )]
 
 [node name="CollisionShape2D" parent="EnemyDetector" index="0"]
 shape = SubResource( 36 )
-[connection signal="body_entered" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_entered"]
-[connection signal="body_exited" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_exited"]
+
+[node name="TreeController" type="Node" parent="."]
+script = ExtResource( 9 )
 
 [editable path="EnemyDetector"]
