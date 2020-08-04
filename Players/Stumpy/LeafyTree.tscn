@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Players/Assets/greenery.png" type="Texture" id=1]
 [ext_resource path="res://Players/Stumpy/LeafyController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Players/Stumpy/LeafyTree.gd" type="Script" id=3]
+[ext_resource path="res://Gameplay/EnemyDetector.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.87498
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 55.4643
 
 [node name="LeafyTree" type="KinematicBody2D" groups=[
 "Friendly",
@@ -24,4 +28,11 @@ shape = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
+
+[node name="EnemyDetector" parent="." instance=ExtResource( 4 )]
+
+[node name="CollisionShape2D" parent="EnemyDetector" index="0"]
+shape = SubResource( 2 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[editable path="EnemyDetector"]

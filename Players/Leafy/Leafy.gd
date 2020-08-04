@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+# Considerations to keep in mind:
+# Leafy does not take damage, it has a lifespan.
+# It might be worth trying a hurtbox w/ health
+
 onready var target_movement = $TargetMovement
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")

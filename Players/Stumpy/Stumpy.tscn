@@ -365,5 +365,7 @@ shape = SubResource( 36 )
 
 [node name="TreeController" type="Node" parent="."]
 script = ExtResource( 9 )
+[connection signal="body_entered" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_entered"]
+[connection signal="body_exited" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_exited"]
 
 [editable path="EnemyDetector"]
