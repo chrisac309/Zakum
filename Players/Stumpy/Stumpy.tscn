@@ -343,6 +343,7 @@ script = ExtResource( 5 )
 
 [node name="LeafyController" type="Node" parent="."]
 script = ExtResource( 2 )
+TARGETING_TYPE = 2
 
 [node name="EnemyDetector" parent="." instance=ExtResource( 7 )]
 
