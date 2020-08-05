@@ -31,12 +31,10 @@ func _ready():
 func _physics_process(delta):
 	if state == MOVE:
 		move_state(delta)
-			
-func _process(delta):
-	if state == SPECIAL:
+	elif state == SPECIAL:
 		special_state()
 	elif state == ATTACK:
-		attack_state()
+		attack_state()	
 	
 func move_state(delta):
 	var input_vector = Vector2.ZERO
@@ -76,6 +74,7 @@ func attack_state():
 
 func attack_animation_finished():
 	state = MOVE
+	print("ATTACK FINISHED!")
 
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
