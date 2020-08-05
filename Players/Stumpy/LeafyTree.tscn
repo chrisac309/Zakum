@@ -9,7 +9,7 @@
 radius = 6.87498
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 55.4643
+radius = 61.7055
 
 [node name="LeafyTree" type="KinematicBody2D" groups=[
 "Friendly",
@@ -25,6 +25,7 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="LeafyController" parent="." instance=ExtResource( 2 )]
+MAX_LEAFY = 5
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
@@ -34,5 +35,7 @@ autostart = true
 [node name="CollisionShape2D" parent="EnemyDetector" index="0"]
 shape = SubResource( 2 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_entered"]
+[connection signal="body_exited" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_exited"]
 
 [editable path="EnemyDetector"]
