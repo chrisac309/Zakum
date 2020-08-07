@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Gameplay/TargetMovement.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=2]
@@ -7,7 +7,47 @@
 [ext_resource path="res://Gameplay/EnemyDetector.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Animation" id=1]
-resource_name = "FloatLeft"
+resource_name = "Die"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 44, 56, 57, 58, 59, 60, 73, 74, 75, 76 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:is_dead")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1, 1.001 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
 length = 0.4
 loop = true
 step = 0.2
@@ -24,8 +64,7 @@ tracks/0/keys = {
 "values": [ 49, 50 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "FloatRight"
+[sub_resource type="Animation" id=3]
 length = 0.4
 loop = true
 step = 0.2
@@ -42,8 +81,7 @@ tracks/0/keys = {
 "values": [ 7, 8 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "IdleLeft"
+[sub_resource type="Animation" id=4]
 length = 0.8
 loop = true
 step = 0.4
@@ -60,8 +98,7 @@ tracks/0/keys = {
 "values": [ 43, 44 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "IdleRight"
+[sub_resource type="Animation" id=5]
 length = 0.8
 loop = true
 step = 0.4
@@ -78,8 +115,7 @@ tracks/0/keys = {
 "values": [ 1, 2 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "PollenLeft"
+[sub_resource type="Animation" id=6]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -95,8 +131,7 @@ tracks/0/keys = {
 "values": [ 77, 78, 79, 80, 81, 82 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "PollenRight"
+[sub_resource type="Animation" id=7]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -112,8 +147,7 @@ tracks/0/keys = {
 "values": [ 35, 36, 37, 38, 39, 40 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "RunLeft"
+[sub_resource type="Animation" id=8]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -129,8 +163,7 @@ tracks/0/keys = {
 "values": [ 49, 50, 51, 52, 53 ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "RunRight"
+[sub_resource type="Animation" id=9]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -146,8 +179,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10, 11 ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "Spawn"
+[sub_resource type="Animation" id=10]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -173,21 +205,20 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=10]
-animation = "IdleLeft"
-
 [sub_resource type="AnimationNodeAnimation" id=11]
-animation = "PollenLeft"
+animation = "Die"
 
 [sub_resource type="AnimationNodeAnimation" id=12]
-animation = "RunLeft"
+animation = "IdleLeft"
 
 [sub_resource type="AnimationNodeAnimation" id=13]
+animation = "PollenLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "RunLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=15]
 animation = "Spawn"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 
@@ -199,29 +230,46 @@ animation = "Spawn"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
-[sub_resource type="AnimationNodeStateMachine" id=21]
-states/Idle/node = SubResource( 10 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+
+[sub_resource type="AnimationNodeStateMachine" id=26]
+states/Die/node = SubResource( 11 )
+states/Die/position = Vector2( 520, 359 )
+states/Idle/node = SubResource( 12 )
 states/Idle/position = Vector2( 520, 167 )
-states/Pollen/node = SubResource( 11 )
+states/Pollen/node = SubResource( 13 )
 states/Pollen/position = Vector2( 387, 268 )
-states/Run/node = SubResource( 12 )
+states/Run/node = SubResource( 14 )
 states/Run/position = Vector2( 652, 273 )
-states/Spawn/node = SubResource( 13 )
+states/Spawn/node = SubResource( 15 )
 states/Spawn/position = Vector2( 520, 75 )
-transitions = [ "Spawn", "Idle", SubResource( 14 ), "Idle", "Pollen", SubResource( 15 ), "Pollen", "Idle", SubResource( 16 ), "Idle", "Run", SubResource( 17 ), "Run", "Idle", SubResource( 18 ), "Pollen", "Run", SubResource( 19 ), "Run", "Pollen", SubResource( 20 ) ]
+transitions = [ "Spawn", "Idle", SubResource( 16 ), "Idle", "Pollen", SubResource( 17 ), "Pollen", "Idle", SubResource( 18 ), "Idle", "Run", SubResource( 19 ), "Run", "Idle", SubResource( 20 ), "Pollen", "Run", SubResource( 21 ), "Run", "Pollen", SubResource( 22 ), "Idle", "Die", SubResource( 23 ), "Pollen", "Die", SubResource( 24 ), "Run", "Die", SubResource( 25 ) ]
 start_node = "Spawn"
-graph_offset = Vector2( -2, 48 )
+graph_offset = Vector2( 128, 148.36 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=27]
 
-[sub_resource type="CapsuleShape2D" id=23]
+[sub_resource type="CapsuleShape2D" id=28]
 radius = 2.75597
 height = 4.32567
 
-[sub_resource type="CircleShape2D" id=24]
-radius = 7.76228
+[sub_resource type="CircleShape2D" id=29]
+radius = 9.94875
 
-[node name="Leafy" type="KinematicBody2D"]
+[sub_resource type="CircleShape2D" id=30]
+radius = 48.2283
+
+[node name="Leafy" type="KinematicBody2D" groups=[
+"Friendly",
+]]
 collision_layer = 8
 collision_mask = 9
 script = ExtResource( 3 )
@@ -235,42 +283,46 @@ frame = 44
 region_rect = Rect2( 3, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/FloatLeft = SubResource( 1 )
-anims/FloatRight = SubResource( 2 )
-anims/IdleLeft = SubResource( 3 )
-anims/IdleRight = SubResource( 4 )
-anims/PollenLeft = SubResource( 5 )
-anims/PollenRight = SubResource( 6 )
-anims/RunLeft = SubResource( 7 )
-anims/RunRight = SubResource( 8 )
-anims/Spawn = SubResource( 9 )
+anims/Die = SubResource( 1 )
+anims/FloatLeft = SubResource( 2 )
+anims/FloatRight = SubResource( 3 )
+anims/IdleLeft = SubResource( 4 )
+anims/IdleRight = SubResource( 5 )
+anims/PollenLeft = SubResource( 6 )
+anims/PollenRight = SubResource( 7 )
+anims/RunLeft = SubResource( 8 )
+anims/RunRight = SubResource( 9 )
+anims/Spawn = SubResource( 10 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 21 )
+tree_root = SubResource( 26 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 22 )
+parameters/playback = SubResource( 27 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
 rotation = 1.5708
-shape = SubResource( 23 )
+shape = SubResource( 28 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 2 )]
-collision_layer = 8
+position = Vector2( 0, 8 )
+rotation = 1.5708
+collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-position = Vector2( -10, 6 )
-shape = SubResource( 24 )
+position = Vector2( 10, 0 )
+shape = SubResource( 29 )
 
 [node name="TargetMovement" parent="." instance=ExtResource( 1 )]
 FOLLOW_DISTANCE_MIN = 30
 FOLLOW_DISTANCE_MAX = 45
 
 [node name="EnemyDetector" parent="." instance=ExtResource( 5 )]
-[connection signal="area_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_area_entered"]
-[connection signal="area_exited" from="EnemyDetector" to="." method="_on_EnemyDetector_area_exited"]
+
+[node name="CollisionShape2D" parent="EnemyDetector" index="0"]
+shape = SubResource( 30 )
 
 [editable path="Hitbox"]
 

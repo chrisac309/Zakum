@@ -5,9 +5,6 @@ extends KinematicBody2D
 export var ACCELERATION = 10
 export var MAX_SPEED = 80
 export var FRICTION = 1
-export var SPAWNING_RANGE = 75
-export var MAX_LEAFY = 10
-
 
 enum {
 	MOVE,
@@ -34,12 +31,10 @@ func _ready():
 func _physics_process(delta):
 	if state == MOVE:
 		move_state(delta)
-			
-func _process(delta):
-	if state == SPECIAL:
+	elif state == SPECIAL:
 		special_state()
 	elif state == ATTACK:
-		attack_state()
+		attack_state()	
 	
 func move_state(delta):
 	var input_vector = Vector2.ZERO
@@ -79,16 +74,9 @@ func attack_state():
 
 func attack_animation_finished():
 	state = MOVE
+	print("ATTACK FINISHED!")
 
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
 	hurtbox.start_invincibility(0.6)
 	hurtbox.create_hit_effect()
-#	var playerHurtSound = PlayerHurtSound.instance()
-#	get_tree().current_scene.add_child(playerHurtSound)
-#
-#func _on_Hurtbox_invincibility_started():
-#	blinkAnimationPlayer.play("Start")
-#
-#func _on_Hurtbox_invincibility_ended():
-#	blinkAnimationPlayer.play("Stop")

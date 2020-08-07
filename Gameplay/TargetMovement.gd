@@ -1,8 +1,9 @@
 extends Node
 
-var target = null
+var target setget set_target, get_target
 var velocity = Vector2.ZERO
 var direction = Vector2.ZERO
+var is_near_target = false
 
 onready var parent = get_parent()
 
@@ -22,11 +23,14 @@ func follow(delta):
 		if distToTarget > FOLLOW_DISTANCE_MAX:
 			# Move closer to the target
 			direction = parent.global_position.direction_to(target.global_position)
+			is_near_target = false
 		elif distToTarget < FOLLOW_DISTANCE_MIN:
 			# Move away from the target
 			direction = target.global_position.direction_to(parent.global_position)
+			is_near_target = false
 		else:
 			# Decelerate
+			is_near_target = true
 			direction = Vector2.ZERO
 
 		velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION)
@@ -35,9 +39,12 @@ func follow(delta):
 func set_target(targetToFollow:KinematicBody2D):
 	target = targetToFollow
 	
+func get_target():
+	return target
+	
 func shrink_target_zone():
-	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 2
-	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX / 2
+	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 5
+	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX / 5
 
 func reset_target_zone():
 	FOLLOW_DISTANCE_MIN = initial_follow_min

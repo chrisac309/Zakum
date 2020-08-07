@@ -7,50 +7,52 @@
 [ext_resource path="res://Gameplay/Hurtbox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Enemies/Troll.gd" type="Script" id=6]
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=1]
 radius = 7.60843
-
-[sub_resource type="AtlasTexture" id=1]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 20, 20 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 20, 0, 20, 20 )
+region = Rect2( 0, 0, 20, 20 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
 atlas = ExtResource( 1 )
+region = Rect2( 20, 0, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 1 )
 region = Rect2( 40, 0, 20, 20 )
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 1 ), SubResource( 3 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 2 ), SubResource( 4 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=6]
 radius = 12.7963
 
-[sub_resource type="CircleShape2D" id=10]
+[sub_resource type="CircleShape2D" id=7]
 radius = 8.39368
 
-[node name="Troll" type="KinematicBody2D"]
+[node name="Troll" type="KinematicBody2D" groups=[
+"Enemy",
+]]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 8 )
+shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -10, -20 )
-frames = SubResource( 7 )
-frame = 2
+frames = SubResource( 5 )
+frame = 3
 playing = true
 centered = false
 
@@ -59,18 +61,20 @@ centered = false
 [node name="TargetMovement" parent="." instance=ExtResource( 2 )]
 
 [node name="Hitbox" parent="." instance=ExtResource( 4 )]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-shape = SubResource( 9 )
+shape = SubResource( 6 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_layer = 4
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 10 )
+shape = SubResource( 7 )
 
 [node name="Timer" parent="Hurtbox" index="1"]
 wait_time = 0.5
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 
 [editable path="Hitbox"]
 
