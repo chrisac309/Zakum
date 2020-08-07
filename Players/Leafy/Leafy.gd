@@ -9,6 +9,7 @@ onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var currentSprite = $Sprite
 onready var enemyDetector = $EnemyDetector
+onready var hitbox = $Hitbox
 
 var spawned = false
 var pursuing_enemy = false
@@ -26,6 +27,7 @@ func _physics_process(delta):
 			else:
 				animationState.travel("Idle")
 		elif target_movement.is_near_target:
+			hitbox.rotate_hitbox_towards(target_movement.get_target())
 			animationState.travel("Pollen")
 	currentSprite.flip_h = target_movement.velocity.x > 0
 	
@@ -36,6 +38,3 @@ func pursue_enemy():
 func follow_stumpy():
 	pursuing_enemy = false
 	target_movement.reset_target_zone()
-
-func _on_Lifespan_timeout():
-	is_dead = true

@@ -32,6 +32,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
 
 [sub_resource type="Animation" id=2]
 length = 0.4
@@ -248,7 +262,7 @@ radius = 2.75597
 height = 4.32567
 
 [sub_resource type="CircleShape2D" id=29]
-radius = 15.5498
+radius = 9.94875
 
 [sub_resource type="CircleShape2D" id=30]
 radius = 48.2283
@@ -292,11 +306,13 @@ rotation = 1.5708
 shape = SubResource( 28 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 8 )
+rotation = 1.5708
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-position = Vector2( -10, 6 )
+position = Vector2( 10, 0 )
 shape = SubResource( 29 )
 
 [node name="TargetMovement" parent="." instance=ExtResource( 1 )]
@@ -307,11 +323,6 @@ FOLLOW_DISTANCE_MAX = 45
 
 [node name="CollisionShape2D" parent="EnemyDetector" index="0"]
 shape = SubResource( 30 )
-
-[node name="Lifespan" type="Timer" parent="."]
-wait_time = 5.0
-autostart = true
-[connection signal="timeout" from="Lifespan" to="." method="_on_Lifespan_timeout"]
 
 [editable path="Hitbox"]
 

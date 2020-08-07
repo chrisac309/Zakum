@@ -115,4 +115,3 @@ func _on_EnemyDetector_body_entered(body):
 func _on_EnemyDetector_body_exited(body):
 	targets.erase(body)
 	reassign_leafys_targeting_body(body)
-	
