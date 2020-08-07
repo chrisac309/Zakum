@@ -8,7 +8,6 @@ onready var target_movement = $TargetMovement
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var currentSprite = $Sprite
-onready var enemyDetector = $EnemyDetector
 onready var hitbox = $Hitbox
 
 var spawned = false

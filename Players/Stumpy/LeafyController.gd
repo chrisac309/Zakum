@@ -106,12 +106,12 @@ func get_closest_target():
 
 	return closest_enemy
 
-func _on_EnemyDetector_body_entered(body):
+func _on_RangeDetector_body_entered(body):
 	targets.append(body)
 	reassign_leafys_targeting_body(parent)
 	if TARGETING_TYPE == LAST:
 		set_leafy_targets(body)
 
-func _on_EnemyDetector_body_exited(body):
+func _on_RangeDetector_body_exited(body):
 	targets.erase(body)
 	reassign_leafys_targeting_body(body)

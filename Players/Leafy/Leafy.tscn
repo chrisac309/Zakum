@@ -4,7 +4,7 @@
 [ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Players/Leafy/Leafy.gd" type="Script" id=3]
 [ext_resource path="res://Players/Assets/Leaf Elemental S Sprite Sheet.png" type="Texture" id=4]
-[ext_resource path="res://Gameplay/EnemyDetector.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Gameplay/RangeDetector.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
@@ -265,7 +265,7 @@ height = 4.32567
 radius = 9.94875
 
 [sub_resource type="CircleShape2D" id=30]
-radius = 48.2283
+radius = 21.0118
 
 [node name="Leafy" type="KinematicBody2D" groups=[
 "Friendly",
@@ -319,11 +319,12 @@ shape = SubResource( 29 )
 FOLLOW_DISTANCE_MIN = 30
 FOLLOW_DISTANCE_MAX = 45
 
-[node name="EnemyDetector" parent="." instance=ExtResource( 5 )]
+[node name="RangeDetector" parent="." instance=ExtResource( 5 )]
+seeking_mask = 2
 
-[node name="CollisionShape2D" parent="EnemyDetector" index="0"]
+[node name="CollisionShape2D" parent="RangeDetector" index="0"]
 shape = SubResource( 30 )
 
 [editable path="Hitbox"]
 
-[editable path="EnemyDetector"]
+[editable path="RangeDetector"]
