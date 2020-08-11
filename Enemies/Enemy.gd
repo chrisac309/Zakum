@@ -12,7 +12,7 @@ onready var hitbox = $Hitbox
 onready var rangeDetector = $RangeDetector
 
 var initial_target
-var replacement_target
+var available_targets = []
 var pursuing_enemy = false
 var is_dead = false
 
@@ -23,10 +23,7 @@ func _physics_process(delta):
 	else:
 		target_movement.follow(delta)
 		if not pursuing_enemy:
-			if target_movement.velocity.length() > 0:
-				animationState.travel("Run")
-			else:
-				animationState.travel("Idle")
+			animationState.travel("Run")
 		elif target_movement.is_near_target:
 			hitbox.rotate_hitbox_towards(target_movement.get_target())
 			animationState.travel("Attack")
@@ -36,11 +33,17 @@ func _on_RangeDetector_body_entered(body):
 	# Note that this means the first target will always be priority
 	if target_movement.get_target() == initial_target:
 		target_movement.set_target(body)
+		available_targets.append(body)
+		pursuing_enemy = true
 
 func _on_RangeDetector_body_exited(body):
+	# Remove the target from the list
+	available_targets.erase(body)
+	
 	# Get the next target
-	var nextTarget = rangeDetector.oldest_detection_body()
+	var nextTarget = available_targets.front()
 	if nextTarget == null:
 		target_movement.set_target(initial_target)
+		pursuing_enemy = false
 	else:
 		target_movement.set_target(nextTarget)

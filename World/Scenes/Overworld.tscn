@@ -9,6 +9,7 @@
 [node name="Overworld" type="Node2D"]
 
 [node name="GrassBackground" type="Sprite" parent="."]
+position = Vector2( -8.57376, -14.5754 )
 scale = Vector2( 1.20471, 1 )
 texture = ExtResource( 3 )
 centered = false
