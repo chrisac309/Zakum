@@ -22,7 +22,7 @@ enum {
 
 export var TARGETING_TYPE = FIRST
 
-func _process(delta):
+func _process(_delta):
 	update_targets()
 
 # Nearest and farthest need updated on a per-frame basis
@@ -30,12 +30,12 @@ func update_targets():
 	var newTarget
 	if TARGETING_TYPE == NEAR:
 		newTarget = get_closest_target()
-		if newTarget != null && newTarget != previousClosest:
+		if newTarget != previousClosest:
 			reassign_leafys_targeting_body(previousClosest)
 			previousClosest = newTarget
 	elif TARGETING_TYPE == FAR:
 		newTarget = get_farthest_target()
-		if newTarget != null && newTarget != previousFarthest:
+		if newTarget != previousFarthest:
 			reassign_leafys_targeting_body(previousFarthest)
 			previousFarthest = newTarget
 
@@ -69,9 +69,11 @@ func assign_leafy_target(leafy):
 	var newTarget
 	match TARGETING_TYPE:
 		FIRST:
-			newTarget = targets.front()
+			if !targets.empty():
+				newTarget = targets.front()
 		LAST:
-			newTarget = targets.back()
+			if !targets.empty():
+				newTarget = targets.back()
 		NEAR:
 			newTarget = get_closest_target()
 		FAR:

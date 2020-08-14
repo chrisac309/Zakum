@@ -72,10 +72,10 @@ animation = "Attack"
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Die"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Run"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=11]
 
@@ -83,27 +83,27 @@ animation = "Run"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
 
-[sub_resource type="AnimationNodeStateMachine" id=19]
+[sub_resource type="AnimationNodeStateMachine" id=14]
 states/Attack/node = SubResource( 7 )
 states/Attack/position = Vector2( 526, 197 )
 states/Die/node = SubResource( 8 )
 states/Die/position = Vector2( 764, 197 )
-states/Run/node = SubResource( 10 )
+states/Run/node = SubResource( 9 )
 states/Run/position = Vector2( 648, 83 )
-transitions = [ "Attack", "Die", SubResource( 14 ), "Attack", "Run", SubResource( 11 ), "Run", "Attack", SubResource( 12 ), "Run", "Die", SubResource( 13 ) ]
+transitions = [ "Attack", "Die", SubResource( 10 ), "Attack", "Run", SubResource( 11 ), "Run", "Attack", SubResource( 12 ), "Run", "Die", SubResource( 13 ) ]
 start_node = "Run"
 graph_offset = Vector2( -17, -22 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=20]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=15]
 
-[sub_resource type="CircleShape2D" id=21]
+[sub_resource type="CircleShape2D" id=16]
 radius = 56.7235
 
 [node name="Troll" type="KinematicBody2D" groups=[
 "Enemy",
 ]]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 23
 script = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -116,7 +116,7 @@ MAX_SPEED = 20
 
 [node name="Hitbox" parent="." instance=ExtResource( 4 )]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 18
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource( 2 )
@@ -142,17 +142,17 @@ anims/Die = SubResource( 5 )
 anims/Run = SubResource( 6 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 19 )
+tree_root = SubResource( 14 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 20 )
+parameters/playback = SubResource( 15 )
 
 [node name="RangeDetector" parent="." instance=ExtResource( 7 )]
 seeking_mask = 1
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
 position = Vector2( 0, 0.229088 )
-shape = SubResource( 21 )
+shape = SubResource( 16 )
 [connection signal="body_entered" from="RangeDetector" to="." method="_on_RangeDetector_body_entered"]
 [connection signal="body_exited" from="RangeDetector" to="." method="_on_RangeDetector_body_exited"]
 

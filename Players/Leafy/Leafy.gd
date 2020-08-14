@@ -20,14 +20,14 @@ func _physics_process(delta):
 		animationState.travel("Die")
 	elif spawned:
 		target_movement.follow(delta)
-		if not pursuing_enemy:
-			if target_movement.velocity.length() > 0:
-				animationState.travel("Run")
-			else:
-				animationState.travel("Idle")
-		elif target_movement.is_near_target:
+		if pursuing_enemy && target_movement.is_near_target:
 			hitbox.rotate_hitbox_towards(target_movement.get_target())
 			animationState.travel("Pollen")
+		elif target_movement.velocity.length() > 0:
+			animationState.travel("Run")
+		else:
+			animationState.travel("Idle")
+			
 	currentSprite.flip_h = target_movement.velocity.x > 0
 	
 func pursue_enemy():

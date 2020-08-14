@@ -14,6 +14,7 @@ radius = 93.8234
 [node name="LeafyTree" type="KinematicBody2D" groups=[
 "Friendly",
 ]]
+collision_layer = 8
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
