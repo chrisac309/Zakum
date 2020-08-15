@@ -16,7 +16,7 @@ onready var initial_follow_min = FOLLOW_DISTANCE_MIN
 onready var initial_follow_max = FOLLOW_DISTANCE_MAX
 
 
-func follow(delta):
+func follow(_delta):
 	if target != null:
 		var distToTarget = parent.global_position.distance_to(target.global_position)
 		
@@ -43,9 +43,13 @@ func get_target():
 	return target
 	
 func shrink_target_zone():
-	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 5
-	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX / 5
+	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 2
+	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX / 2
 
 func reset_target_zone():
 	FOLLOW_DISTANCE_MIN = initial_follow_min
 	FOLLOW_DISTANCE_MAX = initial_follow_max
+	
+func expand_target_zone():
+	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN * 2
+	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX * 2

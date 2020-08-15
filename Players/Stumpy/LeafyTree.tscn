@@ -3,17 +3,18 @@
 [ext_resource path="res://Players/Assets/greenery.png" type="Texture" id=1]
 [ext_resource path="res://Players/Stumpy/LeafyController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Players/Stumpy/LeafyTree.gd" type="Script" id=3]
-[ext_resource path="res://Gameplay/EnemyDetector.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Gameplay/RangeDetector.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.87498
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 61.7055
+radius = 93.8234
 
 [node name="LeafyTree" type="KinematicBody2D" groups=[
 "Friendly",
 ]]
+collision_layer = 8
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -30,12 +31,13 @@ MAX_LEAFY = 5
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
-[node name="EnemyDetector" parent="." instance=ExtResource( 4 )]
+[node name="RangeDetector" parent="." instance=ExtResource( 4 )]
+seeking_mask = 2
 
-[node name="CollisionShape2D" parent="EnemyDetector" index="0"]
+[node name="CollisionShape2D" parent="RangeDetector" index="0"]
 shape = SubResource( 2 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_entered"]
-[connection signal="body_exited" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_exited"]
+[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_entered"]
+[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_exited"]
 
-[editable path="EnemyDetector"]
+[editable path="RangeDetector"]

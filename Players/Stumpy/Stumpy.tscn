@@ -6,7 +6,7 @@
 [ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Players/PlayerHitbox.gd" type="Script" id=5]
 [ext_resource path="res://Players/PlayerStats.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Gameplay/EnemyDetector.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Gameplay/RangeDetector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Players/Assets/log.png" type="Texture" id=8]
 [ext_resource path="res://Players/Stumpy/TreeController.gd" type="Script" id=9]
 
@@ -301,7 +301,7 @@ radius = 5.47138
 height = 4.58743
 
 [sub_resource type="CircleShape2D" id=36]
-radius = 109.994
+radius = 109.1
 
 [node name="Stumpy" type="KinematicBody2D" groups=[
 "Friendly",
@@ -336,7 +336,7 @@ anims/WalkUp = SubResource( 34 )
 texture = ExtResource( 8 )
 vframes = 4
 hframes = 6
-frame = 17
+frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 8 )
@@ -358,14 +358,15 @@ script = ExtResource( 5 )
 
 [node name="LeafyController" parent="." instance=ExtResource( 2 )]
 
-[node name="EnemyDetector" parent="." instance=ExtResource( 7 )]
-
-[node name="CollisionShape2D" parent="EnemyDetector" index="0"]
-shape = SubResource( 36 )
-
 [node name="TreeController" type="Node" parent="."]
 script = ExtResource( 9 )
-[connection signal="body_entered" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_entered"]
-[connection signal="body_exited" from="EnemyDetector" to="LeafyController" method="_on_EnemyDetector_body_exited"]
 
-[editable path="EnemyDetector"]
+[node name="RangeDetector" parent="." instance=ExtResource( 7 )]
+seeking_mask = 2
+
+[node name="CollisionShape2D" parent="RangeDetector" index="0"]
+shape = SubResource( 36 )
+[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_entered"]
+[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_exited"]
+
+[editable path="RangeDetector"]
