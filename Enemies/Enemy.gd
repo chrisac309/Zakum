@@ -13,7 +13,6 @@ onready var rangeDetector = $RangeDetector
 
 var initial_target
 var available_targets = []
-var pursuing_player = false
 var is_dead = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +21,7 @@ func _physics_process(delta):
 		animationState.travel("Die")
 	else:
 		target_movement.follow(delta)
-		if pursuing_player && target_movement.is_near_target:
+		if target_movement.is_near_target:
 			hitbox.rotate_hitbox_towards(target_movement.get_target())
 			animationState.travel("Attack")
 		else:
@@ -39,7 +38,6 @@ func _on_RangeDetector_body_entered(body):
 	# Note that this means the first target will always be priority
 	if target_movement.get_target() == initial_target:
 		target_movement.set_target(body)
-		pursuing_player = true
 
 func _on_RangeDetector_body_exited(body):
 	# Remove the target from the list
@@ -52,4 +50,3 @@ func _on_RangeDetector_body_exited(body):
 	else:
 		# Pursue the base again
 		target_movement.set_target(initial_target)
-		pursuing_player = false

@@ -26,6 +26,6 @@ position = Vector2( 457.945, 418.657 )
 
 [node name="EnemySpawner" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 343.006, 330.549 )
-spawn_rate_per_10 = 10
+spawn_rate_per_10 = 3
 main_target_path = NodePath("../Zakum")
 enemy_to_spawn = ExtResource( 5 )
