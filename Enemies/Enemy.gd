@@ -52,11 +52,9 @@ func _on_RangeDetector_body_exited(body):
 		# Pursue the base again
 		target_movement.set_target(initial_target)
 
-
 func _on_AttackRange_body_entered(body: KinematicBody2D):
 	if (body == current_target):
 		attack_target = true
 	
 func _on_TargetMovement_target_changed(body: KinematicBody2D):
 	current_target = body
-	print("Current target updated!")
