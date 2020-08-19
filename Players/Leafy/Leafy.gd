@@ -8,27 +8,33 @@ onready var target_movement = $TargetMovement
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var currentSprite = $Sprite
-onready var hitbox = $Hitbox
+onready var attack_range = $AttackRange
+onready var hitbox = $AttackRange/Hitbox
 
 var spawned = false
 var pursuing_enemy = false
 var is_dead = false
+var current_target : KinematicBody2D
+
+func _ready():
+	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed");
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if is_dead:
 		animationState.travel("Die")
 	elif spawned:
-		target_movement.follow(delta)
-		if pursuing_enemy && target_movement.is_near_target:
-			hitbox.rotate_hitbox_towards(target_movement.get_target())
+		if pursuing_enemy && attack_range.overlaps_body(current_target):
+			hitbox.rotate_hitbox_towards(current_target)
 			animationState.travel("Pollen")
-		elif target_movement.velocity.length() > 0:
-			animationState.travel("Run")
 		else:
-			animationState.travel("Idle")
-			
-	currentSprite.flip_h = target_movement.velocity.x > 0
+			target_movement.follow(delta)
+			if target_movement.velocity.length() > 0:
+				target_movement.follow(delta)
+				animationState.travel("Run")
+			else:
+				animationState.travel("Idle")
+		currentSprite.flip_h = target_movement.velocity.x > 0
 	
 func pursue_enemy():
 	pursuing_enemy = true
@@ -37,3 +43,6 @@ func pursue_enemy():
 func follow_stumpy():
 	pursuing_enemy = false
 	target_movement.reset_target_zone()
+	
+func _on_TargetMovement_target_changed(body: KinematicBody2D):
+	current_target = body

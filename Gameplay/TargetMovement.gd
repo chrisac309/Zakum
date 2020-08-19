@@ -1,6 +1,8 @@
 extends Node
 
-var target setget set_target, get_target
+signal target_changed(body)
+
+var target setget set_target
 var velocity = Vector2.ZERO
 var direction = Vector2.ZERO
 var is_near_target = false
@@ -38,10 +40,8 @@ func follow(_delta):
 
 func set_target(targetToFollow:KinematicBody2D):
 	target = targetToFollow
-	
-func get_target():
-	return target
-	
+	emit_signal("target_changed", target)
+
 func shrink_target_zone():
 	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 2
 	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX / 2

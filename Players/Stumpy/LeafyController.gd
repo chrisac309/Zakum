@@ -61,7 +61,7 @@ func set_single_leafy_target(leafy, targetNode:KinematicBody2D):
 # If any leafy were targeting this KinematicBody2D, reassign them to other targets
 func reassign_leafys_targeting_body(body):
 	for leafy in spawnedLeafy:
-		if leafy.target_movement.get_target() == body:
+		if leafy.current_target == body:
 			assign_leafy_target(leafy)
 
 # Assigns the passed leafy to a new target depending on targeting type
