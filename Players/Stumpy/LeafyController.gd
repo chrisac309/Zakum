@@ -114,7 +114,6 @@ func remove_leafy_target(body):
 		reassign_leafys_targeting_body(body)
 
 func add_leafy_target(new_target):
-	print("Enemy within range")
 	targets.append(new_target)
 	if !new_target.is_connected("die", self, "remove_leafy_target"):
 		new_target.connect("die", self, "remove_leafy_target")

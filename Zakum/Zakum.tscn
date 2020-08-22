@@ -54,7 +54,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=10]
-radius = 281.258
+radius = 235.266
 
 [sub_resource type="CapsuleShape2D" id=11]
 radius = 24.03
@@ -71,7 +71,7 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -195 )
 frames = SubResource( 9 )
-frame = 6
+frame = 5
 playing = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 2 )]

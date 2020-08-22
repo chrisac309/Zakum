@@ -11,10 +11,10 @@ radius = 6.87498
 [sub_resource type="CircleShape2D" id=2]
 radius = 93.8234
 
-[node name="LeafyTree" type="KinematicBody2D" groups=[
+[node name="LeafyTree" type="StaticBody2D" groups=[
 "Friendly",
 ]]
-collision_layer = 8
+collision_layer = 2
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -26,18 +26,18 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="LeafyController" parent="." instance=ExtResource( 2 )]
-MAX_LEAFY = 5
+MAX_LEAFY = 0
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
 [node name="RangeDetector" parent="." instance=ExtResource( 4 )]
-seeking_mask = 2
+collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
 shape = SubResource( 2 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_entered"]
-[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_exited"]
+[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_leafy_target"]
+[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_leafy_target"]
 
 [editable path="RangeDetector"]

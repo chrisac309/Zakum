@@ -87,6 +87,7 @@ animation = "Run"
 [sub_resource type="AnimationNodeStateMachineTransition" id=9]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=10]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=11]
 
@@ -133,7 +134,7 @@ FOLLOW_DISTANCE_MIN = 10
 FOLLOW_DISTANCE_MAX = 20
 
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
-collision_layer = 12
+collision_layer = 4
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource( 2 )
@@ -160,7 +161,6 @@ parameters/playback = SubResource( 14 )
 
 [node name="RangeDetector" parent="." instance=ExtResource( 7 )]
 collision_mask = 2
-script = null
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
 position = Vector2( 0, 0.229088 )

@@ -6,7 +6,7 @@ export(int) var max_health = 1 setget set_max_health
 export(int) var damage = 1
 var health = max_health setget set_health
 
-onready var parent = get_parent()
+onready var root = get_parent()
 
 signal no_health
 signal health_changed(value)
@@ -24,10 +24,10 @@ func set_health(value:int):
 		emit_signal("no_health")
 		
 func take_damage(value:int):
-	var damage_text = floating_text.instance()
+	var damage_text : Position2D = floating_text.instance()
 	damage_text.amount = value
 	damage_text.damage_type = 0
-	parent.add_child(damage_text)
+	root.add_child(damage_text)
 	
 	set_health(health - value)
 	
