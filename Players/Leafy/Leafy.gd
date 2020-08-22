@@ -11,12 +11,14 @@ onready var currentSprite = $Sprite
 onready var attack_range = $AttackRange
 onready var hitbox = $AttackRange/Hitbox
 
+
 var spawned = false
 var pursuing_enemy = false
 var is_dead = false
 var current_target : KinematicBody2D
 
 func _ready():
+	
 	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed");
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -11,10 +11,10 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.60843
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=2]
 radius = 10.0367
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Attack"
 length = 0.5
 loop = true
@@ -43,7 +43,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "Die"
 length = 0.3
 tracks/0/type = "value"
@@ -59,7 +59,7 @@ tracks/0/keys = {
 "values": [ 17 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -75,14 +75,16 @@ tracks/0/keys = {
 "values": [ 9, 10, 9, 11 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "Attack"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Die"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=10]
 
@@ -90,28 +92,26 @@ animation = "Run"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=12]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=13]
-
-[sub_resource type="AnimationNodeStateMachine" id=14]
-states/Attack/node = SubResource( 7 )
+[sub_resource type="AnimationNodeStateMachine" id=13]
+states/Attack/node = SubResource( 6 )
 states/Attack/position = Vector2( 526, 197 )
-states/Die/node = SubResource( 8 )
+states/Die/node = SubResource( 7 )
 states/Die/position = Vector2( 764, 197 )
-states/Run/node = SubResource( 9 )
+states/Run/node = SubResource( 8 )
 states/Run/position = Vector2( 648, 83 )
-transitions = [ "Attack", "Die", SubResource( 10 ), "Attack", "Run", SubResource( 11 ), "Run", "Attack", SubResource( 12 ), "Run", "Die", SubResource( 13 ) ]
+transitions = [ "Attack", "Die", SubResource( 9 ), "Attack", "Run", SubResource( 10 ), "Run", "Attack", SubResource( 11 ), "Run", "Die", SubResource( 12 ) ]
 start_node = "Run"
 graph_offset = Vector2( -17, -22 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=15]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
-[sub_resource type="CircleShape2D" id=16]
+[sub_resource type="CircleShape2D" id=15]
 radius = 56.7235
 
-[sub_resource type="CircleShape2D" id=17]
+[sub_resource type="CircleShape2D" id=16]
 radius = 22.928
 
-[sub_resource type="CircleShape2D" id=18]
+[sub_resource type="CircleShape2D" id=17]
 radius = 10.6113
 
 [node name="Troll" type="KinematicBody2D" groups=[
@@ -125,6 +125,7 @@ script = ExtResource( 6 )
 shape = SubResource( 1 )
 
 [node name="Stats" parent="." instance=ExtResource( 3 )]
+max_health = 10
 
 [node name="TargetMovement" parent="." instance=ExtResource( 2 )]
 MAX_SPEED = 20
@@ -135,7 +136,7 @@ FOLLOW_DISTANCE_MAX = 20
 collision_layer = 4
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="Timer" parent="Hurtbox" index="1"]
 wait_time = 0.5
@@ -144,31 +145,31 @@ wait_time = 0.5
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 9
-frame = 9
+frame = 11
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Attack = SubResource( 4 )
-anims/Die = SubResource( 5 )
-anims/Run = SubResource( 6 )
+anims/Attack = SubResource( 3 )
+anims/Die = SubResource( 4 )
+anims/Run = SubResource( 5 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 14 )
+tree_root = SubResource( 13 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 15 )
+parameters/playback = SubResource( 14 )
 
 [node name="RangeDetector" parent="." instance=ExtResource( 7 )]
 seeking_mask = 1
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
 position = Vector2( 0, 0.229088 )
-shape = SubResource( 16 )
+shape = SubResource( 15 )
 
 [node name="AttackRange" parent="." instance=ExtResource( 4 )]
 collision_mask = 26
 
 [node name="CollisionShape2D" parent="AttackRange" index="0"]
-shape = SubResource( 17 )
+shape = SubResource( 16 )
 
 [node name="Hitbox" parent="AttackRange" index="1"]
 collision_layer = 0
@@ -176,7 +177,7 @@ collision_mask = 26
 
 [node name="CollisionShape2D" parent="AttackRange/Hitbox" index="0"]
 position = Vector2( 12.1946, 0.0919267 )
-shape = SubResource( 18 )
+shape = SubResource( 17 )
 disabled = true
 [connection signal="body_entered" from="RangeDetector" to="." method="_on_RangeDetector_body_entered"]
 [connection signal="body_exited" from="RangeDetector" to="." method="_on_RangeDetector_body_exited"]

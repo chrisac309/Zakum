@@ -53,6 +53,7 @@ func set_leafy_targets(targetNode:KinematicBody2D):
 			
 func set_single_leafy_target(leafy, targetNode:KinematicBody2D):
 	leafy.target_movement.set_target(targetNode)
+	targetNode.connect("die", self, "reassign_leafys_targeting_body")
 	if targetNode.is_in_group("Enemy"):
 		leafy.pursue_enemy()
 	else:

@@ -14,19 +14,21 @@ enum {
 
 var state = MOVE
 var velocity = Vector2.ZERO
-var stats = PlayerStats
 
+onready var stats = $PlayerStats
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
-onready var hitbox = $PlayerHitbox
+onready var hitbox = $Hitbox
 onready var hurtbox = $Hurtbox
 
 func _ready():
 	randomize()
+	hitbox.stats = stats
 	stats.connect("no_health", self, "queue_free")
+	hurtbox.connect("hit", stats, "take_damage")
 	animationTree.active = true
-	hitbox.knockback_vector = Vector2.DOWN
+	#hitbox.knockback_vector = Vector2.DOWN
 
 func _physics_process(delta):
 	if state == MOVE:
@@ -43,7 +45,7 @@ func move_state(delta):
 	input_vector = input_vector.normalized()
 
 	if input_vector != Vector2.ZERO:
-		hitbox.knockback_vector = input_vector
+		#hitbox.knockback_vector = input_vector
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Walk/blend_position", input_vector)
 		animationTree.set("parameters/Attack/blend_position", input_vector)
