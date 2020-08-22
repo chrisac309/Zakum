@@ -53,7 +53,6 @@ func set_leafy_targets(targetNode:KinematicBody2D):
 			
 func set_single_leafy_target(leafy, targetNode:KinematicBody2D):
 	leafy.target_movement.set_target(targetNode)
-	targetNode.connect("die", self, "reassign_leafys_targeting_body")
 	if targetNode.is_in_group("Enemy"):
 		leafy.pursue_enemy()
 	else:
@@ -109,12 +108,15 @@ func get_closest_target():
 
 	return closest_enemy
 
-func _on_RangeDetector_body_entered(body):
-	targets.append(body)
+func remove_leafy_target(body):
+	if targets.has(body):
+		targets.erase(body)
+		reassign_leafys_targeting_body(body)
+
+func add_leafy_target(new_target):
+	targets.append(new_target)
+	if !new_target.is_connected("die", self, "remove_target"):
+		new_target.connect("die", self, "remove_target")
 	reassign_leafys_targeting_body(parent)
 	if TARGETING_TYPE == LAST:
-		set_leafy_targets(body)
-
-func _on_RangeDetector_body_exited(body):
-	targets.erase(body)
-	reassign_leafys_targeting_body(body)
+		set_leafy_targets(new_target)

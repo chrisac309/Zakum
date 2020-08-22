@@ -6,6 +6,8 @@ export var ACCELERATION = 10
 export var MAX_SPEED = 80
 export var FRICTION = 1
 
+signal die(player)
+
 enum {
 	MOVE,
 	ATTACK,
@@ -56,7 +58,7 @@ func move_state(delta):
 		animationState.travel("Idle")
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
 	
-	move_and_collide(velocity * delta)
+	var col = move_and_collide(velocity * delta)
 	
 	if Input.is_action_just_pressed("special"):
 		state = SPECIAL
@@ -82,3 +84,6 @@ func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
 	hurtbox.start_invincibility(0.6)
 	hurtbox.create_hit_effect()
+	
+func die():
+	emit_signal("die", self)

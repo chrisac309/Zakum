@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Players/Player.gd" type="Script" id=1]
 [ext_resource path="res://Players/Stumpy/LeafyController.tscn" type="PackedScene" id=2]
@@ -299,10 +299,14 @@ tracks/0/keys = {
 radius = 5.47138
 height = 4.58743
 
-[sub_resource type="CircleShape2D" id=36]
-radius = 109.1
+[sub_resource type="CapsuleShape2D" id=36]
+radius = 7.65831
+height = 11.1365
 
 [sub_resource type="CircleShape2D" id=37]
+radius = 109.1
+
+[sub_resource type="CircleShape2D" id=38]
 radius = 4.67308
 
 [node name="Stumpy" type="KinematicBody2D" groups=[
@@ -352,7 +356,11 @@ zoom = Vector2( 0.4, 0.4 )
 [node name="Hurtbox" parent="." instance=ExtResource( 3 )]
 collision_layer = 2
 
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource( 36 )
+
 [node name="PlayerStats" parent="." instance=ExtResource( 6 )]
+max_health = 100
 damage = 10
 
 [node name="LeafyController" parent="." instance=ExtResource( 2 )]
@@ -361,17 +369,21 @@ damage = 10
 script = ExtResource( 9 )
 
 [node name="RangeDetector" parent="." instance=ExtResource( 7 )]
-seeking_mask = 2
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
-shape = SubResource( 36 )
+position = Vector2( 0, 8.15778 )
+shape = SubResource( 37 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 4 )]
+collision_layer = 0
+collision_mask = 4
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-shape = SubResource( 37 )
-[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_entered"]
-[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="_on_RangeDetector_body_exited"]
+shape = SubResource( 38 )
+[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_leafy_target"]
+[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_leafy_target"]
+
+[editable path="Hurtbox"]
 
 [editable path="RangeDetector"]
 

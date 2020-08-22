@@ -6,7 +6,6 @@ onready var target_movement = $TargetMovement
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var currentSprite = $Sprite
-onready var rangeDetector = $RangeDetector
 onready var attack_range = $AttackRange
 onready var hitbox = $AttackRange/Hitbox
 onready var stats = $Stats
@@ -15,7 +14,6 @@ var initial_target : KinematicBody2D
 var current_target : KinematicBody2D
 var available_targets = []
 var is_dead = false
-var attack_target = false
 
 func _ready():
 	hitbox.stats = stats
@@ -35,19 +33,12 @@ func _physics_process(delta):
 	
 func assign_initial_target(target:KinematicBody2D):
 	initial_target = target
-	target_movement.set_target(initial_target)
-
-func _on_RangeDetector_body_entered(body):
-	available_targets.append(body)
+	set_target(target)
 	
-	# Note that this means the first target will always be priority
-	if current_target == initial_target:
-		target_movement.set_target(body)
+func set_target(new_target:KinematicBody2D):
+	target_movement.set_target(new_target)
 
-func _on_RangeDetector_body_exited(body):
-	# Remove the target from the list
-	available_targets.erase(body)
-	
+func find_next_target():
 	# Get the next target, if one exists
 	if !available_targets.empty():
 		var nextTarget = available_targets.front()
@@ -55,15 +46,27 @@ func _on_RangeDetector_body_exited(body):
 	else:
 		# Pursue the base again
 		target_movement.set_target(initial_target)
-
-func _on_AttackRange_body_entered(body: KinematicBody2D):
-	if (body == current_target):
-		attack_target = true
-	
-func _on_TargetMovement_target_changed(body: KinematicBody2D):
-	current_target = body
 	
 func die():
 	is_dead = true
 	animationState.travel("Die")
 	emit_signal("die", self)
+
+func add_available_target(new_target:KinematicBody2D):
+	available_targets.append(new_target)
+	if !new_target.is_connected("die", self, "remove_target"):
+		new_target.connect("die", self, "remove_target")
+	
+	# Note that this means the first target will always be priority
+	if current_target == initial_target:
+		set_target(new_target)
+
+func remove_target(body:KinematicBody2D):
+	# Remove the target from the list
+	if available_targets.has(body):
+		available_targets.erase(body)
+		if current_target == body:
+			find_next_target()
+
+func _on_TargetMovement_target_changed(body: KinematicBody2D):
+	current_target = body

@@ -25,10 +25,10 @@ func set_health(value:int):
 		
 func take_damage(value:int):
 	print("Taking damage ", value)
-	var damage = floating_text.instance()
-	damage.amount = value
-	damage.damage_type = 0
-	parent.add_child(damage)
+	var damage_text = floating_text.instance()
+	damage_text.amount = value
+	damage_text.damage_type = 0
+	parent.add_child(damage_text)
 	
 	set_health(health - value)
 	
