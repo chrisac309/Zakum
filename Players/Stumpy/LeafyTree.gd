@@ -14,3 +14,4 @@ func _on_Timer_timeout():
 
 func die():
 	emit_signal("die", self)
+	queue_free()

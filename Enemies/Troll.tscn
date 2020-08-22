@@ -58,6 +58,20 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 17 ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 0.8
@@ -180,7 +194,6 @@ collision_mask = 26
 [node name="CollisionShape2D" parent="AttackRange/Hitbox" index="0"]
 position = Vector2( 12.1946, 0.0919267 )
 shape = SubResource( 17 )
-disabled = true
 [connection signal="body_entered" from="RangeDetector" to="." method="add_available_target"]
 [connection signal="body_exited" from="RangeDetector" to="." method="remove_target"]
 

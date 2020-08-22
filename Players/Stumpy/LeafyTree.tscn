@@ -32,7 +32,7 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="LeafyController" parent="." instance=ExtResource( 2 )]
-MAX_LEAFY = 0
+MAX_LEAFY = 5
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

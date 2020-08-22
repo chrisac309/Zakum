@@ -2,7 +2,7 @@ extends Node
 
 const LeafyTreeScene = preload("res://Players/Stumpy/LeafyTree.tscn")
 
-export var SPAWNING_RANGE = 75
+export var SPAWNING_RANGE = 30
 export var MAX_TREE = 3
 
 onready var parent = get_parent()

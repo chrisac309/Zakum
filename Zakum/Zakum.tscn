@@ -71,7 +71,7 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -195 )
 frames = SubResource( 9 )
-frame = 5
+frame = 6
 playing = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 2 )]
