@@ -24,7 +24,6 @@ func set_health(value:int):
 		emit_signal("no_health")
 		
 func take_damage(value:int):
-	print("Taking damage ", value)
 	var damage_text = floating_text.instance()
 	damage_text.amount = value
 	damage_text.damage_type = 0

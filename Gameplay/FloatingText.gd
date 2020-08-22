@@ -14,7 +14,6 @@ enum DamageType {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("Showing damage with amount ", amount)
 	label.set_text(str(amount))
 	match damage_type:
 		DamageType.Damage:

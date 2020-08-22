@@ -2,11 +2,8 @@ extends Area2D
 
 var stats
 
-func rotate_hitbox_towards(target:KinematicBody2D):
+func rotate_hitbox_towards(target:PhysicsBody2D):
 	look_at(target.position)
 
-func _on_Hitbox_area_entered(hurtbox:Area2D):
-	print(hurtbox.get_parent().name)
-	assert(hurtbox.has_user_signal("die"))
+func _on_Hitbox_area_entered(hurtbox):
 	hurtbox.emit_signal("hit", stats.damage)
-		

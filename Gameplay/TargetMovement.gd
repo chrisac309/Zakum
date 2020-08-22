@@ -38,7 +38,7 @@ func follow(_delta):
 		velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION)
 		parent.move_and_slide(velocity)
 
-func set_target(targetToFollow:KinematicBody2D):
+func set_target(targetToFollow:PhysicsBody2D):
 	target = targetToFollow
 	emit_signal("target_changed", target)
 

@@ -17,7 +17,7 @@ onready var stats = $Stats
 var spawned = false
 var pursuing_enemy = false
 var is_dead = false
-var current_target : KinematicBody2D
+var current_target : PhysicsBody2D
 
 func _ready():
 	hitbox.stats = stats
@@ -33,7 +33,6 @@ func _physics_process(delta):
 			else:
 				target_movement.follow(delta)
 				if target_movement.velocity.length() > 0:
-					target_movement.follow(delta)
 					animationState.travel("Run")
 				else:
 					animationState.travel("Idle")
@@ -52,5 +51,5 @@ func die():
 	emit_signal("die", self)
 	animationState.travel("Die")
 	
-func _on_TargetMovement_target_changed(body: KinematicBody2D):
+func _on_TargetMovement_target_changed(body: PhysicsBody2D):
 	current_target = body

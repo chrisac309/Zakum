@@ -8,16 +8,18 @@ onready var animationState = animationTree.get("parameters/playback")
 onready var currentSprite = $Sprite
 onready var attack_range = $AttackRange
 onready var hitbox = $AttackRange/Hitbox
+onready var hurtbox = $Hurtbox
 onready var stats = $Stats
 
-var initial_target : KinematicBody2D
-var current_target : KinematicBody2D
+var initial_target : PhysicsBody2D
+var current_target : PhysicsBody2D
 var available_targets = []
 var is_dead = false
 
 func _ready():
 	hitbox.stats = stats
 	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed")
+	hurtbox.connect("hit", stats, "take_damage")
 	stats.connect("no_health", self, "die")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,12 +32,12 @@ func _physics_process(delta):
 			target_movement.follow(delta)
 			animationState.travel("Run")
 		currentSprite.flip_h = position.x > current_target.position.x
-	
-func assign_initial_target(target:KinematicBody2D):
+
+func assign_initial_target(target:PhysicsBody2D):
 	initial_target = target
 	set_target(target)
 	
-func set_target(new_target:KinematicBody2D):
+func set_target(new_target:PhysicsBody2D):
 	target_movement.set_target(new_target)
 
 func find_next_target():
@@ -52,7 +54,7 @@ func die():
 	animationState.travel("Die")
 	emit_signal("die", self)
 
-func add_available_target(new_target:KinematicBody2D):
+func add_available_target(new_target:PhysicsBody2D):
 	available_targets.append(new_target)
 	if !new_target.is_connected("die", self, "remove_target"):
 		new_target.connect("die", self, "remove_target")
@@ -61,12 +63,12 @@ func add_available_target(new_target:KinematicBody2D):
 	if current_target == initial_target:
 		set_target(new_target)
 
-func remove_target(body:KinematicBody2D):
+func remove_target(body:PhysicsBody2D):
 	# Remove the target from the list
 	if available_targets.has(body):
 		available_targets.erase(body)
 		if current_target == body:
 			find_next_target()
 
-func _on_TargetMovement_target_changed(body: KinematicBody2D):
+func _on_TargetMovement_target_changed(body: PhysicsBody2D):
 	current_target = body

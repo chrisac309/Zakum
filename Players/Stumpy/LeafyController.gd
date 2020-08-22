@@ -47,11 +47,11 @@ func spawn_leafy():
 		assign_leafy_target(leafy)
 		spawnedLeafy.append(leafy)
 
-func set_leafy_targets(targetNode:KinematicBody2D):
+func set_leafy_targets(targetNode:PhysicsBody2D):
 	for leafy in spawnedLeafy:
 		set_single_leafy_target(leafy, targetNode)
 			
-func set_single_leafy_target(leafy, targetNode:KinematicBody2D):
+func set_single_leafy_target(leafy, targetNode:PhysicsBody2D):
 	leafy.target_movement.set_target(targetNode)
 	if targetNode.is_in_group("Enemy"):
 		leafy.pursue_enemy()
@@ -114,9 +114,10 @@ func remove_leafy_target(body):
 		reassign_leafys_targeting_body(body)
 
 func add_leafy_target(new_target):
+	print("Enemy within range")
 	targets.append(new_target)
-	if !new_target.is_connected("die", self, "remove_target"):
-		new_target.connect("die", self, "remove_target")
+	if !new_target.is_connected("die", self, "remove_leafy_target"):
+		new_target.connect("die", self, "remove_leafy_target")
 	reassign_leafys_targeting_body(parent)
 	if TARGETING_TYPE == LAST:
 		set_leafy_targets(new_target)
