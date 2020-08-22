@@ -4,7 +4,7 @@
 [ext_resource path="res://Players/Stumpy/LeafyController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Gameplay/Hurtbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Players/PlayerStats.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Gameplay/Stats.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Gameplay/RangeDetector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Players/Assets/log.png" type="Texture" id=8]
 [ext_resource path="res://Players/Stumpy/TreeController.gd" type="Script" id=9]
@@ -359,10 +359,6 @@ collision_layer = 2
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource( 36 )
 
-[node name="PlayerStats" parent="." instance=ExtResource( 6 )]
-max_health = 100
-damage = 10
-
 [node name="LeafyController" parent="." instance=ExtResource( 2 )]
 
 [node name="TreeController" type="Node" parent="."]
@@ -372,7 +368,7 @@ script = ExtResource( 9 )
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
-position = Vector2( 0, 8.15778 )
+position = Vector2( -0.315552, 8.15778 )
 shape = SubResource( 37 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 4 )]
@@ -381,6 +377,9 @@ collision_mask = 4
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource( 38 )
+
+[node name="Stats" parent="." instance=ExtResource( 5 )]
+max_health = 100
 [connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_leafy_target"]
 [connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_leafy_target"]
 

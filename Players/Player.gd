@@ -17,7 +17,7 @@ enum {
 var state = MOVE
 var velocity = Vector2.ZERO
 
-onready var stats = $PlayerStats
+onready var stats = $Stats
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
@@ -78,7 +78,6 @@ func attack_state():
 
 func attack_animation_finished():
 	state = MOVE
-	print("ATTACK FINISHED!")
 
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage

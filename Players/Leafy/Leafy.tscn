@@ -343,6 +343,7 @@ position = Vector2( 14, 0 )
 shape = SubResource( 30 )
 
 [node name="Stats" parent="." instance=ExtResource( 5 )]
+damage = 5
 
 [node name="Hurtbox" parent="." instance=ExtResource( 6 )]
 

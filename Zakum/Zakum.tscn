@@ -89,6 +89,7 @@ rotation = 1.5708
 shape = SubResource( 11 )
 
 [node name="Stats" parent="." instance=ExtResource( 3 )]
-max_health = 100
+max_health = 1000
+damage = 0
 
 [editable path="Hurtbox"]

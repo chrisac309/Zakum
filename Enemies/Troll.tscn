@@ -126,7 +126,8 @@ script = ExtResource( 6 )
 shape = SubResource( 1 )
 
 [node name="Stats" parent="." instance=ExtResource( 3 )]
-max_health = 10
+max_health = 25
+damage = 15
 
 [node name="TargetMovement" parent="." instance=ExtResource( 2 )]
 MAX_SPEED = 20
