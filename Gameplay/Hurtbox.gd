@@ -1,3 +1,4 @@
+class_name Hurtbox
 extends Area2D
 
 #const HitEffect = preload("res://Effects/HitEffect.tscn")
@@ -9,7 +10,7 @@ onready var collisionShape = $CollisionShape2D
 
 signal invincibility_started
 signal invincibility_ended
-signal hit(damage)
+signal hit(damage, critical)
 
 func set_invincible(value):
 	invincible = value

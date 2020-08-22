@@ -8,9 +8,26 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Hitbox",
+"language": "GDScript",
+"path": "res://Gameplay/Hitbox.gd"
+}, {
+"base": "Area2D",
+"class": "Hurtbox",
+"language": "GDScript",
+"path": "res://Gameplay/Hurtbox.gd"
+}, {
+"base": "Node",
+"class": "Stats",
+"language": "GDScript",
+"path": "res://Gameplay/Stats.gd"
+} ]
 _global_script_class_icons={
-
+"Hitbox": "",
+"Hurtbox": "",
+"Stats": ""
 }
 
 [application]

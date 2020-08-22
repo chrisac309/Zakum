@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Gameplay/Combat.gd" type="Script" id=1]
+[ext_resource path="res://Gameplay/Hitbox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Gameplay/Stats.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Gameplay/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Gameplay/Stats.gd" type="Script" id=5]
+
+[node name="Combat" type="Position2D"]
+script = ExtResource( 1 )
+
+[node name="Stats" type="Position2D" parent="." instance=ExtResource( 3 )]
+script = ExtResource( 5 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 2 )]
+
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
+[connection signal="attack" from="Hitbox" to="." method="hit_enemy"]
+[connection signal="hit" from="Hurtbox" to="Stats" method="take_damage"]

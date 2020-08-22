@@ -2,19 +2,16 @@
 
 [ext_resource path="res://Enemies/Assets/troll_regular_hair.png" type="Texture" id=1]
 [ext_resource path="res://Gameplay/TargetMovement.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Gameplay/Stats.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Gameplay/AttackRange.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Gameplay/Hurtbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Gameplay/RangeCombat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Gameplay/Stats.gd" type="Script" id=4]
+[ext_resource path="res://Gameplay/Combat.gd" type="Script" id=5]
 [ext_resource path="res://Enemies/Enemy.gd" type="Script" id=6]
 [ext_resource path="res://Gameplay/RangeDetector.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.60843
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 10.0367
-
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Attack"
 length = 0.5
 loop = true
@@ -31,7 +28,7 @@ tracks/0/keys = {
 "values": [ 12, 13, 14 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("AttackRange/Hitbox/CollisionShape2D:disabled")
+tracks/1/path = NodePath("RangeCombat/AttackRange/Hitbox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -43,7 +40,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Die"
 length = 0.3
 tracks/0/type = "value"
@@ -73,7 +70,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -89,45 +86,47 @@ tracks/0/keys = {
 "values": [ 9, 10, 9, 11 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "Attack"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "Die"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Run"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=9]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=10]
-switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=11]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
-
-[sub_resource type="AnimationNodeStateMachine" id=13]
-states/Attack/node = SubResource( 6 )
+[sub_resource type="AnimationNodeStateMachine" id=12]
+states/Attack/node = SubResource( 5 )
 states/Attack/position = Vector2( 526, 197 )
-states/Die/node = SubResource( 7 )
+states/Die/node = SubResource( 6 )
 states/Die/position = Vector2( 764, 197 )
-states/Run/node = SubResource( 8 )
+states/Run/node = SubResource( 7 )
 states/Run/position = Vector2( 648, 83 )
-transitions = [ "Attack", "Die", SubResource( 9 ), "Attack", "Run", SubResource( 10 ), "Run", "Attack", SubResource( 11 ), "Run", "Die", SubResource( 12 ) ]
+transitions = [ "Attack", "Die", SubResource( 8 ), "Attack", "Run", SubResource( 9 ), "Run", "Attack", SubResource( 10 ), "Run", "Die", SubResource( 11 ) ]
 start_node = "Run"
 graph_offset = Vector2( -17, -22 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=14]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
-[sub_resource type="CircleShape2D" id=15]
+[sub_resource type="CircleShape2D" id=14]
 radius = 56.7235
 
+[sub_resource type="CircleShape2D" id=15]
+radius = 11.3265
+
 [sub_resource type="CircleShape2D" id=16]
-radius = 22.928
+radius = 25.0
 
 [sub_resource type="CircleShape2D" id=17]
-radius = 10.6113
 
 [node name="Troll" type="KinematicBody2D" groups=[
 "Enemy",
@@ -139,23 +138,10 @@ script = ExtResource( 6 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="Stats" parent="." instance=ExtResource( 3 )]
-max_health = 25
-damage = 15
-
 [node name="TargetMovement" parent="." instance=ExtResource( 2 )]
 MAX_SPEED = 20
 FOLLOW_DISTANCE_MIN = 10
 FOLLOW_DISTANCE_MAX = 20
-
-[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
-collision_layer = 4
-
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 2 )
-
-[node name="Timer" parent="Hurtbox" index="1"]
-wait_time = 0.5
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -164,43 +150,62 @@ hframes = 9
 frame = 9
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Attack = SubResource( 3 )
-anims/Die = SubResource( 4 )
-anims/Run = SubResource( 5 )
+anims/Attack = SubResource( 2 )
+anims/Die = SubResource( 3 )
+anims/Run = SubResource( 4 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 13 )
+tree_root = SubResource( 12 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 14 )
+parameters/playback = SubResource( 13 )
 
 [node name="RangeDetector" parent="." instance=ExtResource( 7 )]
 collision_mask = 2
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
 position = Vector2( 0, 0.229088 )
+shape = SubResource( 14 )
+
+[node name="RangeCombat" type="Position2D" parent="." instance=ExtResource( 3 )]
+script = ExtResource( 5 )
+
+[node name="Stats" type="Position2D" parent="RangeCombat" index="0"]
+script = ExtResource( 4 )
+max_health = 25
+damage = 5
+
+[node name="Hurtbox" parent="RangeCombat" index="1"]
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="RangeCombat/Hurtbox" index="0"]
 shape = SubResource( 15 )
 
-[node name="AttackRange" parent="." instance=ExtResource( 4 )]
-collision_mask = 26
+[node name="AttackRange" parent="RangeCombat" index="2"]
+collision_mask = 18
 
-[node name="CollisionShape2D" parent="AttackRange" index="0"]
+[node name="CollisionShape2D" parent="RangeCombat/AttackRange" index="0"]
 shape = SubResource( 16 )
 
-[node name="Hitbox" parent="AttackRange" index="1"]
+[node name="Hitbox" parent="RangeCombat/AttackRange" index="1"]
 collision_layer = 0
-collision_mask = 26
+collision_mask = 18
 
-[node name="CollisionShape2D" parent="AttackRange/Hitbox" index="0"]
-position = Vector2( 12.1946, 0.0919267 )
+[node name="CollisionShape2D" parent="RangeCombat/AttackRange/Hitbox" index="0"]
+position = Vector2( 15, 0 )
 shape = SubResource( 17 )
+disabled = true
 [connection signal="body_entered" from="RangeDetector" to="." method="add_available_target"]
 [connection signal="body_exited" from="RangeDetector" to="." method="remove_target"]
-
-[editable path="Hurtbox"]
+[connection signal="hit" from="RangeCombat/Hurtbox" to="RangeCombat/Stats" method="take_damage"]
+[connection signal="attack" from="RangeCombat/AttackRange/Hitbox" to="RangeCombat" method="hit_enemy"]
 
 [editable path="RangeDetector"]
 
-[editable path="AttackRange"]
+[editable path="RangeCombat"]
 
-[editable path="AttackRange/Hitbox"]
+[editable path="RangeCombat/Hurtbox"]
+
+[editable path="RangeCombat/AttackRange"]
+
+[editable path="RangeCombat/AttackRange/Hitbox"]

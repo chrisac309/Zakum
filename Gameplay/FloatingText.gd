@@ -11,6 +11,7 @@ var velocity : Vector2
 
 enum DamageType {
 	Damage,
+	Crit,
 	Heal
 }
 
@@ -21,6 +22,8 @@ func _ready():
 	match damage_type:
 		DamageType.Damage:
 			label.set("custom_colors/font_color", Color.red)
+		DamageType.Crit:
+			label.set("custom_colors/font_color", Color.blue)
 		DamageType.Heal:
 			label.set("custom_colors/font_color", Color.green)
 			

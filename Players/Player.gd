@@ -17,19 +17,17 @@ enum {
 var state = MOVE
 var velocity = Vector2.ZERO
 
-onready var stats = $Stats
+onready var stats = $Combat/Stats
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
-onready var hitbox = $Hitbox
-onready var hurtbox = $Hurtbox
 
 func _ready():
 	randomize()
-	hitbox.stats = stats
 	stats.connect("no_health", self, "queue_free")
-	hurtbox.connect("hit", stats, "take_damage")
 	animationTree.active = true
+	stats.max_health = 100
+	stats.damage = 15
 	#hitbox.knockback_vector = Vector2.DOWN
 
 func _physics_process(delta):
@@ -39,7 +37,7 @@ func _physics_process(delta):
 		special_state()
 	elif state == ATTACK:
 		attack_state()	
-	
+
 func move_state(delta):
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -58,7 +56,7 @@ func move_state(delta):
 		animationState.travel("Idle")
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
 	
-	var col = move_and_collide(velocity * delta)
+	var _col = move_and_collide(velocity * delta)
 	
 	if Input.is_action_just_pressed("special"):
 		state = SPECIAL
@@ -78,11 +76,6 @@ func attack_state():
 
 func attack_animation_finished():
 	state = MOVE
-
-func _on_Hurtbox_area_entered(area):
-	stats.health -= area.damage
-	hurtbox.start_invincibility(0.6)
-	hurtbox.create_hit_effect()
 	
 func die():
 	emit_signal("die", self)

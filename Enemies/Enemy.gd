@@ -6,10 +6,10 @@ onready var target_movement = $TargetMovement
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var currentSprite = $Sprite
-onready var attack_range = $AttackRange
-onready var hitbox = $AttackRange/Hitbox
-onready var hurtbox = $Hurtbox
-onready var stats = $Stats
+onready var attack_range = $RangeCombat/AttackRange
+onready var hitbox = $RangeCombat/AttackRange/Hitbox
+onready var hurtbox = $RangeCombat/Hurtbox
+onready var stats = $RangeCombat/Stats
 
 var initial_target : PhysicsBody2D
 var current_target : PhysicsBody2D
@@ -17,9 +17,7 @@ var available_targets = []
 var is_dead = false
 
 func _ready():
-	hitbox.stats = stats
 	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed")
-	hurtbox.connect("hit", stats, "take_damage")
 	stats.connect("no_health", self, "die")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
