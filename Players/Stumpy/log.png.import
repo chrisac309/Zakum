@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Leaf Elemental S Sprite Sheet.png-76a553084bf679564d4a7e875770f4c8.stex"
+path="res://.import/log.png-29d05c02404b67e8738d3e2db8d21c83.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Players/Assets/Leaf Elemental S Sprite Sheet.png"
-dest_files=[ "res://.import/Leaf Elemental S Sprite Sheet.png-76a553084bf679564d4a7e875770f4c8.stex" ]
+source_file="res://Players/Stumpy/log.png"
+dest_files=[ "res://.import/log.png-29d05c02404b67e8738d3e2db8d21c83.stex" ]
 
 [params]
 

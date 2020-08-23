@@ -1,6 +1,6 @@
 extends Node
 
-const LeafyTreeScene = preload("res://Players/Stumpy/LeafyTree.tscn")
+const LeafyTreeScene = preload("res://Players/Leafy/LeafyTree/LeafyTree.tscn")
 
 export var SPAWNING_RANGE = 30
 export var MAX_TREE = 3
