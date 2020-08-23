@@ -1,6 +1,6 @@
-class_name Stats
-extends Node
+extends Position2D
 
+class_name Stats
 const floating_text = preload("res://Gameplay/FloatingText.tscn")
 
 export(int) var max_health = 1 setget set_max_health
@@ -12,6 +12,11 @@ signal no_health
 signal took_damage(value)
 signal health_changed(value)
 signal max_health_changed(value)
+
+func _ready():
+	self.health = max_health
+	if !self is Position2D:
+		print(get_parent().name)
 
 func set_max_health(value:int):
 	max_health = value
@@ -48,6 +53,3 @@ func heal(value:int):
 	var heal = floating_text.instance()
 	heal.amount = value
 	heal.damage_type = 1
-
-func _ready():
-	self.health = max_health

@@ -301,11 +301,11 @@ height = 4.58743
 radius = 109.1
 
 [sub_resource type="CircleShape2D" id=37]
-radius = 3.97935
+radius = 5.14521
 
 [sub_resource type="CapsuleShape2D" id=38]
-radius = 7.65826
-height = 8.61217
+radius = 7.18492
+height = 9.24328
 
 [node name="Stumpy" type="KinematicBody2D" groups=[
 "Friendly",
@@ -367,7 +367,8 @@ shape = SubResource( 36 )
 
 [node name="Stats" parent="Combat" index="0"]
 max_health = 100
-damage = 0
+damage = 15
+crit_rate = 0
 
 [node name="Hitbox" parent="Combat" index="1"]
 collision_layer = 0

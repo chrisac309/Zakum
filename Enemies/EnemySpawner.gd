@@ -22,7 +22,7 @@ func stop_spawning():
 	timer.stop()
 	
 func spawn_enemy():
-	var troll : PhysicsBody2D = enemy_to_spawn.instance()
+	var troll = enemy_to_spawn.instance()
 	troll.position = self.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
 	ySort.add_child(troll)
 	troll.assign_initial_target(main_target)

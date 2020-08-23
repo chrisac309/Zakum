@@ -1,4 +1,4 @@
-extends Node
+extends Position2D
 
 onready var stats : Stats = $Stats
 onready var hitbox : Hitbox

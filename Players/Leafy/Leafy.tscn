@@ -276,13 +276,12 @@ radius = 2.75597
 height = 4.32567
 
 [sub_resource type="CircleShape2D" id=29]
-radius = 7.60694
+radius = 7.46109
 
 [sub_resource type="CircleShape2D" id=30]
-radius = 18.4515
+radius = 22.6812
 
 [sub_resource type="CircleShape2D" id=31]
-radius = 8.45894
 
 [node name="Leafy" type="KinematicBody2D" groups=[
 "Friendly",
@@ -292,7 +291,7 @@ collision_mask = 9
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -15 )
+position = Vector2( 0, -12 )
 texture = ExtResource( 4 )
 flip_h = true
 vframes = 12
@@ -330,7 +329,8 @@ FOLLOW_DISTANCE_MAX = 45
 [node name="RangeCombat" parent="." instance=ExtResource( 2 )]
 
 [node name="Stats" parent="RangeCombat" index="0"]
-damage = 3
+max_health = 15
+damage = 5
 crit_rate = 50
 
 [node name="Hurtbox" parent="RangeCombat" index="1"]
@@ -350,8 +350,9 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeCombat/AttackRange/Hitbox" index="0"]
-position = Vector2( 10, 0 )
+position = Vector2( 12, 0 )
 shape = SubResource( 31 )
+disabled = true
 
 [editable path="RangeCombat"]
 
