@@ -22,6 +22,9 @@ enum {
 
 export var TARGETING_TYPE = FIRST
 
+func _ready():
+	parent.connect("die", self, "parent_died")
+
 func _process(_delta):
 	update_targets()
 
@@ -124,3 +127,7 @@ func add_leafy_target(new_target):
 
 func leafy_died(leafy):
 	spawnedLeafy.erase(leafy)
+	
+func parent_died(_parent):
+	for leafy in spawnedLeafy:
+		leafy.die()

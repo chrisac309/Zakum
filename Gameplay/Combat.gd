@@ -5,7 +5,6 @@ onready var hitbox : Hitbox
 onready var hurtbox : Hurtbox = $Hurtbox
 
 func _ready():
-	assert(hurtbox.get_child(0).shape != null)
 	var found_hitbox = get_node_or_null("Hitbox")
 	if found_hitbox == null:
 		found_hitbox = get_node("AttackRange/Hitbox")

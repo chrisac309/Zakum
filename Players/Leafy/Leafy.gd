@@ -45,7 +45,7 @@ func pursue_enemy():
 func follow_stumpy():
 	pursuing_enemy = false
 	target_movement.reset_target_zone()
-	
+
 func die():
 	is_dead = true
 	emit_signal("die", self)

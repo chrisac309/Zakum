@@ -12,6 +12,11 @@ signal invincibility_started
 signal invincibility_ended
 signal hit(damage, critical)
 
+func _ready():
+	assert(collisionShape != null)
+	assert(collision_layer > 0)
+	assert(collision_mask == 0)
+
 func set_invincible(value):
 	invincible = value
 	if invincible == true:
