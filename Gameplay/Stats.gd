@@ -37,7 +37,6 @@ func determine_damage(is_crit:bool):
 	randomize()
 	var damage_to_send = randi() % (ceil(damage * 0.5) as int) + ceil(damage * 0.75)
 	if is_crit:
-		print("Critical!")
 		damage_to_send *= 1.5
 	return damage_to_send
 		

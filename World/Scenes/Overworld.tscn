@@ -25,7 +25,17 @@ position = Vector2( 527.606, 310.561 )
 position = Vector2( 467.742, 343.822 )
 
 [node name="EnemySpawner" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 527.606, 499.632 )
+position = Vector2( 866.462, 301.966 )
 spawn_rate_per_10 = 3
 main_target_path = NodePath("../Zakum")
+enemy_to_spawn = ExtResource( 5 )
+
+[node name="EnemySpawner2" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 162.969, 293.373 )
+main_target_path = NodePath("../Zakum")
+enemy_to_spawn = ExtResource( 5 )
+
+[node name="EnemySpawner3" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 316.541, 48.2349 )
+main_target_path = NodePath("../Stumpy")
 enemy_to_spawn = ExtResource( 5 )

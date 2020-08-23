@@ -366,7 +366,7 @@ shape = SubResource( 36 )
 [node name="Combat" parent="." instance=ExtResource( 3 )]
 
 [node name="Stats" parent="Combat" index="0"]
-max_health = 100
+max_health = 250
 damage = 15
 crit_rate = 0
 

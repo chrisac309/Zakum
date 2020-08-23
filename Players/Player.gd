@@ -24,7 +24,7 @@ onready var animationState = animationTree.get("parameters/playback")
 
 func _ready():
 	randomize()
-	stats.connect("no_health", self, "queue_free")
+	stats.connect("no_health", self, "die")
 	animationTree.active = true
 	stats.max_health = 100
 	stats.damage = 15
@@ -79,3 +79,4 @@ func attack_animation_finished():
 	
 func die():
 	emit_signal("die", self)
+	queue_free()
