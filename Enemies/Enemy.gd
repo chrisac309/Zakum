@@ -48,9 +48,9 @@ func find_next_target():
 		target_movement.set_target(initial_target)
 	
 func die():
+	emit_signal("die", self)
 	is_dead = true
 	animationState.travel("Die")
-	emit_signal("die", self)
 
 func add_available_target(new_target:PhysicsBody2D):
 	available_targets.append(new_target)

@@ -43,6 +43,7 @@ func spawn_leafy():
 	if spawnedLeafy.size() < MAX_LEAFY:
 		var leafy = LeafyScene.instance()
 		leafy.position = parent.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
+		leafy.connect("die", self, "leafy_died")
 		ySort.add_child(leafy)
 		assign_leafy_target(leafy)
 		spawnedLeafy.append(leafy)
@@ -120,3 +121,6 @@ func add_leafy_target(new_target):
 	reassign_leafys_targeting_body(parent)
 	if TARGETING_TYPE == LAST:
 		set_leafy_targets(new_target)
+
+func leafy_died(leafy):
+	spawnedLeafy.erase(leafy)
