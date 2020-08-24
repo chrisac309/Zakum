@@ -5,9 +5,6 @@
 [ext_resource path="res://Players/Leafy/Leafy.gd" type="Script" id=3]
 [ext_resource path="res://Players/Leafy/Leaf Elemental S Sprite Sheet.png" type="Texture" id=4]
 
-
-
-
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
 tracks/0/type = "value"
@@ -282,7 +279,7 @@ height = 4.32567
 radius = 7.46109
 
 [sub_resource type="CircleShape2D" id=30]
-radius = 22.6812
+radius = 20.6702
 
 [sub_resource type="CircleShape2D" id=31]
 
@@ -332,6 +329,7 @@ FOLLOW_DISTANCE_MAX = 45
 
 [node name="Stats" parent="RangeCombat" index="0"]
 max_health = 15
+max_speed = 80
 damage = 5
 crit_rate = 50
 

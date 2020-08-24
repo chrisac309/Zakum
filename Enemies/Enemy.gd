@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends RigidBody2D
 
 signal die(enemy)
 
@@ -19,15 +19,17 @@ var is_dead = false
 func _ready():
 	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed")
 	stats.connect("no_health", self, "die")
+	stats.connect("speed_changed", target_movement, "change_speed")
+	target_movement.speed = stats.max_speed
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _integrate_forces(state):
 	if !is_dead:
 		if attack_range.overlaps_body(current_target):
 			hitbox.rotate_hitbox_towards(current_target)
 			animationState.travel("Attack")
 		else:
-			target_movement.follow(delta)
+			target_movement.follow()
 			animationState.travel("Run")
 		currentSprite.flip_h = position.x > current_target.position.x
 

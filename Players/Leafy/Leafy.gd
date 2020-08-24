@@ -21,7 +21,9 @@ var current_target : PhysicsBody2D
 
 func _ready():
 	stats.connect("no_health", self, "die")
+	stats.connect("speed_changed", target_movement, "change_speed")
 	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed");
+	target_movement.speed = stats.max_speed	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):

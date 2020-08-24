@@ -6,19 +6,16 @@ var target setget set_target
 var velocity = Vector2.ZERO
 var direction = Vector2.ZERO
 var is_near_target = false
+var speed : int
 
-onready var parent = get_parent()
-
-export var MAX_SPEED = 100
-export var ACCELERATION = 10
 export var FOLLOW_DISTANCE_MIN = 20
 export var FOLLOW_DISTANCE_MAX = 25
 
+onready var parent : RigidBody2D = get_parent()
 onready var initial_follow_min = FOLLOW_DISTANCE_MIN
 onready var initial_follow_max = FOLLOW_DISTANCE_MAX
 
-
-func follow(_delta):
+func follow():
 	if target != null:
 		var distToTarget = parent.global_position.distance_to(target.global_position)
 		
@@ -35,12 +32,15 @@ func follow(_delta):
 			is_near_target = true
 			direction = Vector2.ZERO
 
-		velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION)
-		parent.move_and_slide(velocity)
+		velocity = velocity.move_toward(direction * speed, 10)
+		parent.linear_velocity = velocity
 
 func set_target(targetToFollow:PhysicsBody2D):
 	target = targetToFollow
 	emit_signal("target_changed", target)
+
+func change_speed(value:int):
+	speed = value
 
 func shrink_target_zone():
 	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 2

@@ -13,7 +13,7 @@ var spawnedTrees = []
 func spawn_tree():
 	if spawnedTrees.size() < MAX_TREE:
 		var leafyTree = LeafyTreeScene.instance()
-		leafyTree.position = parent.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
+		leafyTree.position = parent.position + Vector2(0,SPAWNING_RANGE)
 		leafyTree.connect("die", self, "tree_died")
 		ySort.add_child(leafyTree)
 		spawnedTrees.append(leafyTree)

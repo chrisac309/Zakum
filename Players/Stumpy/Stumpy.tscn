@@ -1,17 +1,15 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Players/Player.gd" type="Script" id=1]
 [ext_resource path="res://Players/Leafy/LeafyController/LeafyController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Gameplay/Combat/Combat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Players/EnemyCollider.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Gameplay/Combat/AI/RangeDetector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Players/Stumpy/log.png" type="Texture" id=8]
 [ext_resource path="res://Players/Stumpy/TreeController.gd" type="Script" id=9]
 
-
-
-
-
-
+[sub_resource type="CapsuleShape2D" id=39]
+height = 11.9566
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Attack"
@@ -319,8 +317,11 @@ height = 9.24328
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 1 )
-MAX_SPEED = 100
-FRICTION = 25
+
+[node name="EnemyCollider" parent="." instance=ExtResource( 5 )]
+
+[node name="CollisionShape2D" parent="EnemyCollider" index="0"]
+shape = SubResource( 39 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 23 )
@@ -373,8 +374,7 @@ shape = SubResource( 36 )
 
 [node name="Stats" parent="Combat" index="0"]
 max_health = 250
-damage = 15
-crit_rate = 0
+max_speed = 80
 
 [node name="Hitbox" parent="Combat" index="1"]
 collision_layer = 0
@@ -390,6 +390,8 @@ collision_layer = 2
 shape = SubResource( 38 )
 [connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_leafy_target"]
 [connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_leafy_target"]
+
+[editable path="EnemyCollider"]
 
 [editable path="RangeDetector"]
 

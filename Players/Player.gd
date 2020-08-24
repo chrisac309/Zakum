@@ -2,10 +2,6 @@ extends KinematicBody2D
 
 #const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
 
-export var ACCELERATION = 10
-export var MAX_SPEED = 80
-export var FRICTION = 1
-
 signal die(player)
 
 enum {
@@ -15,20 +11,23 @@ enum {
 }
 
 var state = MOVE
+var speed = 0
 var velocity = Vector2.ZERO
+var colliding_count : int = 0
 
-onready var stats = $Combat/Stats
+onready var stats : Stats = $Combat/Stats
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
+onready var enemyCollider = $EnemyCollider
 onready var animationState = animationTree.get("parameters/playback")
 
 func _ready():
-	randomize()
 	stats.connect("no_health", self, "die")
+	stats.connect("speed_changed", self, "change_speed")
+	enemyCollider.connect("enemy_colliding", self, "add_colliding_enemy")
+	enemyCollider.connect("enemy_left", self, "remove_colliding_enemy")
+	speed = stats.max_speed
 	animationTree.active = true
-	stats.max_health = 100
-	stats.damage = 15
-	#hitbox.knockback_vector = Vector2.DOWN
 
 func _physics_process(delta):
 	if state == MOVE:
@@ -37,6 +36,12 @@ func _physics_process(delta):
 		special_state()
 	elif state == ATTACK:
 		attack_state()	
+		
+func add_colliding_enemy():
+	colliding_count += 1
+	
+func remove_colliding_enemy():
+	colliding_count -= 1
 
 func move_state(delta):
 	var input_vector = Vector2.ZERO
@@ -44,18 +49,7 @@ func move_state(delta):
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
 
-	if input_vector != Vector2.ZERO:
-		#hitbox.knockback_vector = input_vector
-		animationTree.set("parameters/Idle/blend_position", input_vector)
-		animationTree.set("parameters/Walk/blend_position", input_vector)
-		animationTree.set("parameters/Attack/blend_position", input_vector)
-		animationTree.set("parameters/Special/blend_position", input_vector)
-		animationState.travel("Walk")
-		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION)
-	else:
-		animationState.travel("Idle")
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
-	
+	var velocity = determine_velocity(input_vector)
 	var _col = move_and_collide(velocity * delta)
 	
 	if Input.is_action_just_pressed("special"):
@@ -63,6 +57,20 @@ func move_state(delta):
 	
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
+		
+func determine_velocity(input_vector) -> Vector2:
+	if input_vector != Vector2.ZERO:
+		animationTree.set("parameters/Idle/blend_position", input_vector)
+		animationTree.set("parameters/Walk/blend_position", input_vector)
+		animationTree.set("parameters/Attack/blend_position", input_vector)
+		animationTree.set("parameters/Special/blend_position", input_vector)
+		animationState.travel("Walk")
+		velocity = velocity.move_toward(input_vector * speed / (colliding_count + 1), 10)
+	else:
+		animationState.travel("Idle")
+		velocity = velocity.move_toward(Vector2.ZERO, 10)
+		
+	return velocity
 
 func special_state():
 	velocity = Vector2.ZERO
@@ -76,6 +84,9 @@ func attack_state():
 
 func attack_animation_finished():
 	state = MOVE
+	
+func change_speed(value:int):
+	speed = value
 	
 func die():
 	emit_signal("die", self)
