@@ -1,9 +1,9 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
-[ext_resource path="res://Gameplay/TargetMovement.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Gameplay/AttackRange.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Gameplay/Combat/AI/TargetMovement.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Gameplay/Combat/RangeCombat.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Players/Leafy/Leafy.gd" type="Script" id=3]
-[ext_resource path="res://Players/Assets/Leaf Elemental S Sprite Sheet.png" type="Texture" id=4]
+[ext_resource path="res://Players/Leafy/Leaf Elemental S Sprite Sheet.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
@@ -129,6 +129,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 77, 78, 79, 80, 81, 82 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("RangeCombat/AttackRange/Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=7]
 length = 0.6
@@ -224,14 +236,17 @@ animation = "Spawn"
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=19]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=21]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=22]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=23]
 
@@ -261,21 +276,24 @@ radius = 2.75597
 height = 4.32567
 
 [sub_resource type="CircleShape2D" id=29]
-radius = 28.0327
+radius = 7.46109
 
 [sub_resource type="CircleShape2D" id=30]
-radius = 13.9964
+radius = 20.6702
+
+[sub_resource type="CircleShape2D" id=31]
 
 [node name="Leafy" type="KinematicBody2D" groups=[
 "Friendly",
 ]]
 collision_layer = 8
-collision_mask = 9
+collision_mask = 29
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -15 )
+position = Vector2( 0, -12 )
 texture = ExtResource( 4 )
+flip_h = true
 vframes = 12
 hframes = 7
 frame = 44
@@ -304,24 +322,42 @@ rotation = 1.5708
 shape = SubResource( 28 )
 
 [node name="TargetMovement" parent="." instance=ExtResource( 1 )]
-MAX_SPEED = 50
 FOLLOW_DISTANCE_MIN = 30
 FOLLOW_DISTANCE_MAX = 45
 
-[node name="AttackRange" parent="." instance=ExtResource( 2 )]
-collision_mask = 4
+[node name="RangeCombat" parent="." instance=ExtResource( 2 )]
 
-[node name="CollisionShape2D" parent="AttackRange" index="0"]
+[node name="Stats" parent="RangeCombat" index="0"]
+max_health = 15
+max_speed = 80
+damage = 5
+crit_rate = 50
+
+[node name="Hurtbox" parent="RangeCombat" index="1"]
+collision_layer = 8
+
+[node name="CollisionShape2D" parent="RangeCombat/Hurtbox" index="0"]
 shape = SubResource( 29 )
 
-[node name="Hitbox" parent="AttackRange" index="1"]
+[node name="AttackRange" parent="RangeCombat" index="2"]
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="RangeCombat/AttackRange" index="0"]
+shape = SubResource( 30 )
+
+[node name="Hitbox" parent="RangeCombat/AttackRange" index="1"]
 collision_layer = 0
 collision_mask = 4
 
-[node name="CollisionShape2D" parent="AttackRange/Hitbox" index="0"]
-position = Vector2( -13.7707, 0.554779 )
-shape = SubResource( 30 )
+[node name="CollisionShape2D" parent="RangeCombat/AttackRange/Hitbox" index="0"]
+position = Vector2( 12, 0 )
+shape = SubResource( 31 )
+disabled = true
 
-[editable path="AttackRange"]
+[editable path="RangeCombat"]
 
-[editable path="AttackRange/Hitbox"]
+[editable path="RangeCombat/Hurtbox"]
+
+[editable path="RangeCombat/AttackRange"]
+
+[editable path="RangeCombat/AttackRange/Hitbox"]

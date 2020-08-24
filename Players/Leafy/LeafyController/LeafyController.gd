@@ -22,6 +22,9 @@ enum {
 
 export var TARGETING_TYPE = FIRST
 
+func _ready():
+	parent.connect("die", self, "parent_died")
+
 func _process(_delta):
 	update_targets()
 
@@ -43,15 +46,16 @@ func spawn_leafy():
 	if spawnedLeafy.size() < MAX_LEAFY:
 		var leafy = LeafyScene.instance()
 		leafy.position = parent.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
+		leafy.connect("die", self, "leafy_died")
 		ySort.add_child(leafy)
 		assign_leafy_target(leafy)
 		spawnedLeafy.append(leafy)
 
-func set_leafy_targets(targetNode:KinematicBody2D):
+func set_leafy_targets(targetNode:PhysicsBody2D):
 	for leafy in spawnedLeafy:
 		set_single_leafy_target(leafy, targetNode)
 			
-func set_single_leafy_target(leafy, targetNode:KinematicBody2D):
+func set_single_leafy_target(leafy, targetNode:PhysicsBody2D):
 	leafy.target_movement.set_target(targetNode)
 	if targetNode.is_in_group("Enemy"):
 		leafy.pursue_enemy()
@@ -108,12 +112,22 @@ func get_closest_target():
 
 	return closest_enemy
 
-func _on_RangeDetector_body_entered(body):
-	targets.append(body)
+func remove_leafy_target(body):
+	if targets.has(body):
+		targets.erase(body)
+		reassign_leafys_targeting_body(body)
+
+func add_leafy_target(new_target):
+	targets.append(new_target)
+	if !new_target.is_connected("die", self, "remove_leafy_target"):
+		new_target.connect("die", self, "remove_leafy_target")
 	reassign_leafys_targeting_body(parent)
 	if TARGETING_TYPE == LAST:
-		set_leafy_targets(body)
+		set_leafy_targets(new_target)
 
-func _on_RangeDetector_body_exited(body):
-	targets.erase(body)
-	reassign_leafys_targeting_body(body)
+func leafy_died(leafy):
+	spawnedLeafy.erase(leafy)
+	
+func parent_died(_parent):
+	for leafy in spawnedLeafy:
+		leafy.die()
