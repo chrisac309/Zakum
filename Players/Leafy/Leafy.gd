@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends RigidBody2D
 
 # Considerations to keep in mind:
 # Leafy does not take damage, it has a lifespan.
@@ -26,7 +26,7 @@ func _ready():
 	target_movement.speed = stats.max_speed	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _integrate_forces(state):
 	if !is_dead:
 		if spawned:
 			if pursuing_enemy && attack_range.overlaps_body(current_target):

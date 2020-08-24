@@ -11,7 +11,7 @@ var speed : int
 export var FOLLOW_DISTANCE_MIN = 20
 export var FOLLOW_DISTANCE_MAX = 25
 
-onready var parent : KinematicBody2D = get_parent()
+onready var parent : RigidBody2D = get_parent()
 onready var initial_follow_min = FOLLOW_DISTANCE_MIN
 onready var initial_follow_max = FOLLOW_DISTANCE_MAX
 
@@ -33,7 +33,7 @@ func follow():
 			direction = Vector2.ZERO
 
 		velocity = velocity.move_toward(direction * speed, 10)
-		parent.move_and_slide(velocity)
+		parent.linear_velocity = velocity
 
 func set_target(targetToFollow:PhysicsBody2D):
 	target = targetToFollow

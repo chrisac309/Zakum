@@ -17,33 +17,31 @@ var velocity = Vector2.ZERO
 onready var stats : Stats = $Combat/Stats
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
-onready var enemyCollider = $EnemyCollider
 onready var animationState = animationTree.get("parameters/playback")
 
 func _ready():
 	stats.connect("no_health", self, "die")
 	stats.connect("speed_changed", self, "change_speed")
-	enemyCollider.connect("enemy_colliding", self, "add_colliding_enemy")
-	enemyCollider.connect("enemy_left", self, "remove_colliding_enemy")
 	speed = stats.max_speed
 	animationTree.active = true
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if state == MOVE:
-		move_state(delta)
+		move_state()
 	elif state == SPECIAL:
 		special_state()
 	elif state == ATTACK:
 		attack_state()	
 		
-func move_state(delta):
+func move_state():
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
 
 	velocity = determine_velocity(input_vector)
-	var _col = move_and_collide(velocity * delta)
+	# All of the optional values are the default, except infinite inertia
+	var _linear_velocity = move_and_slide(velocity, Vector2.ZERO, false, 4, 0.785398, false)
 	
 	if Input.is_action_just_pressed("special"):
 		state = SPECIAL

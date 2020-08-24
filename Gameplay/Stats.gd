@@ -1,4 +1,4 @@
-extends Position2D
+extends Node
 
 class_name Stats
 const floating_text = preload("res://Gameplay/FloatingText.tscn")
@@ -9,6 +9,8 @@ export(int) var damage = 1
 export(int, 100) var crit_rate = 15
 var health = max_health setget set_health
 var speed = max_speed setget set_speed
+
+onready var parent : Position2D = get_parent()
 
 signal no_health
 signal took_damage(value)
@@ -58,7 +60,7 @@ func take_damage(value:int, receiving_crit:bool):
 	var damage_text : Position2D = floating_text.instance()
 	damage_text.amount = value
 	damage_text.damage_type = 1 if receiving_crit else 0
-	add_child(damage_text)
+	parent.add_child(damage_text)
 	emit_signal("took_damage", value)
 	set_health(health - value)
 	
