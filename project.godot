@@ -8,9 +8,26 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Hitbox",
+"language": "GDScript",
+"path": "res://Gameplay/Combat/Attacking/Hitbox.gd"
+}, {
+"base": "Area2D",
+"class": "Hurtbox",
+"language": "GDScript",
+"path": "res://Gameplay/Combat/Defending/Hurtbox.gd"
+}, {
+"base": "Position2D",
+"class": "Stats",
+"language": "GDScript",
+"path": "res://Gameplay/Stats.gd"
+} ]
 _global_script_class_icons={
-
+"Hitbox": "",
+"Hurtbox": "",
+"Stats": ""
 }
 
 [application]
@@ -18,10 +35,6 @@ _global_script_class_icons={
 config/name="Zakum"
 run/main_scene="res://World/Scenes/Overworld.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-PlayerStats="*res://Players/PlayerStats.tscn"
 
 [input]
 

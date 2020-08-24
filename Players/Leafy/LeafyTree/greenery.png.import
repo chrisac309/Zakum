@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/log.png-32fab0f1939276659d4793e4b8aaa1f2.stex"
+path="res://.import/greenery.png-458cf391f0afbdb01261c24ac35aa091.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Players/Assets/log.png"
-dest_files=[ "res://.import/log.png-32fab0f1939276659d4793e4b8aaa1f2.stex" ]
+source_file="res://Players/Leafy/LeafyTree/greenery.png"
+dest_files=[ "res://.import/greenery.png-458cf391f0afbdb01261c24ac35aa091.stex" ]
 
 [params]
 

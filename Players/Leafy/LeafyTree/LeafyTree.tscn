@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Gameplay/Combat/AI/RangeDetector.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Players/Leafy/LeafyController/LeafyController.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Gameplay/Combat/Combat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Players/Leafy/LeafyTree/greenery.png" type="Texture" id=4]
+[ext_resource path="res://Players/Leafy/LeafyTree/LeafyTree.gd" type="Script" id=5]
+
+
+
+
+
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 6.87498
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 93.8234
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 4.67294
+
+[sub_resource type="CapsuleShape2D" id=4]
+
+[node name="LeafyTree" type="StaticBody2D" groups=[
+"Friendly",
+]]
+collision_layer = 2
+script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -0.222824, -10.6522 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="LeafyController" parent="." instance=ExtResource( 2 )]
+MAX_LEAFY = 5
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="RangeDetector" parent="." instance=ExtResource( 1 )]
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="RangeDetector" index="0"]
+shape = SubResource( 2 )
+
+[node name="Combat" parent="." instance=ExtResource( 3 )]
+
+[node name="Stats" parent="Combat" index="0"]
+max_health = 50
+crit_rate = 0
+
+[node name="Hitbox" parent="Combat" index="1"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="Combat/Hitbox" index="0"]
+shape = SubResource( 3 )
+
+[node name="Hurtbox" parent="Combat" index="2"]
+collision_layer = 8
+
+[node name="CollisionShape2D" parent="Combat/Hurtbox" index="0"]
+rotation = 1.5708
+shape = SubResource( 4 )
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_leafy_target"]
+[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_leafy_target"]
+
+[editable path="RangeDetector"]
+
+[editable path="Combat"]
+
+[editable path="Combat/Hitbox"]
+
+[editable path="Combat/Hurtbox"]
