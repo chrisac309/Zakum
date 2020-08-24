@@ -13,7 +13,6 @@ enum {
 var state = MOVE
 var speed = 0
 var velocity = Vector2.ZERO
-var colliding_count : int = 0
 
 onready var stats : Stats = $Combat/Stats
 onready var animationPlayer = $AnimationPlayer
@@ -37,19 +36,13 @@ func _physics_process(delta):
 	elif state == ATTACK:
 		attack_state()	
 		
-func add_colliding_enemy():
-	colliding_count += 1
-	
-func remove_colliding_enemy():
-	colliding_count -= 1
-
 func move_state(delta):
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
 
-	var velocity = determine_velocity(input_vector)
+	velocity = determine_velocity(input_vector)
 	var _col = move_and_collide(velocity * delta)
 	
 	if Input.is_action_just_pressed("special"):
@@ -65,12 +58,10 @@ func determine_velocity(input_vector) -> Vector2:
 		animationTree.set("parameters/Attack/blend_position", input_vector)
 		animationTree.set("parameters/Special/blend_position", input_vector)
 		animationState.travel("Walk")
-		velocity = velocity.move_toward(input_vector * speed / (colliding_count + 1), 10)
+		return velocity.move_toward(input_vector * speed, 10)
 	else:
 		animationState.travel("Idle")
-		velocity = velocity.move_toward(Vector2.ZERO, 10)
-		
-	return velocity
+		return velocity.move_toward(Vector2.ZERO, 10)
 
 func special_state():
 	velocity = Vector2.ZERO

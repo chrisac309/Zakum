@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends KinematicBody2D
 
 signal die(enemy)
 
@@ -23,7 +23,7 @@ func _ready():
 	target_movement.speed = stats.max_speed
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _integrate_forces(state):
+func _physics_process(delta):
 	if !is_dead:
 		if attack_range.overlaps_body(current_target):
 			hitbox.rotate_hitbox_towards(current_target)

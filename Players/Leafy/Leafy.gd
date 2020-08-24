@@ -33,7 +33,7 @@ func _physics_process(delta):
 				hitbox.rotate_hitbox_towards(current_target)
 				animationState.travel("Pollen")
 			else:
-				target_movement.follow(delta)
+				target_movement.follow()
 				if target_movement.velocity.length() > 0:
 					animationState.travel("Run")
 				else:
