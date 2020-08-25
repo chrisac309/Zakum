@@ -2,9 +2,10 @@ extends Node
 
 signal target_changed(body)
 
-var target setget set_target
+var target : PhysicsBody2D setget set_target
 var velocity = Vector2.ZERO
-var direction = Vector2.ZERO
+var move_direction = Vector2.ZERO
+var direction_to_target = Vector2.ZERO
 var is_near_target = false
 var speed : int
 
@@ -18,22 +19,27 @@ onready var initial_follow_max = FOLLOW_DISTANCE_MAX
 func follow():
 	if target != null:
 		var distToTarget = parent.global_position.distance_to(target.global_position)
+		direction_to_target = parent.global_position.direction_to(target.global_position)
 		
 		if distToTarget > FOLLOW_DISTANCE_MAX:
 			# Move closer to the target
-			direction = parent.global_position.direction_to(target.global_position)
+			move_direction = direction_to_target
 			is_near_target = false
 		elif distToTarget < FOLLOW_DISTANCE_MIN:
 			# Move away from the target
-			direction = target.global_position.direction_to(parent.global_position)
+			move_direction = -direction_to_target
 			is_near_target = false
 		else:
 			# Decelerate
 			is_near_target = true
-			direction = Vector2.ZERO
+			move_direction = Vector2.ZERO
 
-		velocity = velocity.move_toward(direction * speed, 10)
+		velocity = velocity.move_toward(move_direction * speed, 10)
 		parent.linear_velocity = velocity
+
+func target_is_in_range() -> bool:
+	var distToTarget = parent.global_position.distance_to(target.global_position)
+	return distToTarget < FOLLOW_DISTANCE_MAX && distToTarget > FOLLOW_DISTANCE_MIN
 
 func set_target(targetToFollow:PhysicsBody2D):
 	target = targetToFollow

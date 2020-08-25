@@ -25,7 +25,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _integrate_forces(state):
 	if !is_dead:
-		if attack_range.overlaps_body(current_target):
+		if target_movement.target_is_in_range() && attack_range.overlaps_body(current_target):
 			hitbox.rotate_hitbox_towards(current_target)
 			animationState.travel("Attack")
 		else:

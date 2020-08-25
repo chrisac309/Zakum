@@ -241,6 +241,7 @@ switch_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id=19]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=21]
 switch_mode = 2
@@ -256,7 +257,7 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id=26]
 states/Die/node = SubResource( 11 )
-states/Die/position = Vector2( 520, 359 )
+states/Die/position = Vector2( 520, 358 )
 states/Idle/node = SubResource( 12 )
 states/Idle/position = Vector2( 520, 167 )
 states/Pollen/node = SubResource( 13 )
@@ -279,9 +280,10 @@ height = 4.32567
 radius = 7.46109
 
 [sub_resource type="CircleShape2D" id=30]
-radius = 20.6702
+radius = 25.2485
 
 [sub_resource type="CircleShape2D" id=31]
+radius = 11.0793
 
 [node name="Leafy" type="RigidBody2D" groups=[
 "Friendly",
@@ -289,6 +291,7 @@ radius = 20.6702
 collision_layer = 8
 collision_mask = 29
 mode = 2
+mass = 0.102041
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -351,9 +354,8 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeCombat/AttackRange/Hitbox" index="0"]
-position = Vector2( 12, 0 )
+position = Vector2( 14.5764, 0 )
 shape = SubResource( 31 )
-disabled = true
 
 [editable path="RangeCombat"]
 

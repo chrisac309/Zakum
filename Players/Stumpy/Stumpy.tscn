@@ -1,9 +1,8 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Players/Player.gd" type="Script" id=1]
 [ext_resource path="res://Players/Leafy/LeafyController/LeafyController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Gameplay/Combat/Combat.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Gameplay/Stats.gd" type="Script" id=4]
 [ext_resource path="res://Gameplay/Combat/AI/RangeDetector.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Players/Stumpy/log.png" type="Texture" id=8]
 [ext_resource path="res://Players/Stumpy/TreeController.gd" type="Script" id=9]
@@ -336,7 +335,7 @@ anims/WalkUp = SubResource( 34 )
 texture = ExtResource( 8 )
 vframes = 4
 hframes = 6
-frame = 17
+frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 8 )
@@ -362,9 +361,9 @@ shape = SubResource( 36 )
 [node name="Combat" parent="." instance=ExtResource( 3 )]
 
 [node name="Stats" parent="Combat" index="0"]
-script = ExtResource( 4 )
 max_health = 250
 max_speed = 80
+max_inertia = 10
 
 [node name="Hitbox" parent="Combat" index="1"]
 collision_layer = 0

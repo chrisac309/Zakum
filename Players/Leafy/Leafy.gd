@@ -26,30 +26,27 @@ func _ready():
 	target_movement.speed = stats.max_speed	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _integrate_forces(state):
-	if !is_dead:
-		if spawned:
-			if pursuing_enemy && attack_range.overlaps_body(current_target):
-				hitbox.rotate_hitbox_towards(current_target)
-				animationState.travel("Pollen")
+func _integrate_forces(_state):
+	if spawned:
+		if target_movement.target_is_in_range() && attack_range.overlaps_body(current_target):
+			hitbox.rotate_hitbox_towards(current_target)
+			animationState.travel("Pollen")
+			currentSprite.flip_h = target_movement.direction_to_target.x > 0
+		else:
+			target_movement.follow()
+			if target_movement.velocity.length() > 0:
+				animationState.travel("Run")
 			else:
-				target_movement.follow()
-				if target_movement.velocity.length() > 0:
-					animationState.travel("Run")
-				else:
-					animationState.travel("Idle")
-		currentSprite.flip_h = target_movement.velocity.x > 0
+				animationState.travel("Idle")
+			currentSprite.flip_h = target_movement.velocity.x > 0
 
 func pursue_enemy():
 	pursuing_enemy = true
-	target_movement.shrink_target_zone()
 	
 func follow_stumpy():
 	pursuing_enemy = false
-	target_movement.reset_target_zone()
 
 func die():
-	is_dead = true
 	emit_signal("die", self)
 	animationState.travel("Die")
 	

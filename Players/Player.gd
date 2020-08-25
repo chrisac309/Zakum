@@ -11,8 +11,8 @@ enum {
 }
 
 var state = MOVE
-var speed = 0
 var velocity = Vector2.ZERO
+var inertia = 10
 
 onready var stats : Stats = $Combat/Stats
 onready var animationPlayer = $AnimationPlayer
@@ -21,8 +21,6 @@ onready var animationState = animationTree.get("parameters/playback")
 
 func _ready():
 	stats.connect("no_health", self, "die")
-	stats.connect("speed_changed", self, "change_speed")
-	speed = stats.max_speed
 	animationTree.active = true
 
 func _physics_process(_delta):
@@ -42,6 +40,7 @@ func move_state():
 	velocity = determine_velocity(input_vector)
 	# All of the optional values are the default, except infinite inertia
 	var _linear_velocity = move_and_slide(velocity, Vector2.ZERO, false, 4, 0.785398, false)
+	push_enemies()
 	
 	if Input.is_action_just_pressed("special"):
 		state = SPECIAL
@@ -56,7 +55,7 @@ func determine_velocity(input_vector) -> Vector2:
 		animationTree.set("parameters/Attack/blend_position", input_vector)
 		animationTree.set("parameters/Special/blend_position", input_vector)
 		animationState.travel("Walk")
-		return velocity.move_toward(input_vector * speed, 10)
+		return velocity.move_toward(input_vector * stats.speed, 10)
 	else:
 		animationState.travel("Idle")
 		return velocity.move_toward(Vector2.ZERO, 10)
@@ -73,9 +72,12 @@ func attack_state():
 
 func attack_animation_finished():
 	state = MOVE
-	
-func change_speed(value:int):
-	speed = value
+
+func push_enemies():
+	for index in get_slide_count():
+		var collision = get_slide_collision(index)
+		if collision.collider.is_in_group("Enemy"):
+			collision.collider.apply_central_impulse(-collision.normal * stats.inertia)
 	
 func die():
 	emit_signal("die", self)
