@@ -24,12 +24,13 @@ func _ready():
 	animationTree.active = true
 
 func _physics_process(_delta):
-	if state == MOVE:
-		move_state()
-	elif state == SPECIAL:
-		special_state()
-	elif state == ATTACK:
-		attack_state()	
+	match state:
+		MOVE:
+			move_state()
+		SPECIAL:
+			special_state()
+		ATTACK:
+			attack_state()
 		
 func move_state():
 	var input_vector = Vector2.ZERO

@@ -44,7 +44,7 @@ func update_targets():
 
 func spawn_leafy():
 	if spawnedLeafy.size() < MAX_LEAFY:
-		var leafy = LeafyScene.instance()
+		var leafy : Leafy = LeafyScene.instance()
 		leafy.position = parent.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
 		leafy.connect("die", self, "leafy_died")
 		ySort.add_child(leafy)
@@ -57,10 +57,6 @@ func set_leafy_targets(targetNode:PhysicsBody2D):
 			
 func set_single_leafy_target(leafy, targetNode:PhysicsBody2D):
 	leafy.target_movement.set_target(targetNode)
-	if targetNode.is_in_group("Enemy"):
-		leafy.pursue_enemy()
-	else:
-		leafy.follow_stumpy()
 		
 # If any leafy were targeting this KinematicBody2D, reassign them to other targets
 func reassign_leafys_targeting_body(body):

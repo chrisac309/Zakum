@@ -16,7 +16,7 @@ onready var parent : RigidBody2D = get_parent()
 onready var initial_follow_min = FOLLOW_DISTANCE_MIN
 onready var initial_follow_max = FOLLOW_DISTANCE_MAX
 
-func follow():
+func follow() -> Vector2:
 	if target != null:
 		var distToTarget = parent.global_position.distance_to(target.global_position)
 		direction_to_target = parent.global_position.direction_to(target.global_position)
@@ -36,6 +36,8 @@ func follow():
 
 		velocity = velocity.move_toward(move_direction * speed, 10)
 		parent.linear_velocity = velocity
+		
+	return velocity
 
 func target_is_in_range() -> bool:
 	var distToTarget = parent.global_position.distance_to(target.global_position)

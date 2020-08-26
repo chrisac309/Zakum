@@ -19,25 +19,13 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 44, 56, 57, 58, 59, 60, 73, 74, 75, 76 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:is_dead")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1, 1.001 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 1 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -141,6 +129,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finished_attack"
+} ]
+}
 
 [sub_resource type="Animation" id=7]
 length = 0.6
@@ -203,8 +205,8 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 76, 75, 74, 73, 60, 59, 58, 57, 56, 44 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:spawned")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -212,18 +214,20 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 1 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"values": [ {
+"args": [  ],
+"method": "finished_spawning"
+} ]
 }
 
 [sub_resource type="AnimationNodeAnimation" id=11]
-animation = "Die"
+animation = "PollenLeft"
 
 [sub_resource type="AnimationNodeAnimation" id=12]
-animation = "IdleLeft"
+animation = "Die"
 
 [sub_resource type="AnimationNodeAnimation" id=13]
-animation = "PollenLeft"
+animation = "IdleLeft"
 
 [sub_resource type="AnimationNodeAnimation" id=14]
 animation = "RunLeft"
@@ -256,17 +260,17 @@ switch_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id=25]
 
 [sub_resource type="AnimationNodeStateMachine" id=26]
-states/Die/node = SubResource( 11 )
+states/Attack/node = SubResource( 11 )
+states/Attack/position = Vector2( 387, 268 )
+states/Die/node = SubResource( 12 )
 states/Die/position = Vector2( 520, 358 )
-states/Idle/node = SubResource( 12 )
+states/Idle/node = SubResource( 13 )
 states/Idle/position = Vector2( 520, 167 )
-states/Pollen/node = SubResource( 13 )
-states/Pollen/position = Vector2( 387, 268 )
 states/Run/node = SubResource( 14 )
 states/Run/position = Vector2( 652, 273 )
 states/Spawn/node = SubResource( 15 )
 states/Spawn/position = Vector2( 520, 75 )
-transitions = [ "Spawn", "Idle", SubResource( 16 ), "Idle", "Pollen", SubResource( 17 ), "Pollen", "Idle", SubResource( 18 ), "Idle", "Run", SubResource( 19 ), "Run", "Idle", SubResource( 20 ), "Pollen", "Run", SubResource( 21 ), "Run", "Pollen", SubResource( 22 ), "Idle", "Die", SubResource( 23 ), "Pollen", "Die", SubResource( 24 ), "Run", "Die", SubResource( 25 ) ]
+transitions = [ "Spawn", "Idle", SubResource( 16 ), "Idle", "Attack", SubResource( 17 ), "Attack", "Idle", SubResource( 18 ), "Idle", "Run", SubResource( 19 ), "Run", "Idle", SubResource( 20 ), "Attack", "Run", SubResource( 21 ), "Run", "Attack", SubResource( 22 ), "Idle", "Die", SubResource( 23 ), "Attack", "Die", SubResource( 24 ), "Run", "Die", SubResource( 25 ) ]
 start_node = "Spawn"
 graph_offset = Vector2( 128, 148.36 )
 
