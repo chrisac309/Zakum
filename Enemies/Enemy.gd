@@ -1,42 +1,14 @@
-extends RigidBody2D
+extends NPC
 
-signal die(enemy)
+class_name Enemy
 
-onready var target_movement = $TargetMovement
-onready var animationTree = $AnimationTree
-onready var animationState = animationTree.get("parameters/playback")
-onready var currentSprite = $Sprite
-onready var attack_range = $RangeCombat/AttackRange
-onready var hitbox = $RangeCombat/AttackRange/Hitbox
-onready var hurtbox = $RangeCombat/Hurtbox
-onready var stats = $RangeCombat/Stats
-
-var initial_target : PhysicsBody2D
-var current_target : PhysicsBody2D
 var available_targets = []
 var is_dead = false
 
-func _ready():
-	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed")
-	stats.connect("no_health", self, "die")
-	stats.connect("speed_changed", target_movement, "change_speed")
-	target_movement.speed = stats.max_speed
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _integrate_forces(state):
-	if !is_dead:
-		if target_movement.target_is_in_range() && attack_range.overlaps_body(current_target):
-			hitbox.rotate_hitbox_towards(current_target)
-			animationState.travel("Attack")
-		else:
-			target_movement.follow()
-			animationState.travel("Run")
-		currentSprite.flip_h = position.x > current_target.position.x
+	._integrate_forces(state)
 
-func assign_initial_target(target:PhysicsBody2D):
-	initial_target = target
-	set_target(target)
-	
 func set_target(new_target:PhysicsBody2D):
 	target_movement.set_target(new_target)
 
@@ -48,11 +20,6 @@ func find_next_target():
 	else:
 		# Pursue the base again
 		target_movement.set_target(initial_target)
-	
-func die():
-	emit_signal("die", self)
-	is_dead = true
-	animationState.travel("Die")
 
 func add_available_target(new_target:PhysicsBody2D):
 	available_targets.append(new_target)
@@ -69,6 +36,3 @@ func remove_target(body:PhysicsBody2D):
 		available_targets.erase(body)
 		if current_target == body:
 			find_next_target()
-
-func _on_TargetMovement_target_changed(body: PhysicsBody2D):
-	current_target = body

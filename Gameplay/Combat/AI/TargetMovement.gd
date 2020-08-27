@@ -49,15 +49,3 @@ func set_target(targetToFollow:PhysicsBody2D):
 
 func change_speed(value:int):
 	speed = value
-
-func shrink_target_zone():
-	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN / 2
-	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX / 2
-
-func reset_target_zone():
-	FOLLOW_DISTANCE_MIN = initial_follow_min
-	FOLLOW_DISTANCE_MAX = initial_follow_max
-	
-func expand_target_zone():
-	FOLLOW_DISTANCE_MIN = FOLLOW_DISTANCE_MIN * 2
-	FOLLOW_DISTANCE_MAX = FOLLOW_DISTANCE_MAX * 2

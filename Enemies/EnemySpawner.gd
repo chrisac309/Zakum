@@ -22,11 +22,11 @@ func stop_spawning():
 	timer.stop()
 	
 func spawn_enemy():
-	var troll = enemy_to_spawn.instance()
+	var troll : Enemy = enemy_to_spawn.instance()
 	randomize()
 	troll.position = self.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
 	ySort.add_child(troll)
-	troll.assign_initial_target(main_target)
+	troll.set_target(main_target)
 	
 func _on_Timer_timeout():
 	spawn_enemy()

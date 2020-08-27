@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-class_name Leafy
+class_name NPC
 
 # Considerations to keep in mind:
 # Leafy does not take damage, it has a lifespan.
@@ -23,14 +23,15 @@ onready var attack_range = $RangeCombat/AttackRange
 onready var hitbox = $RangeCombat/AttackRange/Hitbox
 onready var stats = $RangeCombat/Stats
 
-export var current_state = State.SPAWNING
+export(State) var current_state
 
+var initial_target : PhysicsBody2D
 var current_target : PhysicsBody2D
 
 func _ready():
 	stats.connect("no_health", self, "die")
 	stats.connect("speed_changed", target_movement, "change_speed")
-	target_movement.connect("target_changed", self, "_on_TargetMovement_target_changed");
+	target_movement.connect("target_changed", self, "track_new_target");
 	target_movement.speed = stats.max_speed	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,8 +64,10 @@ func die():
 	emit_signal("die", self)
 	animationState.travel("Die")
 	
-func _on_TargetMovement_target_changed(body: PhysicsBody2D):
+func track_new_target(body: PhysicsBody2D):
 	current_target = body
+	if initial_target == null:
+		initial_target = current_target
 	
 func finished_spawning():
 	current_state = State.MOVE
@@ -75,6 +78,6 @@ func finished_attack():
 		
 func determine_direction(vel : Vector2):
 	if vel.x > 0:
-		currentSprite.flip_h = true
-	elif vel.x < 0:
 		currentSprite.flip_h = false
+	elif vel.x < 0:
+		currentSprite.flip_h = true

@@ -44,7 +44,7 @@ func update_targets():
 
 func spawn_leafy():
 	if spawnedLeafy.size() < MAX_LEAFY:
-		var leafy : Leafy = LeafyScene.instance()
+		var leafy : NPC = LeafyScene.instance()
 		leafy.position = parent.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
 		leafy.connect("die", self, "leafy_died")
 		ySort.add_child(leafy)
