@@ -38,6 +38,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_finished_attack"
+} ]
+}
 
 [sub_resource type="Animation" id=4]
 length = 0.3
@@ -147,7 +161,7 @@ shape = SubResource( 2 )
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 9
-frame = 9
+frame = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 3 )
@@ -161,7 +175,7 @@ active = true
 parameters/playback = SubResource( 14 )
 
 [node name="RangeDetector" parent="." instance=ExtResource( 7 )]
-collision_mask = 10
+collision_mask = 2
 
 [node name="CollisionShape2D" parent="RangeDetector" index="0"]
 position = Vector2( 0, 0.229088 )
@@ -171,7 +185,6 @@ shape = SubResource( 15 )
 
 [node name="Stats" parent="RangeCombat" index="0"]
 max_health = 25
-max_speed = 25
 damage = 5
 
 [node name="Hurtbox" parent="RangeCombat" index="1"]
@@ -194,6 +207,7 @@ collision_mask = 26
 position = Vector2( 12, 0 )
 rotation = 1.5708
 shape = SubResource( 18 )
+disabled = true
 [connection signal="body_entered" from="RangeDetector" to="TargetMovement" method="add_target"]
 [connection signal="body_exited" from="RangeDetector" to="TargetMovement" method="remove_target"]
 

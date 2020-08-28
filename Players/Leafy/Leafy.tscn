@@ -33,20 +33,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true ]
 }
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.6 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_finished_attack"
-} ]
-}
 
 [sub_resource type="Animation" id=2]
 tracks/0/type = "value"
@@ -157,7 +143,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="AnimationNodeAnimation" id=7]
-animation = "PollenLeft"
+animation = "Attack"
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Die"
@@ -172,6 +158,7 @@ animation = "Run"
 animation = "Spawn"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=12]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
 
@@ -186,7 +173,6 @@ switch_mode = 2
 switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
-switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=19]
 
@@ -196,18 +182,18 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id=22]
 states/Attack/node = SubResource( 7 )
-states/Attack/position = Vector2( 387, 268 )
+states/Attack/position = Vector2( 389, 273 )
 states/Die/node = SubResource( 8 )
 states/Die/position = Vector2( 520, 358 )
 states/Idle/node = SubResource( 9 )
-states/Idle/position = Vector2( 520, 167 )
+states/Idle/position = Vector2( 520, 169 )
 states/Run/node = SubResource( 10 )
-states/Run/position = Vector2( 652, 273 )
+states/Run/position = Vector2( 651, 273 )
 states/Spawn/node = SubResource( 11 )
 states/Spawn/position = Vector2( 520, 75 )
 transitions = [ "Spawn", "Idle", SubResource( 12 ), "Idle", "Attack", SubResource( 13 ), "Attack", "Idle", SubResource( 14 ), "Idle", "Run", SubResource( 15 ), "Run", "Idle", SubResource( 16 ), "Attack", "Run", SubResource( 17 ), "Run", "Attack", SubResource( 18 ), "Idle", "Die", SubResource( 19 ), "Attack", "Die", SubResource( 20 ), "Run", "Die", SubResource( 21 ) ]
 start_node = "Spawn"
-graph_offset = Vector2( 128, 148.36 )
+graph_offset = Vector2( 177, 130.36 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=23]
 
@@ -219,10 +205,11 @@ height = 4.32567
 radius = 7.46109
 
 [sub_resource type="CircleShape2D" id=26]
-radius = 25.2485
+radius = 24.0
 
-[sub_resource type="CircleShape2D" id=27]
-radius = 11.0793
+[sub_resource type="CapsuleShape2D" id=27]
+radius = 5.70075
+height = 11.6946
 
 [node name="Leafy" type="RigidBody2D" groups=[
 "Friendly",
@@ -260,6 +247,11 @@ rotation = 1.5708
 shape = SubResource( 24 )
 
 [node name="TargetMovement" parent="." instance=ExtResource( 1 )]
+TARGET_TYPE = 2
+TARGET_DISTANCE_MIN = 15
+TARGET_DISTANCE_MAX = 30
+ANCHOR_DISTANCE_MIN = 30
+ANCHOR_DISTANCE_MAX = 50
 
 [node name="RangeCombat" parent="." instance=ExtResource( 2 )]
 
@@ -286,8 +278,10 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeCombat/AttackRange/Hitbox" index="0"]
-position = Vector2( 14.5764, 0 )
+position = Vector2( 13, 0 )
+rotation = 1.5708
 shape = SubResource( 27 )
+disabled = true
 
 [editable path="RangeCombat"]
 

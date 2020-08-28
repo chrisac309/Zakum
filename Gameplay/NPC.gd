@@ -21,28 +21,25 @@ onready var stats = $RangeCombat/Stats
 
 export(State) var current_state
 
-var initial_target : PhysicsBody2D
-var current_target : PhysicsBody2D
-
 func _ready():
 	stats.connect("no_health", self, "die")
 	stats.connect("speed_changed", target_movement, "_change_speed")
-	target_movement.connect("target_changed", self, "_track_new_target");
 	target_movement.speed = stats.max_speed	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _integrate_forces(state):
+	var current_target = target_movement.get_target()
 	# Note that DIE and SPAWNING states do not need to happen on a per frame basis
 	match current_state:
 		State.MOVE:
-			move_state()
+			move_state(current_target, state)
 		State.ATTACK:
-			attack_state(state)
+			attack_state(current_target, state)
 
-func move_state():
-	if attack_range.overlaps_body(current_target):
-		print(name, " is attacking ", current_target.name)
+func move_state(target:PhysicsBody2D, _state:Physics2DDirectBodyState):
+	if attack_range.overlaps_body(target):
 		current_state = State.ATTACK
+		print(name, ": ATTACK")
 	else:
 		var velocity = target_movement.follow()
 		_determine_direction(velocity)
@@ -51,29 +48,22 @@ func move_state():
 		else:
 			animationState.travel("Idle")
 	
-func attack_state(state : Physics2DDirectBodyState):
-	if target_movement.is_away_from_anchor() || !attack_range.overlaps_body(current_target):
+func attack_state(target:PhysicsBody2D, state:Physics2DDirectBodyState):
+	if !attack_range.overlaps_body(target):
 		current_state = State.MOVE
-	else:
-		state.linear_velocity = Vector2.ZERO
-		hitbox.rotate_hitbox_towards(current_target)
-		animationState.travel("Attack")
-		_determine_direction(target_movement.direction_to_target)
+		print(name, ": MOVE")
+	state.linear_velocity = Vector2.ZERO
+	hitbox.rotate_hitbox_towards(target)
+	animationState.travel("Attack")
+	_determine_direction(target_movement.direction_to_target)
 
 func die():
 	current_state = State.DIE
 	emit_signal("die", self)
 	animationState.travel("Die")
-
-func _track_new_target(body: PhysicsBody2D):
-	current_target = body
-
+	
 func _finished_spawning():
 	current_state = State.MOVE
-
-func _finished_attack():
-	if !attack_range.overlaps_body(current_target):
-		current_state = State.MOVE
 		
 func _determine_direction(vel : Vector2):
 	if vel.x > 0:

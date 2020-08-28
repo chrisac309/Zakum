@@ -5,7 +5,7 @@ signal target_changed(body)
 
 # Targets
 var initial_target : PhysicsBody2D
-var current_target : PhysicsBody2D setget set_target
+var current_target : PhysicsBody2D setget set_target, get_target
 var available_targets = []
 var _has_anchor = false
 
@@ -37,7 +37,7 @@ func set_initial_target(target : PhysicsBody2D, is_anchor : bool):
 	_has_anchor = is_anchor
 
 func follow() -> Vector2:
-	if is_away_from_anchor():
+	if _should_follow_anchor():
 		return _travel_to_target(initial_target, ANCHOR_DISTANCE_MIN, ANCHOR_DISTANCE_MAX)
 	else:
 		return _travel_to_target(current_target, TARGET_DISTANCE_MIN, TARGET_DISTANCE_MAX)
@@ -48,11 +48,17 @@ func is_away_from_anchor() -> bool:
 		return distToAnchor < ANCHOR_DISTANCE_MIN || distToAnchor > ANCHOR_DISTANCE_MAX
 	return false
 	
+func _should_follow_anchor() -> bool:
+	return is_away_from_anchor() || (_has_anchor && current_target == initial_target)
+	
 func set_target(targetToFollow:PhysicsBody2D):
 	current_target = targetToFollow
-	if initial_target == null:
+	if !is_instance_valid(initial_target):
 		initial_target = targetToFollow
 	emit_signal("target_changed", current_target)
+
+func get_target() -> PhysicsBody2D:
+	return current_target
 
 func add_target(new_target:PhysicsBody2D):
 	available_targets.append(new_target)
@@ -103,7 +109,7 @@ func _find_next_target():
 		TargetType.FAR:
 			newTarget = _get_farthest_target()
 
-	if newTarget != null:
+	if is_instance_valid(newTarget):
 		set_target(newTarget)
 	else:	
 		set_target(initial_target)
@@ -111,9 +117,14 @@ func _find_next_target():
 func _get_farthest_target():
 	var farthest_enemy = null
 	var max_distance = -1
-	var distance_node = initial_target if _has_anchor else parent
+	
+	var targets_to_track = available_targets
+	var distance_node = parent
+	if _has_anchor:
+		targets_to_track.erase(initial_target)
+		distance_node = initial_target
 
-	for enemy in available_targets:
+	for enemy in targets_to_track:
 		var distance = distance_node.global_position.distance_squared_to(enemy.global_position)
 		if distance > max_distance:
 			max_distance = distance
@@ -124,9 +135,14 @@ func _get_farthest_target():
 func _get_closest_target():
 	var closest_enemy = null
 	var min_distance = INF
-	var distance_node = initial_target if _has_anchor else parent
+	
+	var targets_to_track = available_targets
+	var distance_node = parent
+	if _has_anchor:
+		targets_to_track.erase(initial_target)
+		distance_node = initial_target
 
-	for enemy in available_targets:
+	for enemy in targets_to_track:
 		var distance = distance_node.global_position.distance_squared_to(enemy.global_position)
 		if distance < min_distance:
 			min_distance = distance

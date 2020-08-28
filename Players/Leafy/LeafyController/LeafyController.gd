@@ -24,7 +24,7 @@ func spawn_leafy():
 		leafy.connect("die", self, "leafy_died")
 		ySort.add_child(leafy)
 		leafy.target_movement.set_initial_target(parent, true)
-		leafy.target_movement.available_targets.append(available_targets)
+		leafy.target_movement.available_targets  = available_targets.duplicate()
 		connect("target_added", leafy.target_movement, "add_target")
 		connect("target_removed", leafy.target_movement, "remove_target")
 		spawnedLeafy.append(leafy)
