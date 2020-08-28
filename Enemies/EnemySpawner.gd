@@ -12,8 +12,9 @@ export var SPAWNING_RANGE = 75
 var current_wait_time: int
 
 func _ready():
-	current_wait_time = 10 / spawn_rate_per_10
-	start_spawning()
+	if spawn_rate_per_10 > 0:
+		current_wait_time = 10 / spawn_rate_per_10
+		start_spawning()
 	
 func start_spawning():
 	timer.start(current_wait_time)
@@ -26,7 +27,7 @@ func spawn_enemy():
 	randomize()
 	troll.position = self.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
 	ySort.add_child(troll)
-	troll.set_target(main_target)
+	troll.target_movement.set_initial_target(main_target, false)
 	
 func _on_Timer_timeout():
 	spawn_enemy()

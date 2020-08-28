@@ -8,7 +8,3 @@ func _ready():
 
 func die():
 	get_tree().reload_current_scene()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

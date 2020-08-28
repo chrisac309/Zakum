@@ -33,13 +33,19 @@ _global_script_classes=[ {
 "class": "Stats",
 "language": "GDScript",
 "path": "res://Gameplay/Stats.gd"
+}, {
+"base": "Node",
+"class": "TargetMovement",
+"language": "GDScript",
+"path": "res://Gameplay/Combat/AI/TargetMovement.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
 "Hitbox": "",
 "Hurtbox": "",
 "NPC": "",
-"Stats": ""
+"Stats": "",
+"TargetMovement": ""
 }
 
 [application]

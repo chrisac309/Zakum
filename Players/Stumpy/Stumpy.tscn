@@ -295,14 +295,14 @@ radius = 5.47138
 height = 4.58743
 
 [sub_resource type="CircleShape2D" id=36]
-radius = 109.1
-
-[sub_resource type="CircleShape2D" id=37]
 radius = 5.14521
 
-[sub_resource type="CapsuleShape2D" id=38]
+[sub_resource type="CapsuleShape2D" id=37]
 radius = 7.18492
 height = 9.24328
+
+[sub_resource type="CircleShape2D" id=38]
+radius = 100.0
 
 [node name="Stumpy" type="KinematicBody2D" groups=[
 "Friendly",
@@ -351,13 +351,6 @@ zoom = Vector2( 0.4, 0.4 )
 [node name="TreeController" type="Node" parent="."]
 script = ExtResource( 9 )
 
-[node name="RangeDetector" parent="." instance=ExtResource( 7 )]
-collision_mask = 4
-
-[node name="CollisionShape2D" parent="RangeDetector" index="0"]
-position = Vector2( -0.631111, 8.15778 )
-shape = SubResource( 36 )
-
 [node name="Combat" parent="." instance=ExtResource( 3 )]
 
 [node name="Stats" parent="Combat" index="0"]
@@ -370,20 +363,26 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="Combat/Hitbox" index="0"]
-shape = SubResource( 37 )
+shape = SubResource( 36 )
 
 [node name="Hurtbox" parent="Combat" index="2"]
 collision_layer = 2
 
 [node name="CollisionShape2D" parent="Combat/Hurtbox" index="0"]
-shape = SubResource( 38 )
-[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_leafy_target"]
-[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_leafy_target"]
+shape = SubResource( 37 )
 
-[editable path="RangeDetector"]
+[node name="RangeDetector" parent="." instance=ExtResource( 7 )]
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="RangeDetector" index="0"]
+shape = SubResource( 38 )
+[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_available_target"]
+[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_available_target"]
 
 [editable path="Combat"]
 
 [editable path="Combat/Hitbox"]
 
 [editable path="Combat/Hurtbox"]
+
+[editable path="RangeDetector"]

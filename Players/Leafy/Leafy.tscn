@@ -5,7 +5,7 @@
 [ext_resource path="res://Gameplay/NPC.gd" type="Script" id=3]
 [ext_resource path="res://Players/Leafy/Leaf Elemental S Sprite Sheet.png" type="Texture" id=4]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=1]
 resource_name = "Attack"
 length = 0.6
 loop = true
@@ -44,12 +44,11 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "finished_attack"
+"method": "_finished_attack"
 } ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "Die"
+[sub_resource type="Animation" id=2]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -77,8 +76,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Float"
+[sub_resource type="Animation" id=3]
 length = 0.4
 loop = true
 step = 0.2
@@ -113,7 +111,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 1 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=5]
 resource_name = "Run"
 length = 0.5
 loop = true
@@ -130,7 +128,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10, 11 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -154,28 +152,38 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "finished_spawning"
+"method": "_finished_spawning"
 } ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "PollenLeft"
 
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Die"
 
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=14]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Run"
 
-[sub_resource type="AnimationNodeAnimation" id=15]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Spawn"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
+switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
 switch_mode = 2
@@ -185,45 +193,35 @@ switch_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=21]
-switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
-switch_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=23]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
-
-[sub_resource type="AnimationNodeStateMachine" id=26]
-states/Attack/node = SubResource( 11 )
+[sub_resource type="AnimationNodeStateMachine" id=22]
+states/Attack/node = SubResource( 7 )
 states/Attack/position = Vector2( 387, 268 )
-states/Die/node = SubResource( 12 )
+states/Die/node = SubResource( 8 )
 states/Die/position = Vector2( 520, 358 )
-states/Idle/node = SubResource( 13 )
+states/Idle/node = SubResource( 9 )
 states/Idle/position = Vector2( 520, 167 )
-states/Run/node = SubResource( 14 )
+states/Run/node = SubResource( 10 )
 states/Run/position = Vector2( 652, 273 )
-states/Spawn/node = SubResource( 15 )
+states/Spawn/node = SubResource( 11 )
 states/Spawn/position = Vector2( 520, 75 )
-transitions = [ "Spawn", "Idle", SubResource( 16 ), "Idle", "Attack", SubResource( 17 ), "Attack", "Idle", SubResource( 18 ), "Idle", "Run", SubResource( 19 ), "Run", "Idle", SubResource( 20 ), "Attack", "Run", SubResource( 21 ), "Run", "Attack", SubResource( 22 ), "Idle", "Die", SubResource( 23 ), "Attack", "Die", SubResource( 24 ), "Run", "Die", SubResource( 25 ) ]
+transitions = [ "Spawn", "Idle", SubResource( 12 ), "Idle", "Attack", SubResource( 13 ), "Attack", "Idle", SubResource( 14 ), "Idle", "Run", SubResource( 15 ), "Run", "Idle", SubResource( 16 ), "Attack", "Run", SubResource( 17 ), "Run", "Attack", SubResource( 18 ), "Idle", "Die", SubResource( 19 ), "Attack", "Die", SubResource( 20 ), "Run", "Die", SubResource( 21 ) ]
 start_node = "Spawn"
 graph_offset = Vector2( 128, 148.36 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=27]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=23]
 
-[sub_resource type="CapsuleShape2D" id=28]
+[sub_resource type="CapsuleShape2D" id=24]
 radius = 2.75597
 height = 4.32567
 
-[sub_resource type="CircleShape2D" id=29]
+[sub_resource type="CircleShape2D" id=25]
 radius = 7.46109
 
-[sub_resource type="CircleShape2D" id=30]
+[sub_resource type="CircleShape2D" id=26]
 radius = 25.2485
 
-[sub_resource type="CircleShape2D" id=31]
+[sub_resource type="CircleShape2D" id=27]
 radius = 11.0793
 
 [node name="Leafy" type="RigidBody2D" groups=[
@@ -244,26 +242,24 @@ frame = 44
 region_rect = Rect2( 3, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Attack = SubResource( 6 )
-anims/Die = SubResource( 1 )
-anims/Float = SubResource( 2 )
+anims/Attack = SubResource( 1 )
+anims/Die = SubResource( 2 )
+anims/Float = SubResource( 3 )
 anims/Idle = SubResource( 4 )
-anims/Run = SubResource( 8 )
-anims/Spawn = SubResource( 10 )
+anims/Run = SubResource( 5 )
+anims/Spawn = SubResource( 6 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 26 )
+tree_root = SubResource( 22 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 27 )
+parameters/playback = SubResource( 23 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
-shape = SubResource( 28 )
+shape = SubResource( 24 )
 
 [node name="TargetMovement" parent="." instance=ExtResource( 1 )]
-FOLLOW_DISTANCE_MIN = 30
-FOLLOW_DISTANCE_MAX = 45
 
 [node name="RangeCombat" parent="." instance=ExtResource( 2 )]
 
@@ -277,13 +273,13 @@ crit_rate = 50
 collision_layer = 8
 
 [node name="CollisionShape2D" parent="RangeCombat/Hurtbox" index="0"]
-shape = SubResource( 29 )
+shape = SubResource( 25 )
 
 [node name="AttackRange" parent="RangeCombat" index="2"]
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeCombat/AttackRange" index="0"]
-shape = SubResource( 30 )
+shape = SubResource( 26 )
 
 [node name="Hitbox" parent="RangeCombat/AttackRange" index="1"]
 collision_layer = 0
@@ -291,8 +287,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeCombat/AttackRange/Hitbox" index="0"]
 position = Vector2( 14.5764, 0 )
-shape = SubResource( 31 )
-disabled = true
+shape = SubResource( 27 )
 
 [editable path="RangeCombat"]
 

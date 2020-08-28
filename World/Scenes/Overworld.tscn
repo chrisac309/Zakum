@@ -24,21 +24,9 @@ position = Vector2( 527.606, 310.561 )
 [node name="Stumpy" parent="YSort" instance=ExtResource( 1 )]
 position = Vector2( 467.742, 343.822 )
 
-[node name="EnemySpawner" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 866.462, 301.966 )
-main_target_path = NodePath("../Zakum")
-enemy_to_spawn = ExtResource( 5 )
-SPAWNING_RANGE = 100
-
-[node name="EnemySpawner2" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 135.217, 308.234 )
-scale = Vector2( 1.20471, 1 )
-main_target_path = NodePath("../Zakum")
-enemy_to_spawn = ExtResource( 5 )
-SPAWNING_RANGE = 100
-
 [node name="EnemySpawner3" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 514.281, 526.342 )
+spawn_rate_per_10 = 3
 main_target_path = NodePath("../Zakum")
 enemy_to_spawn = ExtResource( 5 )
 SPAWNING_RANGE = 100
