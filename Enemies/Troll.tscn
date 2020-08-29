@@ -7,6 +7,7 @@
 [ext_resource path="res://Gameplay/Combat/AI/RangeDetector.tscn" type="PackedScene" id=7]
 
 [sub_resource type="PhysicsMaterial" id=1]
+friction = 0.1
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 7.60843
@@ -162,7 +163,7 @@ TARGET_TYPE = 2
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 9
-frame = 11
+frame = 9
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 3 )
@@ -186,7 +187,7 @@ shape = SubResource( 15 )
 
 [node name="Stats" parent="RangeCombat" index="0"]
 max_health = 25
-max_speed = 50
+max_speed = 25
 damage = 5
 
 [node name="Hurtbox" parent="RangeCombat" index="1"]

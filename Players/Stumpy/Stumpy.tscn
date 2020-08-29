@@ -355,7 +355,7 @@ script = ExtResource( 9 )
 [node name="Stats" parent="Combat" index="0"]
 max_health = 250
 max_speed = 80
-max_inertia = 10
+max_inertia = 100
 
 [node name="Hitbox" parent="Combat" index="1"]
 collision_layer = 0
