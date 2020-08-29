@@ -1,14 +1,18 @@
-extends Position2D
+extends Node
 
 class_name Stats
 const floating_text = preload("res://Gameplay/FloatingText.tscn")
 
 export(int) var max_health = 1 setget set_max_health
 export(int) var max_speed = 1 setget set_max_speed
+export(int) var max_inertia = 1 setget set_max_inertia
 export(int) var damage = 1
 export(int, 100) var crit_rate = 15
 var health = max_health setget set_health
 var speed = max_speed setget set_speed
+var inertia = max_inertia setget set_inertia
+
+onready var parent : Position2D = get_parent()
 
 signal no_health
 signal took_damage(value)
@@ -20,6 +24,7 @@ signal max_speed_changed(value)
 func _enter_tree():
 	set_health(max_health)
 	set_speed(max_speed)
+	set_inertia(max_inertia)
 
 func set_max_health(value:int):
 	max_health = value
@@ -30,6 +35,10 @@ func set_max_speed(value:int):
 	max_speed = value
 	self.speed = min(speed, max_speed)
 	emit_signal("max_speed_changed", max_speed)
+	
+func set_max_inertia(value:int):
+	max_inertia = value
+	self.inertia = min(inertia, max_inertia)
 
 func set_health(value:int):
 	health = value
@@ -40,6 +49,9 @@ func set_health(value:int):
 func set_speed(value:int):
 	speed = value
 	emit_signal("speed_changed", speed)
+	
+func set_inertia(value:int):
+	inertia = value
 		
 func determine_crit():
 	randomize()
@@ -58,7 +70,7 @@ func take_damage(value:int, receiving_crit:bool):
 	var damage_text : Position2D = floating_text.instance()
 	damage_text.amount = value
 	damage_text.damage_type = 1 if receiving_crit else 0
-	add_child(damage_text)
+	parent.add_child(damage_text)
 	emit_signal("took_damage", value)
 	set_health(health - value)
 	

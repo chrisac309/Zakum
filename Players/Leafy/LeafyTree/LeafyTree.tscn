@@ -6,16 +6,11 @@
 [ext_resource path="res://Players/Leafy/LeafyTree/greenery.png" type="Texture" id=4]
 [ext_resource path="res://Players/Leafy/LeafyTree/LeafyTree.gd" type="Script" id=5]
 
-
-
-
-
-
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.87498
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 93.8234
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 4.67294
@@ -40,7 +35,7 @@ shape = SubResource( 1 )
 MAX_LEAFY = 5
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.0
 autostart = true
 
 [node name="RangeDetector" parent="." instance=ExtResource( 1 )]
@@ -68,9 +63,9 @@ collision_layer = 8
 [node name="CollisionShape2D" parent="Combat/Hurtbox" index="0"]
 rotation = 1.5708
 shape = SubResource( 4 )
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_leafy_target"]
-[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_leafy_target"]
+[connection signal="timeout" from="Timer" to="LeafyController" method="spawn_leafy"]
+[connection signal="body_entered" from="RangeDetector" to="LeafyController" method="add_available_target"]
+[connection signal="body_exited" from="RangeDetector" to="LeafyController" method="remove_available_target"]
 
 [editable path="RangeDetector"]
 

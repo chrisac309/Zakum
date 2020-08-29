@@ -10,6 +10,9 @@ onready var ySort = parent.get_parent()
 
 var spawnedTrees = []
 
+func _ready():
+	parent.connect("die", self, "parent_died")
+
 func spawn_tree():
 	if spawnedTrees.size() < MAX_TREE:
 		var leafyTree = LeafyTreeScene.instance()
@@ -20,3 +23,7 @@ func spawn_tree():
 		
 func tree_died(tree):
 	spawnedTrees.erase(tree)
+	
+func parent_died(_parent):
+	for tree in spawnedTrees:
+		spawnedTrees.die()

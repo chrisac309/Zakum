@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "NPC",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://Enemies/Enemy.gd"
+}, {
 "base": "Area2D",
 "class": "Hitbox",
 "language": "GDScript",
@@ -19,15 +24,28 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Gameplay/Combat/Defending/Hurtbox.gd"
 }, {
-"base": "Position2D",
+"base": "RigidBody2D",
+"class": "NPC",
+"language": "GDScript",
+"path": "res://Gameplay/NPC.gd"
+}, {
+"base": "Node",
 "class": "Stats",
 "language": "GDScript",
 "path": "res://Gameplay/Stats.gd"
+}, {
+"base": "Node",
+"class": "TargetMovement",
+"language": "GDScript",
+"path": "res://Gameplay/Combat/AI/TargetMovement.gd"
 } ]
 _global_script_class_icons={
+"Enemy": "",
 "Hitbox": "",
 "Hurtbox": "",
-"Stats": ""
+"NPC": "",
+"Stats": "",
+"TargetMovement": ""
 }
 
 [application]
@@ -84,6 +102,11 @@ special={
 [logging]
 
 file_logging/enable_file_logging=true
+
+[physics]
+
+2d/default_gravity_vector=Vector2( 0, 0 )
+2d/default_linear_damp=1.0
 
 [rendering]
 
