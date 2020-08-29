@@ -250,8 +250,6 @@ shape = SubResource( 24 )
 TARGET_TYPE = 2
 TARGET_DISTANCE_MIN = 15
 TARGET_DISTANCE_MAX = 30
-ANCHOR_DISTANCE_MIN = 30
-ANCHOR_DISTANCE_MAX = 50
 
 [node name="RangeCombat" parent="." instance=ExtResource( 2 )]
 

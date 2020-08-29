@@ -28,7 +28,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _integrate_forces(state):
-	var current_target = target_movement.get_target()
+	var current_target = target_movement.get_target_or_null()
 	# Note that DIE and SPAWNING states do not need to happen on a per frame basis
 	match current_state:
 		State.MOVE:
@@ -37,7 +37,7 @@ func _integrate_forces(state):
 			attack_state(current_target, state)
 
 func move_state(target:PhysicsBody2D, _state:Physics2DDirectBodyState):
-	if attack_range.overlaps_body(target):
+	if is_instance_valid(target) && attack_range.overlaps_body(target):
 		current_state = State.ATTACK
 		print(name, ": ATTACK")
 	else:
@@ -49,7 +49,7 @@ func move_state(target:PhysicsBody2D, _state:Physics2DDirectBodyState):
 			animationState.travel("Idle")
 	
 func attack_state(target:PhysicsBody2D, state:Physics2DDirectBodyState):
-	if !attack_range.overlaps_body(target):
+	if !is_instance_valid(target) || !attack_range.overlaps_body(target):
 		current_state = State.MOVE
 		print(name, ": MOVE")
 	state.linear_velocity = Vector2.ZERO

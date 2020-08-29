@@ -3,18 +3,6 @@ class_name TargetMovement
 
 signal target_changed(body)
 
-# Targets
-var initial_target : PhysicsBody2D
-var current_target : PhysicsBody2D setget set_target, get_target
-var available_targets = []
-var _has_anchor = false
-
-# Movement
-var velocity : Vector2
-var move_direction : Vector2
-var direction_to_target : Vector2
-var speed : int setget _change_speed
-
 enum TargetType {
 	FIRST,
 	LAST,
@@ -22,107 +10,140 @@ enum TargetType {
 	FAR
 }
 
+# Targets
+var _current_target : PhysicsBody2D setget _set_target, get_target_or_null
+var _available_targets = []
 export (TargetType) var TARGET_TYPE = TargetType.FIRST
 export var TARGET_DISTANCE_MIN = 20
 export var TARGET_DISTANCE_MAX = 25
-export var ANCHOR_DISTANCE_MIN = 0
-export var ANCHOR_DISTANCE_MAX = 25
+
+# Locked target
+var _locked_target : PhysicsBody2D
+var _has_target_lock = false
+var _lock_until_in_range = false
+
+# Leader
+var _leader : PhysicsBody2D
+var _has_leader = false
+var _leader_follow_min : int
+var _leader_follow_preferred_max : int
+var _leader_follow_max : int
+
+# Movement
+var velocity : Vector2
+var move_direction : Vector2
+var direction_to_target : Vector2
+var speed : int setget _change_speed
 
 onready var parent : RigidBody2D = get_parent()
-onready var initial_follow_min = TARGET_DISTANCE_MIN
-onready var initial_follow_max = TARGET_DISTANCE_MAX
 
-func set_initial_target(target : PhysicsBody2D, is_anchor : bool):
-	set_target(target)
-	_has_anchor = is_anchor
+# Acts as an override for targetting a specific unit
+# If lock_until_in_range is true, this will override until the target is in distance range 
+func lock_follow(target:PhysicsBody2D, lock_until_in_range: bool):
+	_has_target_lock = true
+	if !_available_targets.has(target):
+		add_target(target)
+	_locked_target = target
+	_lock_until_in_range = lock_until_in_range
+	
+func unlock_follow():
+	_has_target_lock = false
+	_find_next_target()
 
+# Follow priority is as follows:
+# 1) Locked target
+# 2) Leader, if too far
+# 3) Current target, if a target exists
+# 4) Leader, if no targets
 func follow() -> Vector2:
-	if _should_follow_anchor():
-		return _travel_to_target(initial_target, ANCHOR_DISTANCE_MIN, ANCHOR_DISTANCE_MAX)
+	_find_next_target()
+	if _has_target_lock:
+		return _travel_to_target(_locked_target, TARGET_DISTANCE_MIN, TARGET_DISTANCE_MAX)
+	elif _has_leader && _is_far_from_leader():
+		return _travel_to_target(_leader, _leader_follow_min, _leader_follow_max)
+	elif is_instance_valid(_current_target):
+		return _travel_to_target(_current_target, TARGET_DISTANCE_MIN, TARGET_DISTANCE_MAX)
+	elif is_instance_valid(_leader):
+		return _travel_to_target(_leader, _leader_follow_min, _leader_follow_preferred_max)
 	else:
-		return _travel_to_target(current_target, TARGET_DISTANCE_MIN, TARGET_DISTANCE_MAX)
-
-func is_away_from_anchor() -> bool:
-	if _has_anchor:
-		var distToAnchor = parent.global_position.distance_to(initial_target.global_position)
-		return distToAnchor < ANCHOR_DISTANCE_MIN || distToAnchor > ANCHOR_DISTANCE_MAX
-	return false
+		print("No target to follow for ", parent.name)
+		return Vector2.ZERO
 	
-func _should_follow_anchor() -> bool:
-	return is_away_from_anchor() || (_has_anchor && current_target == initial_target)
-	
-func set_target(targetToFollow:PhysicsBody2D):
-	current_target = targetToFollow
-	if !is_instance_valid(initial_target):
-		initial_target = targetToFollow
-	emit_signal("target_changed", current_target)
+func set_leader(leader:PhysicsBody2D, leader_min_follow, leader_preferred_max_follow, leader_max_follow) -> void:
+	_leader = leader
+	_leader_follow_min = leader_min_follow
+	_leader_follow_preferred_max = leader_preferred_max_follow
+	_leader_follow_max = leader_max_follow
+	_has_leader = true
 
-func get_target() -> PhysicsBody2D:
-	return current_target
+func get_target_or_null() -> PhysicsBody2D:
+	return _current_target if !_has_target_lock else _locked_target
 
 func add_target(new_target:PhysicsBody2D):
-	available_targets.append(new_target)
-	if !new_target.is_connected("die", self, "remove_target"):
-		new_target.connect("die", self, "remove_target")
+	_available_targets.append(new_target)
 	
-	if current_target == initial_target || TARGET_TYPE == TargetType.LAST:
-		set_target(new_target)
+	if TARGET_TYPE == TargetType.LAST || _available_targets.size() == 1:
+		_set_target(new_target)
 
 func remove_target(body:PhysicsBody2D):
 	# Remove the target from the list
-	if available_targets.has(body):
-		available_targets.erase(body)
-		if current_target == body:
+	if _available_targets.has(body):
+		_available_targets.erase(body)
+		if _current_target == body:
 			_find_next_target()
 	
-func _travel_to_target(target:PhysicsBody2D, min_distance:int, max_distance:int) -> Vector2:
+func _set_target(targetToFollow:PhysicsBody2D):
+	_current_target = targetToFollow
+	emit_signal("target_changed", _current_target)
+	
+func _travel_to_target(target:PhysicsBody2D, follow_distance_min:int, follow_distance_max:int) -> Vector2:
 	var distToTarget = parent.global_position.distance_to(target.global_position)
 	direction_to_target = parent.global_position.direction_to(target.global_position)
-	
-	if distToTarget > max_distance:
+
+	if distToTarget > follow_distance_max:
 		# Move closer to the target
 		move_direction = direction_to_target
-	elif distToTarget < min_distance:
+	elif distToTarget < follow_distance_min:
 		# Move away from the target
 		move_direction = -direction_to_target
 	else:
 		# Decelerate
 		move_direction = Vector2.ZERO
+		if _has_target_lock && _lock_until_in_range:
+			# Done being locked into one target
+			unlock_follow()
 
 	velocity = velocity.move_toward(move_direction * speed, 10)
 	parent.linear_velocity = velocity
 		
 	return velocity
 	
-# Assigns the passed leafy to a new target depending on targeting type
+# Finds the next target based on the targetting type
 func _find_next_target():
 	var newTarget
 	match TARGET_TYPE:
 		TargetType.FIRST:
-			if !available_targets.empty():
-				newTarget = available_targets.front()
+			if !_available_targets.empty():
+				newTarget =_available_targets.front()
 		TargetType.LAST:
-			if !available_targets.empty():
-				newTarget = available_targets.back()
+			if !_available_targets.empty():
+				newTarget =_available_targets.back()
 		TargetType.NEAR:
 			newTarget = _get_closest_target()
 		TargetType.FAR:
 			newTarget = _get_farthest_target()
 
-	if is_instance_valid(newTarget):
-		set_target(newTarget)
-	else:	
-		set_target(initial_target)
+	_set_target(newTarget)
+		
+func _is_far_from_leader() -> bool:
+	return parent.global_position.distance_to(_leader.global_position) > _leader_follow_max
 
 func _get_farthest_target():
 	var farthest_enemy = null
 	var max_distance = -1
 	
-	var targets_to_track = available_targets
+	var targets_to_track = _available_targets
 	var distance_node = parent
-	if _has_anchor:
-		targets_to_track.erase(initial_target)
-		distance_node = initial_target
 
 	for enemy in targets_to_track:
 		var distance = distance_node.global_position.distance_squared_to(enemy.global_position)
@@ -136,14 +157,11 @@ func _get_closest_target():
 	var closest_enemy = null
 	var min_distance = INF
 	
-	var targets_to_track = available_targets
+	var targets_to_track = _available_targets
 	var distance_node = parent
-	if _has_anchor:
-		targets_to_track.erase(initial_target)
-		distance_node = initial_target
 
-	for enemy in targets_to_track:
-		var distance = distance_node.global_position.distance_squared_to(enemy.global_position)
+	for enemy in _available_targets:
+		var distance = parent.global_position.distance_squared_to(enemy.global_position)
 		if distance < min_distance:
 			min_distance = distance
 			closest_enemy = enemy

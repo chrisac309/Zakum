@@ -27,7 +27,7 @@ func spawn_enemy():
 	randomize()
 	troll.position = self.position + Vector2(randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2, randf() * SPAWNING_RANGE - SPAWNING_RANGE / 2)
 	ySort.add_child(troll)
-	troll.target_movement.set_initial_target(main_target, false)
+	troll.target_movement.add_target(main_target)
 	
 func _on_Timer_timeout():
 	spawn_enemy()
