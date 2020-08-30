@@ -352,6 +352,8 @@ script = ExtResource( 9 )
 [node name="Combat" parent="." instance=ExtResource( 3 )]
 
 [node name="Stats" parent="Combat" index="0"]
+position = Vector2( 0, 17 )
+scale = Vector2( 0.25, 0.5 )
 max_health = 250
 max_speed = 80
 max_inertia = 100
