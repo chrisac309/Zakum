@@ -3,16 +3,18 @@ extends Node
 class_name Stats
 const floating_text = preload("res://Gameplay/FloatingText.tscn")
 
-export(int) var max_health = 1 setget set_max_health
-export(int) var max_speed = 1 setget set_max_speed
-export(int) var max_inertia = 1 setget set_max_inertia
+onready var parent : Position2D = get_parent()
+onready var health_bar = $HealthBar
+
+export(int) var max_health = 1
+export(int) var max_speed = 1
+export(int) var max_inertia = 1
 export(int) var damage = 1
 export(int, 100) var crit_rate = 15
-var health = max_health setget set_health
-var speed = max_speed setget set_speed
-var inertia = max_inertia setget set_inertia
 
-onready var parent : Position2D = get_parent()
+var health = max_health
+var speed
+var inertia
 
 signal no_health
 signal took_damage(value)
@@ -21,15 +23,18 @@ signal speed_changed(value)
 signal max_health_changed(value)
 signal max_speed_changed(value)
 
-func _enter_tree():
+func _ready():
+	set_max_health(max_health)
 	set_health(max_health)
 	set_speed(max_speed)
 	set_inertia(max_inertia)
 
 func set_max_health(value:int):
 	max_health = value
-	self.health = min(health, max_health)
+	print("Parent: ", get_parent().name, "Grandparent: ", get_parent().get_parent().name)
+	set_health(min(health, max_health))
 	emit_signal("max_health_changed", max_health)
+	health_bar.max_value = max_health
 	
 func set_max_speed(value:int):
 	max_speed = value
@@ -42,6 +47,7 @@ func set_max_inertia(value:int):
 
 func set_health(value:int):
 	health = value
+	health_bar.value = max(0, health)
 	emit_signal("health_changed", health)
 	if health <= 0:
 		emit_signal("no_health")
@@ -78,3 +84,4 @@ func heal(value:int):
 	var heal = floating_text.instance()
 	heal.amount = value
 	heal.damage_type = 1
+	set_health(health + heal)

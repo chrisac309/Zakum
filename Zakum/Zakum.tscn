@@ -4,8 +4,6 @@
 [ext_resource path="res://Gameplay/Combat/Combat.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Zakum/Zakum.gd" type="Script" id=4]
 
-
-
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 1 )
@@ -74,7 +72,6 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -195 )
 frames = SubResource( 9 )
-frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -84,6 +81,8 @@ shape = SubResource( 10 )
 [node name="Combat" parent="." instance=ExtResource( 2 )]
 
 [node name="Stats" parent="Combat" index="0"]
+position = Vector2( 0, 20 )
+scale = Vector2( 3, 3 )
 max_health = 1000
 damage = 0
 crit_rate = 0

@@ -254,6 +254,8 @@ TARGET_DISTANCE_MAX = 30
 [node name="RangeCombat" parent="." instance=ExtResource( 2 )]
 
 [node name="Stats" parent="RangeCombat" index="0"]
+position = Vector2( 0, 5 )
+scale = Vector2( 0.1, 0.5 )
 max_health = 15
 max_speed = 80
 damage = 5
