@@ -138,6 +138,10 @@ config/name="Zakum"
 run/main_scene="res://World/Scenes/Overworld.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
+
 [input]
 
 ui_left={
