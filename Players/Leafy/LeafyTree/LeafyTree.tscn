@@ -47,6 +47,8 @@ shape = SubResource( 2 )
 [node name="Combat" parent="." instance=ExtResource( 3 )]
 
 [node name="Stats" parent="Combat" index="0"]
+position = Vector2( 0, 8 )
+scale = Vector2( 0.2, 0.5 )
 max_health = 50
 crit_rate = 0
 

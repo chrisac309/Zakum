@@ -52,10 +52,11 @@ func attack_state(target:PhysicsBody2D, state:Physics2DDirectBodyState):
 	if !is_instance_valid(target) || !attack_range.overlaps_body(target):
 		current_state = State.MOVE
 		print(name, ": MOVE")
-	state.linear_velocity = Vector2.ZERO
-	hitbox.rotate_hitbox_towards(target)
-	animationState.travel("Attack")
-	_determine_direction(target_movement.direction_to_target)
+	else:
+		state.linear_velocity = Vector2.ZERO
+		hitbox.rotate_hitbox_towards(target)
+		animationState.travel("Attack")
+		_determine_direction(target_movement.direction_to_target)
 
 func die():
 	current_state = State.DIE
