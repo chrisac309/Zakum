@@ -281,7 +281,6 @@ collision_mask = 4
 position = Vector2( 13, 0 )
 rotation = 1.5708
 shape = SubResource( 27 )
-disabled = true
 
 [editable path="RangeCombat"]
 

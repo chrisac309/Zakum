@@ -335,7 +335,7 @@ anims/WalkUp = SubResource( 34 )
 texture = ExtResource( 8 )
 vframes = 4
 hframes = 6
-frame = 6
+frame = 17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 8 )
