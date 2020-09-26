@@ -6,6 +6,8 @@
 
 [sub_resource type="DynamicFont" id=1]
 size = 92
+extra_spacing_top = 32
+extra_spacing_bottom = 32
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
@@ -25,24 +27,22 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 964.0
-margin_bottom = 638.0
-custom_constants/separation = 50
+margin_bottom = 656.0
 
-[node name="RichTextLabel" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer"]
 margin_right = 964.0
-margin_bottom = 93.0
+margin_bottom = 157.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 1
 custom_fonts/font = SubResource( 1 )
 text = "ZAKUM"
 align = 1
-valign = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 143.0
+margin_top = 161.0
 margin_right = 964.0
-margin_bottom = 638.0
+margin_bottom = 656.0
 size_flags_horizontal = 3
 custom_constants/separation = 200
 
@@ -62,6 +62,7 @@ margin_top = 89.0
 margin_right = 195.0
 margin_bottom = 128.0
 custom_fonts/font = SubResource( 2 )
+disabled = true
 text = "MultIplayer"
 
 [node name="Options" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
@@ -88,4 +89,5 @@ margin_right = 569.0
 margin_bottom = 495.0
 texture = ExtResource( 2 )
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/VBoxContainer/Singleplayer" to="." method="_on_Singleplayer_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/VBoxContainer/Exit Game" to="." method="_on_Exit_Game_button_up"]

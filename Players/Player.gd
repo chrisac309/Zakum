@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+class_name Player
 #const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
 
 signal die(player)
@@ -11,6 +12,7 @@ enum {
 }
 
 var state = MOVE
+var hunter_type = PlayerData.HunterName.Stumpy
 var velocity = Vector2.ZERO
 var inertia = 10
 
