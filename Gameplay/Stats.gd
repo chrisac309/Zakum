@@ -17,6 +17,8 @@ var speed
 var inertia
 
 signal no_health
+signal low_health
+signal healed_beyond_low_health
 signal took_damage(value)
 signal health_changed(value)
 signal speed_changed(value)
@@ -51,6 +53,8 @@ func set_health(value:int):
 	emit_signal("health_changed", health)
 	if health <= 0:
 		emit_signal("no_health")
+	elif health <= max_health / 2:
+		emit_signal("low_health")
 		
 func set_speed(value:int):
 	speed = value
@@ -85,3 +89,5 @@ func heal(value:int):
 	heal.amount = value
 	heal.damage_type = 1
 	set_health(health + heal)
+	if health + heal >= max_health / 2:
+		emit_signal("healed_beyond_low_health")
