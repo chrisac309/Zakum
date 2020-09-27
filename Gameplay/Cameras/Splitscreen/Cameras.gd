@@ -19,7 +19,7 @@ extends Node2D
 #       depending on the distance between players. If false, the thickness will
 #       be constant and equal to split_line_thickness
 
-export(float) var max_separation = 50.0
+export(float) var max_separation = 20.0
 export(float) var split_line_thickness = 3.0
 export(Color, RGBA) var split_line_color = Color.black
 export(bool) var adaptive_split_line_thickness = true
@@ -27,8 +27,8 @@ export(bool) var adaptive_split_line_thickness = true
 onready var player1 : Player = $"../Player1"
 onready var player2 : Player = $"../Player2"
 onready var view = $View
-onready var viewport1 : Viewport = $Viewport1
-onready var viewport2 : Viewport = $Viewport2
+onready var viewport1 = $Viewport1
+onready var viewport2 = $Viewport2
 onready var camera1 : Camera2D = viewport1.get_node(@"Camera1")
 onready var camera2 : Camera2D = viewport2.get_node(@"Camera2")
 
@@ -64,8 +64,8 @@ func _move_cameras():
 
 func _update_splitscreen():
 	var screen_size = get_viewport().get_visible_rect().size
-	var player1_position = player1.position / screen_size
-	var player2_position = player2.position / screen_size
+	var player1_position = camera1.transform.xform_inv(player1.position) / screen_size
+	var player2_position = camera2.transform.xform_inv(player2.position) / screen_size
 	
 	var thickness
 	if adaptive_split_line_thickness:
@@ -85,11 +85,9 @@ func _update_splitscreen():
 
 # Split screen is active if players are too far apart from each other.
 # Only the horizontal components (x, z) are used for distance computation
-func _get_split_state():
+func _get_split_state() -> bool:
 	var position_difference = _compute_position_difference_in_world()
 	var separation_distance = _compute_horizontal_length(position_difference)
-	if separation_distance > max_separation:
-		print('SPLIT SQUAD')
 	return separation_distance > max_separation
 
 
@@ -102,9 +100,9 @@ func _on_size_changed():
 	view.material.set_shader_param("viewport_size", screen_size)
 
 
-func _compute_position_difference_in_world():
+func _compute_position_difference_in_world() -> Vector2:
 	return player2.position - player1.position
 
 
-func _compute_horizontal_length(vec):
-	return Vector2(vec.x, vec.y).length()
+func _compute_horizontal_length(vec) -> int:
+	return vec.length()

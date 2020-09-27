@@ -84,7 +84,7 @@ shader_param/split_line_color = null
 
 [sub_resource type="StreamTexture" id=3]
 flags = 4
-load_path = "res://.import/Kirbo.PNG-84003a8309572f74b6dc591fbde00f2d.stex"
+load_path = "res://.import/zeST8nK.png-c50c81a874368925f73a840bc3908109.stex"
 
 [node name="Cameras" type="Node2D"]
 script = ExtResource( 1 )
@@ -93,8 +93,8 @@ script = ExtResource( 1 )
 material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 1027.0
+margin_bottom = 598.0
 texture = SubResource( 3 )
 expand = true
 __meta__ = {
