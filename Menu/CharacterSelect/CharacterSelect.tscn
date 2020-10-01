@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Fonts/Anterobot.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Players/Stumpy/log.png" type="Texture" id=2]
+[ext_resource path="res://Menu/CharacterSelect/StumpyAnimated.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Menu/CharacterSelect/CharacterButtons.gd" type="Script" id=3]
+[ext_resource path="res://Menu/CharacterSelect/SelectedName.gd" type="Script" id=4]
+[ext_resource path="res://Menu/CharacterSelect/BeginGame.gd" type="Script" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -9,14 +12,14 @@ extra_spacing_top = 48
 extra_spacing_bottom = 48
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxLine" id=7]
-color = Color( 0.0117647, 0.972549, 0, 1 )
-thickness = 3
+[sub_resource type="StyleBoxLine" id=4]
+color = Color( 0.027451, 0.8, 0, 1 )
+grow_begin = -1.0
+grow_end = -1.0
 
-[sub_resource type="AtlasTexture" id=8]
-flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( 4, 7, 21, 23 )
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 1 )
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
@@ -41,25 +44,83 @@ align = 1
 [node name="Choices" type="HBoxContainer" parent="GridContainer"]
 margin_top = 165.0
 margin_right = 1024.0
-margin_bottom = 596.0
+margin_bottom = 465.0
+rect_min_size = Vector2( 0, 250 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
 alignment = 1
 
 [node name="Stumpy" type="Button" parent="GridContainer/Choices"]
-margin_left = 470.0
-margin_right = 553.0
-margin_bottom = 431.0
-custom_styles/hover = SubResource( 7 )
+margin_left = 437.0
+margin_right = 587.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 150, 300 )
+rect_clip_content = true
+custom_styles/hover = SubResource( 4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" parent="GridContainer/Choices/Stumpy" instance=ExtResource( 2 )]
+position = Vector2( 75, 150 )
+scale = Vector2( 6, 9 )
+frame = 3
+
+[node name="Label" type="Label" parent="GridContainer/Choices/Stumpy"]
+margin_right = 150.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 150, 100 )
+custom_fonts/font = SubResource( 3 )
 text = "Stumpy"
-icon = SubResource( 8 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Players" type="HBoxContainer" parent="GridContainer"]
-margin_top = 600.0
+margin_top = 469.0
 margin_right = 1024.0
 margin_bottom = 600.0
+rect_min_size = Vector2( 1024, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 50
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="GridContainer/Players"]
-margin_left = 512.0
-margin_right = 512.0
+[node name="Player1Choice" type="MarginContainer" parent="GridContainer/Players"]
+margin_left = 299.0
+margin_right = 417.0
+margin_bottom = 131.0
+
+[node name="Label" type="Label" parent="GridContainer/Players/Player1Choice"]
+margin_top = 50.0
+margin_right = 118.0
+margin_bottom = 81.0
+text = "Player 1
+Selected character"
+align = 1
+script = ExtResource( 4 )
+
+[node name="Player2Choice" type="MarginContainer" parent="GridContainer/Players"]
+margin_left = 467.0
+margin_right = 585.0
+margin_bottom = 131.0
+
+[node name="Label" type="Label" parent="GridContainer/Players/Player2Choice"]
+margin_top = 50.0
+margin_right = 118.0
+margin_bottom = 81.0
+text = "Player 2
+Selected character"
+align = 1
+script = ExtResource( 4 )
+
+[node name="BeginGame" type="Button" parent="GridContainer/Players"]
+margin_left = 635.0
+margin_right = 725.0
+margin_bottom = 20.0
+size_flags_vertical = 0
+text = "Begin Game"
+script = ExtResource( 5 )
+[connection signal="button_up" from="GridContainer/Choices/Stumpy" to="GridContainer/Players/Player1Choice/Label" method="_on_Stumpy_button_up"]
+[connection signal="focus_entered" from="GridContainer/Choices/Stumpy" to="GridContainer/Choices/Stumpy" method="_focus_entered"]
+[connection signal="focus_exited" from="GridContainer/Choices/Stumpy" to="GridContainer/Choices/Stumpy" method="_focus_exited"]
+[connection signal="button_up" from="GridContainer/Players/BeginGame" to="GridContainer/Players/BeginGame" method="_on_Begin_Game"]
