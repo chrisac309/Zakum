@@ -121,4 +121,4 @@ file_logging/enable_file_logging=true
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+quality/2d/use_pixel_snap=true
