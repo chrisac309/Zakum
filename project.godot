@@ -102,6 +102,10 @@ special={
  ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [layer_names]
 
 2d_physics/layer_1="World"
@@ -118,7 +122,10 @@ file_logging/enable_file_logging=true
 
 2d/default_gravity_vector=Vector2( 0, 0 )
 2d/default_linear_damp=1.0
+<<<<<<< Updated upstream
 
 [rendering]
 
 environment/default_environment="res://default_env.tres"
+=======
+>>>>>>> Stashed changes
