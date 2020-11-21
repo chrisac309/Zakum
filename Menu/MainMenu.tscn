@@ -47,6 +47,13 @@ custom_fonts/font = SubResource( 1 )
 text = "Forest Force"
 align = 1
 
+[node name="Tree" type="Sprite" parent="VBoxContainer"]
+position = Vector2( 501.838, 404.985 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 3, 10, 90, 120 )
+
 [node name="Notice" type="Label" parent="VBoxContainer"]
 margin_top = 167.0
 margin_right = 974.0
@@ -59,11 +66,4 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Tap anywhere to begin"
 align = 1
 script = ExtResource( 4 )
-
-[node name="Tree" type="Sprite" parent="."]
-position = Vector2( 501.838, 404.985 )
-scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 2 )
-region_enabled = true
-region_rect = Rect2( 3, 10, 90, 120 )
 [connection signal="gui_input" from="." to="." method="_on_MainMenu_gui_input"]

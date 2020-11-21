@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/zeST8nK.png-c50c81a874368925f73a840bc3908109.stex"
+path="res://.import/Forest Tileset.png-80902fac11d27cdad88fd69a0d23fdf5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Zakum/Assets/zeST8nK.png"
-dest_files=[ "res://.import/zeST8nK.png-c50c81a874368925f73a840bc3908109.stex" ]
+source_file="res://World/Assets/Forest Tileset.png"
+dest_files=[ "res://.import/Forest Tileset.png-80902fac11d27cdad88fd69a0d23fdf5.stex" ]
 
 [params]
 
