@@ -9,7 +9,7 @@ func _ready():
 	font_color.a = 0.5
 	print(font_color)
 
-func _process(delta):
+func _process(_delta):
 	font_color.a += fluctuation
 	if font_color.a < buffer || font_color.a > 1 - (buffer):
 		fluctuation = -fluctuation
