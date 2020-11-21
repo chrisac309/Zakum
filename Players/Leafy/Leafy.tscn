@@ -225,7 +225,7 @@ position = Vector2( 0, -12 )
 texture = ExtResource( 4 )
 vframes = 12
 hframes = 7
-frame = 44
+frame = 9
 region_rect = Rect2( 3, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -252,6 +252,7 @@ TARGET_DISTANCE_MIN = 15
 TARGET_DISTANCE_MAX = 30
 
 [node name="RangeCombat" parent="." instance=ExtResource( 2 )]
+visible = false
 
 [node name="Stats" parent="RangeCombat" index="0"]
 position = Vector2( 0, 5 )

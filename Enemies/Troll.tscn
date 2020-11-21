@@ -163,7 +163,7 @@ TARGET_TYPE = 2
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 9
-frame = 10
+frame = 9
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 3 )
@@ -199,6 +199,7 @@ collision_layer = 4
 shape = SubResource( 16 )
 
 [node name="AttackRange" parent="RangeCombat" index="2"]
+scale = Vector2( 1.1, 1.1 )
 collision_mask = 26
 
 [node name="CollisionShape2D" parent="RangeCombat/AttackRange" index="0"]
