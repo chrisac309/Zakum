@@ -3,7 +3,7 @@ extends Area2D
 
 signal attack(enemy)
 
-onready var collisionShape = $CollisionShape2D
+@onready var collisionShape = $CollisionShape2D
 
 func _ready():
 	assert(collisionShape != null)

@@ -7,8 +7,8 @@ code = "shader_type canvas_item;
 render_mode unshaded;
 
 uniform vec2 viewport_size;         // size in pixels of the viewport. Cannot be access from the shader in GLES2
-uniform sampler2D viewport1 : hint_albedo;
-uniform sampler2D viewport2 : hint_albedo;
+uniform sampler2D viewport1 : source_color;
+uniform sampler2D viewport2 : source_color;
 uniform bool split_active;          // true: split screen, false: use view1
 uniform vec2 player1_position;      // position of player 1 un UV coordinates
 uniform vec2 player2_position;      // position of player 2 un UV coordinates
@@ -82,7 +82,7 @@ shader_param/player2_position = null
 shader_param/split_line_thickness = null
 shader_param/split_line_color = null
 
-[sub_resource type="StreamTexture" id=3]
+[sub_resource type="CompressedTexture2D" id=3]
 flags = 4
 load_path = "res://.import/zeST8nK.png-c50c81a874368925f73a840bc3908109.stex"
 
@@ -93,21 +93,21 @@ script = ExtResource( 1 )
 material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 1027.0
-margin_bottom = 598.0
+offset_right = 1027.0
+offset_bottom = 598.0
 texture = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Viewport1" type="Viewport" parent="."]
+[node name="Viewport1" type="SubViewport" parent="."]
 render_target_v_flip = true
 
 [node name="Camera1" type="Camera2D" parent="Viewport1"]
 current = true
 
-[node name="Viewport2" type="Viewport" parent="."]
+[node name="Viewport2" type="SubViewport" parent="."]
 render_target_v_flip = true
 
 [node name="Camera2" type="Camera2D" parent="Viewport2"]

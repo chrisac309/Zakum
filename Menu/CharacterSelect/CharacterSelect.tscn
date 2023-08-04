@@ -1,14 +1,14 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Fonts/Anterobot.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/Anterobot.ttf" type="FontFile" id=1]
 [ext_resource path="res://Menu/CharacterSelect/StumpyAnimated.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Menu/CharacterSelect/CharacterButtons.gd" type="Script" id=3]
 [ext_resource path="res://Menu/CharacterSelect/BeginGame.gd" type="Script" id=5]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 64
-extra_spacing_top = 48
-extra_spacing_bottom = 48
+spacing_top = 48
+spacing_bottom = 48
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxLine" id=2]
@@ -16,11 +16,11 @@ color = Color( 0.027451, 0.8, 0, 1 )
 grow_begin = -1.0
 grow_end = -1.0
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 32
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 32
 font_data = ExtResource( 1 )
 
@@ -32,45 +32,45 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="VBoxContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 600.0
+offset_right = 1024.0
+offset_bottom = 600.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Title" type="Label" parent="GridContainer"]
-margin_right = 1024.0
-margin_bottom = 161.0
-custom_fonts/font = SubResource( 1 )
+offset_right = 1024.0
+offset_bottom = 161.0
+theme_override_fonts/font = SubResource( 1 )
 text = "Select a Hunter"
 align = 1
 
 [node name="Choices" type="HBoxContainer" parent="GridContainer"]
-margin_top = 165.0
-margin_right = 1024.0
-margin_bottom = 465.0
-rect_min_size = Vector2( 0, 250 )
+offset_top = 165.0
+offset_right = 1024.0
+offset_bottom = 465.0
+custom_minimum_size = Vector2( 0, 250 )
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Stumpy" type="Button" parent="GridContainer/Choices"]
-margin_left = 437.0
-margin_right = 587.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 150, 300 )
-rect_clip_content = true
-custom_styles/hover = SubResource( 2 )
+offset_left = 437.0
+offset_right = 587.0
+offset_bottom = 300.0
+custom_minimum_size = Vector2( 150, 300 )
+clip_contents = true
+theme_override_styles/hover = SubResource( 2 )
 script = ExtResource( 3 )
 
-[node name="AnimatedSprite" parent="GridContainer/Choices/Stumpy" instance=ExtResource( 2 )]
+[node name="AnimatedSprite2D" parent="GridContainer/Choices/Stumpy" instance=ExtResource( 2 )]
 position = Vector2( 75, 150 )
 scale = Vector2( 6, 9 )
 frame = 3
 
 [node name="Label" type="Label" parent="GridContainer/Choices/Stumpy"]
-margin_right = 150.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 150, 100 )
-custom_fonts/font = SubResource( 3 )
+offset_right = 150.0
+offset_bottom = 100.0
+custom_minimum_size = Vector2( 150, 100 )
+theme_override_fonts/font = SubResource( 3 )
 text = "Stumpy"
 align = 1
 valign = 1
@@ -79,23 +79,23 @@ __meta__ = {
 }
 
 [node name="Players" type="HBoxContainer" parent="GridContainer"]
-margin_top = 469.0
-margin_right = 1024.0
-margin_bottom = 600.0
-rect_min_size = Vector2( 1024, 0 )
+offset_top = 469.0
+offset_right = 1024.0
+offset_bottom = 600.0
+custom_minimum_size = Vector2( 1024, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 50
+theme_override_constants/separation = 50
 alignment = 1
 
 [node name="BeginGame" type="Button" parent="GridContainer/Players"]
 anchor_top = 0.25
 anchor_bottom = 0.5
-margin_left = 431.0
-margin_right = 593.0
-margin_bottom = 39.0
+offset_left = 431.0
+offset_right = 593.0
+offset_bottom = 39.0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 4 )
+theme_override_fonts/font = SubResource( 4 )
 text = "Begin Game"
 script = ExtResource( 5 )
 [connection signal="focus_entered" from="GridContainer/Choices/Stumpy" to="GridContainer/Choices/Stumpy" method="_focus_entered"]

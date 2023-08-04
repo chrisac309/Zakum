@@ -3,10 +3,10 @@ extends Area2D
 
 #const HitEffect = preload("res://Effects/HitEffect.tscn")
 
-var invincible = false setget set_invincible
+var invincible = false: set = set_invincible
 
-onready var timer = $Timer
-onready var collisionShape = $CollisionShape2D
+@onready var timer = $Timer
+@onready var collisionShape = $CollisionShape2D
 
 signal invincibility_started
 signal invincibility_ended

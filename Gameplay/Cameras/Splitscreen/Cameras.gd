@@ -19,28 +19,28 @@ extends Node2D
 #       depending on the distance between players. If false, the thickness will
 #       be constant and equal to split_line_thickness
 
-export(float) var max_separation = 20.0
-export(float) var split_line_thickness = 3.0
-export(Color, RGBA) var split_line_color = Color.black
-export(bool) var adaptive_split_line_thickness = true
+@export var max_separation: float = 20.0
+@export var split_line_thickness: float = 3.0
+@export var split_line_color = Color.BLACK # (Color, RGBA)
+@export var adaptive_split_line_thickness: bool = true
 
-onready var player1 : Player = $"../Player1"
-onready var player2 : Player = $"../Player2"
-onready var view = $View
-onready var viewport1 = $Viewport1
-onready var viewport2 = $Viewport2
-onready var camera1 : Camera2D = viewport1.get_node(@"Camera1")
-onready var camera2 : Camera2D = viewport2.get_node(@"Camera2")
+@onready var player1 : Player = $"../Player1"
+@onready var player2 : Player = $"../Player2"
+@onready var view = $View
+@onready var viewport1 = $Viewport1
+@onready var viewport2 = $Viewport2
+@onready var camera1 : Camera2D = viewport1.get_node("Camera1")
+@onready var camera2 : Camera2D = viewport2.get_node("Camera2")
 
 
 func _ready():
 	_on_size_changed()
 	_update_splitscreen()
 	
-	get_viewport().connect("size_changed", self, "_on_size_changed")
+	get_viewport().connect("size_changed", Callable(self, "_on_size_changed"))
 	
-	view.material.set_shader_param("viewport1", viewport1.get_texture())
-	view.material.set_shader_param("viewport2", viewport2.get_texture())
+	view.material.set_shader_parameter("viewport1", viewport1.get_texture())
+	view.material.set_shader_parameter("viewport2", viewport2.get_texture())
 
 
 func _process(_delta):
@@ -64,8 +64,8 @@ func _move_cameras():
 
 func _update_splitscreen():
 	var screen_size = get_viewport().get_visible_rect().size
-	var player1_position = camera1.transform.xform_inv(player1.position) / screen_size
-	var player2_position = camera2.transform.xform_inv(player2.position) / screen_size
+	var player1_position = camera1(player1.position) * .transform / screen_size
+	var player2_position = camera2(player2.position) * .transform / screen_size
 	
 	var thickness
 	if adaptive_split_line_thickness:
@@ -76,11 +76,11 @@ func _update_splitscreen():
 	else:
 		thickness = split_line_thickness
 	
-	view.material.set_shader_param("split_active", _get_split_state())
-	view.material.set_shader_param("player1_position", player1_position)
-	view.material.set_shader_param("player2_position", player2_position)
-	view.material.set_shader_param("split_line_thickness", thickness)
-	view.material.set_shader_param("split_line_color", split_line_color)
+	view.material.set_shader_parameter("split_active", _get_split_state())
+	view.material.set_shader_parameter("player1_position", player1_position)
+	view.material.set_shader_parameter("player2_position", player2_position)
+	view.material.set_shader_parameter("split_line_thickness", thickness)
+	view.material.set_shader_parameter("split_line_color", split_line_color)
 
 
 # Split screen is active if players are too far apart from each other.
@@ -97,7 +97,7 @@ func _on_size_changed():
 	$Viewport1.size = screen_size
 	$Viewport2.size = screen_size
 	
-	view.material.set_shader_param("viewport_size", screen_size)
+	view.material.set_shader_parameter("viewport_size", screen_size)
 
 
 func _compute_position_difference_in_world() -> Vector2:

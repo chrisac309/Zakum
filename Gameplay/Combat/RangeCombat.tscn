@@ -6,7 +6,7 @@
 [ext_resource path="res://Gameplay/Combat/Combat.gd" type="Script" id=4]
 [ext_resource path="res://Gameplay/Stats.gd" type="Script" id=5]
 
-[node name="RangeCombat" type="Position2D"]
+[node name="RangeCombat" type="Marker2D"]
 script = ExtResource( 4 )
 
 [node name="Stats" type="Node" parent="." instance=ExtResource( 2 )]

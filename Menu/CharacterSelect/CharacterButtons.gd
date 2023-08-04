@@ -1,7 +1,7 @@
 extends Button
 
 
-onready var animated_sprite : AnimatedSprite = $AnimatedSprite
+@onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 
 func _focus_entered():

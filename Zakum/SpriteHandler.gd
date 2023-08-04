@@ -1,7 +1,7 @@
-extends Position2D
+extends Marker2D
 
-onready var full_health_sprite : Sprite = $FullHealthSprite
-onready var low_health_sprite : Sprite = $LowHealthSprite
+@onready var full_health_sprite : Sprite2D = $FullHealthSprite
+@onready var low_health_sprite : Sprite2D = $LowHealthSprite
 
 func _ready():
 	_to_full_health_sprite()

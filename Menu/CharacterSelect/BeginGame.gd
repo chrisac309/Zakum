@@ -4,7 +4,7 @@ const game_scene = preload("res://World/Scenes/Overworld.tscn")
 
 func _on_Begin_Game():
 	PlayerData.players.append(PlayerData.HunterName.Stumpy)
-	SceneChanger.change_scene(game_scene)
+	SceneChanger.change_scene_to_file(game_scene)
 
 func _on_Exit_Game_button_up():
 	get_tree().quit()

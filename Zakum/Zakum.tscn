@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Zakum/Assets/trees_2x.png" type="Texture" id=1]
+[ext_resource path="res://Zakum/Assets/trees_2x.png" type="Texture2D" id=1]
 [ext_resource path="res://Gameplay/Combat/Combat.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Zakum/SpriteHandler.gd" type="Script" id=3]
 [ext_resource path="res://Zakum/Zakum.gd" type="Script" id=4]
@@ -29,19 +29,19 @@ position = Vector2( 0, -20 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
-[node name="SpriteHandler" type="Position2D" parent="."]
+[node name="SpriteHandler" type="Marker2D" parent="."]
 position = Vector2( 0, -175 )
 scale = Vector2( 3.5, 3.5 )
 script = ExtResource( 3 )
 
-[node name="FullHealthSprite" type="Sprite" parent="SpriteHandler"]
+[node name="FullHealthSprite" type="Sprite2D" parent="SpriteHandler"]
 position = Vector2( -0.717972, 0 )
 scale = Vector2( 0.984045, 1 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 3, 10, 90, 120 )
 
-[node name="LowHealthSprite" type="Sprite" parent="SpriteHandler"]
+[node name="LowHealthSprite" type="Sprite2D" parent="SpriteHandler"]
 visible = false
 texture = ExtResource( 1 )
 normal_map = SubResource( 4 )

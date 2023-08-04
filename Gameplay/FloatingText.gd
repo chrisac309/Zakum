@@ -1,9 +1,9 @@
-extends Position2D
+extends Marker2D
 
 const expected_scale = Vector2(0.75, 0.75)
 
-onready var label = $Label
-onready var tween = $Tween
+@onready var label = $Label
+@onready var tween = $Tween
 
 var amount : int
 var damage_type : int
@@ -21,11 +21,11 @@ func _ready():
 	label.set_text(str(amount))
 	match damage_type:
 		DamageType.Damage:
-			label.set("custom_colors/font_color", Color.red)
+			label.set("theme_override_colors/font_color", Color.RED)
 		DamageType.Crit:
-			label.set("custom_colors/font_color", Color.blue)
+			label.set("theme_override_colors/font_color", Color.BLUE)
 		DamageType.Heal:
-			label.set("custom_colors/font_color", Color.green)
+			label.set("theme_override_colors/font_color", Color.GREEN)
 			
 	randomize()
 	var side_movement = randi() % 61 - 30

@@ -3,14 +3,14 @@ extends Node
 class_name Stats
 const floating_text = preload("res://Gameplay/FloatingText.tscn")
 
-onready var parent : Position2D = get_parent()
-onready var health_bar = $HealthBar
+@onready var parent : Marker2D = get_parent()
+@onready var health_bar = $HealthBar
 
-export(int) var max_health = 1
-export(int) var max_speed = 1
-export(int) var max_inertia = 1
-export(int) var damage = 1
-export(int, 100) var crit_rate = 15
+@export var max_health: int = 1
+@export var max_speed: int = 1
+@export var max_inertia: int = 1
+@export var damage: int = 1
+@export var crit_rate = 15 # (int, 100)
 
 var health = max_health
 var speed
@@ -28,7 +28,7 @@ signal max_speed_changed(value)
 func _ready():
 	set_max_health(max_health)
 	set_health(max_health)
-	set_speed(max_speed)
+	set_velocity(max_speed)
 	set_inertia(max_inertia)
 
 func set_max_health(value:int):
@@ -56,7 +56,7 @@ func set_health(value:int):
 	elif health <= max_health / 2:
 		emit_signal("low_health")
 		
-func set_speed(value:int):
+func set_velocity(value:int):
 	speed = value
 	emit_signal("speed_changed", speed)
 	
@@ -77,7 +77,7 @@ func determine_damage(is_crit:bool):
 	return damage_to_send
 		
 func take_damage(value:int, receiving_crit:bool):
-	var damage_text : Position2D = floating_text.instance()
+	var damage_text : Marker2D = floating_text.instantiate()
 	damage_text.amount = value
 	damage_text.damage_type = 1 if receiving_crit else 0
 	parent.add_child(damage_text)
@@ -85,7 +85,7 @@ func take_damage(value:int, receiving_crit:bool):
 	set_health(health - value)
 	
 func heal(value:int):
-	var heal = floating_text.instance()
+	var heal = floating_text.instantiate()
 	heal.amount = value
 	heal.damage_type = 1
 	set_health(health + heal)

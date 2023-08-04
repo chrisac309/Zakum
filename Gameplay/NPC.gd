@@ -11,19 +11,19 @@ enum State {
 	DIE
 }
 
-onready var target_movement : TargetMovement = $TargetMovement
-onready var animationTree = $AnimationTree
-onready var animationState = animationTree.get("parameters/playback")
-onready var currentSprite = $Sprite
-onready var attack_range = $RangeCombat/AttackRange
-onready var hitbox = $RangeCombat/AttackRange/Hitbox
-onready var stats = $RangeCombat/Stats
+@onready var target_movement : TargetMovement = $TargetMovement
+@onready var animationTree = $AnimationTree
+@onready var animationState = animationTree.get("parameters/playback")
+@onready var currentSprite = $Sprite2D
+@onready var attack_range = $RangeCombat/AttackRange
+@onready var hitbox = $RangeCombat/AttackRange/Hitbox
+@onready var stats = $RangeCombat/Stats
 
-export(State) var current_state
+@export var current_state: State
 
 func _ready():
-	stats.connect("no_health", self, "die")
-	stats.connect("speed_changed", target_movement, "_change_speed")
+	stats.connect("no_health", Callable(self, "die"))
+	stats.connect("speed_changed", Callable(target_movement, "_change_speed"))
 	target_movement.speed = stats.max_speed	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,7 +36,7 @@ func _integrate_forces(state):
 		State.ATTACK:
 			attack_state(current_target, state)
 
-func move_state(target:PhysicsBody2D, _state:Physics2DDirectBodyState):
+func move_state(target:PhysicsBody2D, _state:PhysicsDirectBodyState2D):
 	if is_instance_valid(target) && attack_range.overlaps_body(target):
 		current_state = State.ATTACK
 	else:
@@ -47,7 +47,7 @@ func move_state(target:PhysicsBody2D, _state:Physics2DDirectBodyState):
 		else:
 			animationState.travel("Idle")
 	
-func attack_state(target:PhysicsBody2D, state:Physics2DDirectBodyState):
+func attack_state(target:PhysicsBody2D, state:PhysicsDirectBodyState2D):
 	if !is_instance_valid(target) || !attack_range.overlaps_body(target):
 		current_state = State.MOVE
 	else:

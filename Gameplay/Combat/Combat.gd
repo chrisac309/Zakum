@@ -1,8 +1,8 @@
-extends Position2D
+extends Marker2D
 
-onready var stats : Stats = $Stats
-onready var hitbox : Hitbox
-onready var hurtbox : Hurtbox = $Hurtbox
+@onready var stats : Stats = $Stats
+@onready var hitbox : Hitbox
+@onready var hurtbox : Hurtbox = $Hurtbox
 
 func _ready():
 	var found_hitbox = get_node_or_null("Hitbox")

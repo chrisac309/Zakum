@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 class_name Player
 #const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
@@ -16,13 +16,13 @@ var hunter_type = PlayerData.HunterName.Stumpy
 var velocity = Vector2.ZERO
 var inertia = 10
 
-onready var stats : Stats = $Combat/Stats
-onready var animationPlayer = $AnimationPlayer
-onready var animationTree = $AnimationTree
-onready var animationState = animationTree.get("parameters/playback")
+@onready var stats : Stats = $Combat/Stats
+@onready var animationPlayer = $AnimationPlayer
+@onready var animationTree = $AnimationTree
+@onready var animationState = animationTree.get("parameters/playback")
 
 func _ready():
-	stats.connect("no_health", self, "die")
+	stats.connect("no_health", Callable(self, "die"))
 	animationTree.active = true
 
 func _physics_process(_delta):
@@ -42,7 +42,14 @@ func move_state():
 
 	velocity = determine_velocity(input_vector)
 	# All of the optional values are the default, except infinite inertia
-	var _linear_velocity = move_and_slide(velocity, Vector2.ZERO, false, 4, 0.785398, false)
+	set_velocity(velocity)
+	set_up_direction(Vector2.ZERO)
+	set_floor_stop_on_slope_enabled(false)
+	set_max_slides(4)
+	set_floor_max_angle(0.785398)
+	# TODOConverter3To4 infinite_inertia were removed in Godot 4 - previous value `false`
+	move_and_slide()
+	var _linear_velocity = velocity
 	push_enemies()
 	
 	if Input.is_action_just_pressed("special"):
@@ -77,7 +84,7 @@ func attack_animation_finished():
 	state = MOVE
 
 func push_enemies():
-	for index in get_slide_count():
+	for index in get_slide_collision_count():
 		var collision = get_slide_collision(index)
 		if collision.collider.is_in_group("Enemy"):
 			collision.collider.apply_central_impulse(-collision.normal * stats.inertia)

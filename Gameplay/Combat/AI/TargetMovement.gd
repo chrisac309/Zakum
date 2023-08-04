@@ -11,11 +11,11 @@ enum TargetType {
 }
 
 # Targets
-var _current_target : PhysicsBody2D setget _set_target, get_target_or_null
+var _current_target : PhysicsBody2D: get = get_target_or_null, set = _set_target
 var _available_targets = []
-export (TargetType) var TARGET_TYPE = TargetType.FIRST
-export var TARGET_DISTANCE_MIN = 20
-export var TARGET_DISTANCE_MAX = 25
+@export (TargetType) var TARGET_TYPE = TargetType.FIRST
+@export var TARGET_DISTANCE_MIN = 20
+@export var TARGET_DISTANCE_MAX = 25
 
 # Locked target
 var _locked_target : PhysicsBody2D
@@ -33,9 +33,9 @@ var _leader_follow_max : int
 var velocity : Vector2
 var move_direction : Vector2
 var direction_to_target : Vector2
-var speed : int setget _change_speed
+var speed : int: set = _change_speed
 
-onready var parent : RigidBody2D = get_parent()
+@onready var parent : RigidBody2D = get_parent()
 
 # Acts as an override for targetting a specific unit
 # If lock_until_in_range is true, this will override until the target is in distance range 
@@ -122,10 +122,10 @@ func _find_next_target():
 	var newTarget
 	match TARGET_TYPE:
 		TargetType.FIRST:
-			if !_available_targets.empty():
+			if !_available_targets.is_empty():
 				newTarget =_available_targets.front()
 		TargetType.LAST:
-			if !_available_targets.empty():
+			if !_available_targets.is_empty():
 				newTarget =_available_targets.back()
 		TargetType.NEAR:
 			newTarget = _get_closest_target()

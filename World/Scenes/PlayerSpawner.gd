@@ -3,7 +3,7 @@ extends Node2D
 const stumpy = preload("res://Players/Stumpy/Stumpy.tscn")
 const camera = preload("res://Gameplay/Cameras/Singleplayer/Camera2D.tscn")
 
-var ySort : YSort
+var ySort : Node2D
 
 func spawn_players():
 	var players = PlayerData.player_count
@@ -11,7 +11,7 @@ func spawn_players():
 	var player1 = _instance_character(PlayerData.players[0])
 	player1.name = 'Player1'
 	ySort.add_child(player1)
-	var cam = camera.instance()
+	var cam = camera.instantiate()
 	player1.add_child(cam)
 	
 	if players == 2:
@@ -31,7 +31,7 @@ func _instance_character(hunter: int):
 			print('Spawning other')
 			hunter_instance = stumpy.instance()
 	hunter_instance.position = self.position + Vector2(randf() * 10 - 10 / 2, randf() * 10 - 10 / 2)
-	hunter_instance.connect("die", self, "player_died")
+	hunter_instance.connect("die", Callable(self, "player_died"))
 	return hunter_instance
 	
 func player_died(hunter : Player):
