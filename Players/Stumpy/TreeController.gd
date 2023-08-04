@@ -26,4 +26,4 @@ func tree_died(tree):
 	
 func parent_died(_parent):
 	for tree in spawnedTrees:
-		spawnedTrees.die()
+		tree.die()

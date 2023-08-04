@@ -59,14 +59,13 @@ func follow() -> Vector2:
 	_find_next_target()
 	if _has_target_lock:
 		return _travel_to_target(_locked_target, TARGET_DISTANCE_MIN, TARGET_DISTANCE_MAX)
-	elif _has_leader && _is_far_from_leader():
+	elif _has_leader && is_instance_valid(_leader) && _is_far_from_leader():
 		return _travel_to_target(_leader, _leader_follow_min, _leader_follow_max)
 	elif is_instance_valid(_current_target):
 		return _travel_to_target(_current_target, TARGET_DISTANCE_MIN, TARGET_DISTANCE_MAX)
 	elif is_instance_valid(_leader):
 		return _travel_to_target(_leader, _leader_follow_min, _leader_follow_preferred_max)
 	else:
-		print("No target to follow for ", parent.name)
 		return Vector2.ZERO
 	
 func set_leader(leader:PhysicsBody2D, leader_min_follow, leader_preferred_max_follow, leader_max_follow) -> void:

@@ -39,7 +39,6 @@ func _integrate_forces(state):
 func move_state(target:PhysicsBody2D, _state:Physics2DDirectBodyState):
 	if is_instance_valid(target) && attack_range.overlaps_body(target):
 		current_state = State.ATTACK
-		print(name, ": ATTACK")
 	else:
 		var velocity = target_movement.follow()
 		_determine_direction(velocity)
@@ -51,7 +50,6 @@ func move_state(target:PhysicsBody2D, _state:Physics2DDirectBodyState):
 func attack_state(target:PhysicsBody2D, state:Physics2DDirectBodyState):
 	if !is_instance_valid(target) || !attack_range.overlaps_body(target):
 		current_state = State.MOVE
-		print(name, ": MOVE")
 	else:
 		state.linear_velocity = Vector2.ZERO
 		hitbox.rotate_hitbox_towards(target)

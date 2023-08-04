@@ -205,7 +205,14 @@ position = Vector2( 1024, 528 )
 
 [node name="EnemySpawner3" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 514.281, 526.342 )
-spawn_rate_per_10 = 3
+spawn_rate_per_10 = 25
+main_target_path = NodePath("../Zakum")
+enemy_to_spawn = ExtResource( 5 )
+SPAWNING_RANGE = 100
+
+[node name="EnemySpawner4" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 1349.28, 833.342 )
+spawn_rate_per_10 = 25
 main_target_path = NodePath("../Zakum")
 enemy_to_spawn = ExtResource( 5 )
 SPAWNING_RANGE = 100
