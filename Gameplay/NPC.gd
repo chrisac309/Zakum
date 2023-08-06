@@ -22,7 +22,7 @@ enum State {
 @export var current_state: State
 
 func _ready():
-	stats.connect("no_health", Callable(self, "die"))
+	stats.connect("no_health", dead)
 	stats.connect("speed_changed", Callable(target_movement, "_change_speed"))
 	target_movement.speed = stats.max_speed	
 
@@ -56,7 +56,7 @@ func attack_state(target:PhysicsBody2D, state:PhysicsDirectBodyState2D):
 		animationState.travel("Attack")
 		_determine_direction(target_movement.direction_to_target)
 
-func die():
+func dead():
 	current_state = State.DIE
 	emit_signal("die", self)
 	animationState.travel("Die")

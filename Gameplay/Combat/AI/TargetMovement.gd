@@ -13,7 +13,7 @@ enum TargetType {
 # Targets
 var _current_target : PhysicsBody2D: get = get_target_or_null, set = _set_target
 var _available_targets = []
-@export (TargetType) var TARGET_TYPE = TargetType.FIRST
+@export var TARGET_TYPE: TargetType = TargetType.FIRST
 @export var TARGET_DISTANCE_MIN = 20
 @export var TARGET_DISTANCE_MAX = 25
 

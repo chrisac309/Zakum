@@ -3,7 +3,6 @@ extends Marker2D
 const expected_scale = Vector2(0.75, 0.75)
 
 @onready var label = $Label
-@onready var tween = $Tween
 
 var amount : int
 var damage_type : int
@@ -30,10 +29,12 @@ func _ready():
 	randomize()
 	var side_movement = randi() % 61 - 30
 	velocity = Vector2(side_movement, 50)
-			
-	tween.interpolate_property(self, "global_scale", global_scale, Vector2(1, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	tween.interpolate_property(self, "global_scale", Vector2(1, 1), Vector2(0.1, 0.1), 0.7, Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.2)
-	tween.start()
+	
+	var createdTween = label.create_tween()
+	
+	createdTween.tween_property(label, "scale", Vector2(1, 1), 0.2).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	createdTween.tween_property(label, "scale", Vector2(0.1, 0.1), 0.7).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	createdTween.tween_callback(label.queue_free)
 
 func _physics_process(delta):
 	position -= velocity * delta

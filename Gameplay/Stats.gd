@@ -33,7 +33,6 @@ func _ready():
 
 func set_max_health(value:int):
 	max_health = value
-	print("Parent: ", get_parent().name, "Grandparent: ", get_parent().get_parent().name)
 	set_health(min(health, max_health))
 	emit_signal("max_health_changed", max_health)
 	health_bar.max_value = max_health

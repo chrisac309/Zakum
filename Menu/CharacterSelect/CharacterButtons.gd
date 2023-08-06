@@ -5,8 +5,8 @@ extends Button
 
 
 func _focus_entered():
-	animated_sprite.playing = true
+	animated_sprite.play()
 
 
 func _focus_exited():
-	animated_sprite.playing = false
+	animated_sprite.stop()

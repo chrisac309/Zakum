@@ -1,19 +1,23 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://cqteeru2lxf8f"]
 
-[ext_resource path="res://Fonts/Anterobot.ttf" type="FontFile" id=1]
-[ext_resource path="res://Gameplay/FloatingText.gd" type="Script" id=2]
+[ext_resource type="FontFile" uid="uid://1iceka2wcxvu" path="res://Fonts/Anterobot.ttf" id="1"]
+[ext_resource type="Script" path="res://Gameplay/FloatingText.gd" id="2"]
 
-[sub_resource type="FontFile" id=1]
-size = 24
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 1 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("1")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="FloatingText" type="Marker2D"]
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 25)
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -22,16 +26,7 @@ offset_left = -50.0
 offset_top = -12.5
 offset_right = 50.0
 offset_bottom = 12.5
-custom_minimum_size = Vector2( 100, 25 )
-theme_override_fonts/font = SubResource( 1 )
-theme_override_colors/font_color = Color( 1, 0.443137, 0.443137, 1 )
-theme_override_colors/font_outline_color = Color( 0, 0, 0, 1 )
+theme_override_colors/font_color = Color(1, 0.443137, 0.443137, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("1")
 text = "200"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Tween" type="Tween" parent="."]
-[connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]

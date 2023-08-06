@@ -8,30 +8,26 @@ var ySort : Node2D
 func spawn_players():
 	var players = PlayerData.player_count
 	ySort = get_parent()
-	var player1 = _instance_character(PlayerData.players[0])
-	player1.name = 'Player1'
-	ySort.add_child(player1)
-	var cam = camera.instantiate()
-	player1.add_child(cam)
-	
-	if players == 2:
-		var player2 = _instance_character(PlayerData.players[1])
-		player2.name = 'Player2'
-		ySort.add_child(player2, true)
-	else:
-		print("This isn't possible")
+	for n in players:
+		print('Instantiating player ' + str(n + 1))
+		var currentPlayer = _instance_character(PlayerData.players[n])
+		currentPlayer.name = 'Player ' + str(n)
+		ySort.add_child(currentPlayer)
+		var cam = camera.instantiate()
+		cam.zoom = Vector2(2,2)
+		currentPlayer.add_child(cam)
 		
 func _instance_character(hunter: int):
 	var hunter_instance : Player
 	match hunter:
 		PlayerData.HunterName.Stumpy:
 			print('Spawning Stumpy')
-			hunter_instance = stumpy.instance()
+			hunter_instance = stumpy.instantiate()
 		_:
 			print('Spawning other')
-			hunter_instance = stumpy.instance()
+			hunter_instance = stumpy.instantiate()
 	hunter_instance.position = self.position + Vector2(randf() * 10 - 10 / 2, randf() * 10 - 10 / 2)
-	hunter_instance.connect("die", Callable(self, "player_died"))
+	hunter_instance.connect("die", player_died)
 	return hunter_instance
 	
 func player_died(hunter : Player):

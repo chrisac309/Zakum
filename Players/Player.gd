@@ -13,7 +13,6 @@ enum {
 
 var state = MOVE
 var hunter_type = PlayerData.HunterName.Stumpy
-var velocity = Vector2.ZERO
 var inertia = 10
 
 @onready var stats : Stats = $Combat/Stats
@@ -22,7 +21,7 @@ var inertia = 10
 @onready var animationState = animationTree.get("parameters/playback")
 
 func _ready():
-	stats.connect("no_health", Callable(self, "die"))
+	stats.connect("no_health", dead)
 	animationTree.active = true
 
 func _physics_process(_delta):
@@ -86,9 +85,9 @@ func attack_animation_finished():
 func push_enemies():
 	for index in get_slide_collision_count():
 		var collision = get_slide_collision(index)
-		if collision.collider.is_in_group("Enemy"):
-			collision.collider.apply_central_impulse(-collision.normal * stats.inertia)
+		if collision.get_collider().is_in_group("Enemy"):
+			collision.get_collider().apply_central_impulse(-collision.get_normal() * stats.inertia)
 	
-func die():
+func dead():
 	emit_signal("die", self)
 	queue_free()
