@@ -52,7 +52,7 @@ func set_health(value:int):
 	emit_signal("health_changed", health)
 	if health <= 0:
 		emit_signal("no_health")
-	elif health <= max_health / 2:
+	elif health <= max_health / 2.0:
 		emit_signal("low_health")
 		
 func set_velocity(value:int):
@@ -84,9 +84,9 @@ func take_damage(value:int, receiving_crit:bool):
 	set_health(health - value)
 	
 func heal(value:int):
-	var heal = floating_text.instantiate()
-	heal.amount = value
-	heal.damage_type = 1
-	set_health(health + heal)
-	if health + heal >= max_health / 2:
+	var heal_text = floating_text.instantiate()
+	heal_text.amount = value
+	heal_text.damage_type = 1
+	set_health(health + value)
+	if health + value >= max_health / 2.0:
 		emit_signal("healed_beyond_low_health")

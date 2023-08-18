@@ -5,11 +5,11 @@ extends StaticBody2D
 signal die(player)
 
 func _ready():
-	stats.connect("no_health", Callable(self, "die"))
+	stats.connect("no_health", dead)
 
 func _on_Timer_timeout():
 	leafyController.spawn_leafy()
 
-func die():
+func dead():
 	emit_signal("die", self)
 	queue_free()

@@ -62,18 +62,20 @@ func follow() -> Vector2:
 	elif _has_leader && is_instance_valid(_leader) && _is_far_from_leader():
 		return _travel_to_target(_leader, _leader_follow_min, _leader_follow_max)
 	elif is_instance_valid(_current_target):
+		
 		return _travel_to_target(_current_target, TARGET_DISTANCE_MIN, TARGET_DISTANCE_MAX)
 	elif is_instance_valid(_leader):
 		return _travel_to_target(_leader, _leader_follow_min, _leader_follow_preferred_max)
 	else:
 		return Vector2.ZERO
 	
-func set_leader(leader:PhysicsBody2D, leader_min_follow, leader_preferred_max_follow, leader_max_follow) -> void:
+func set_leader(leader:PhysicsBody2D, leader_min_follow, leader_preferred_max_follow, leader_max_follow, available_targets) -> void:
 	_leader = leader
 	_leader_follow_min = leader_min_follow
 	_leader_follow_preferred_max = leader_preferred_max_follow
 	_leader_follow_max = leader_max_follow
 	_has_leader = true
+	_available_targets = available_targets
 
 func get_target_or_null() -> PhysicsBody2D:
 	return _current_target if !_has_target_lock else _locked_target
@@ -156,7 +158,6 @@ func _get_closest_target():
 	var closest_enemy = null
 	var min_distance = INF
 	
-	var targets_to_track = _available_targets
 	var distance_node = parent
 
 	for enemy in _available_targets:

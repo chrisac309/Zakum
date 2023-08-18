@@ -13,7 +13,7 @@ var current_wait_time: int
 
 func _ready():
 	if spawn_rate_per_10 > 0:
-		current_wait_time = 10 / spawn_rate_per_10
+		current_wait_time = 10.0 / spawn_rate_per_10
 		start_spawning()
 	
 func start_spawning():

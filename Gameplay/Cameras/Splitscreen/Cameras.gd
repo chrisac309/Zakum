@@ -64,8 +64,8 @@ func _move_cameras():
 
 func _update_splitscreen():
 	var screen_size = get_viewport().get_visible_rect().size
-	var player1_position = camera1(player1.position) * .transform / screen_size
-	var player2_position = camera2(player2.position) * .transform / screen_size
+	var player1_position = camera1(player1.position) * player1.transform / screen_size
+	var player2_position = camera2(player2.position) * player2.transform / screen_size
 	
 	var thickness
 	if adaptive_split_line_thickness:

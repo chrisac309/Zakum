@@ -42,11 +42,6 @@ func move_state():
 	velocity = determine_velocity(input_vector)
 	# All of the optional values are the default, except infinite inertia
 	set_velocity(velocity)
-	set_up_direction(Vector2.ZERO)
-	set_floor_stop_on_slope_enabled(false)
-	set_max_slides(4)
-	set_floor_max_angle(0.785398)
-	# TODOConverter3To4 infinite_inertia were removed in Godot 4 - previous value `false`
 	move_and_slide()
 	var _linear_velocity = velocity
 	push_enemies()

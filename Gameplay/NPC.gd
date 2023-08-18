@@ -13,7 +13,7 @@ enum State {
 
 @onready var target_movement : TargetMovement = $TargetMovement
 @onready var animationTree = $AnimationTree
-@onready var animationState = animationTree.get("parameters/playback")
+@onready var animationState : AnimationNodeStateMachinePlayback = animationTree["parameters/playback"]
 @onready var currentSprite = $Sprite2D
 @onready var attack_range = $RangeCombat/AttackRange
 @onready var hitbox = $RangeCombat/AttackRange/Hitbox

@@ -20,6 +20,11 @@ config/icon="res://icon.png"
 SceneChanger="*res://GameManager/Scenes/SceneChanger.tscn"
 PlayerData="*res://Autoload/PlayerData.gd"
 
+[debug]
+
+shapes/collision/shape_color=Color(1, 1, 1, 0.027451)
+shapes/collision/contact_color=Color(1, 1, 1, 1)
+
 [importer_defaults]
 
 texture={

@@ -30,3 +30,4 @@ theme_override_colors/font_color = Color(1, 0.443137, 0.443137, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("1")
 text = "200"
+horizontal_alignment = 1

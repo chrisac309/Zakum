@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://byktutnb0b1xt"]
+[gd_scene load_steps=33 format=3 uid="uid://byktutnb0b1xt"]
 
 [ext_resource type="PackedScene" path="res://Gameplay/Combat/AI/TargetMovement.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://Gameplay/Combat/RangeCombat.tscn" id="2"]
@@ -190,6 +190,9 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="21"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5cjiv"]
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="22"]
 states/Attack/node = SubResource("7")
 states/Attack/position = Vector2(389, 273)
@@ -201,8 +204,9 @@ states/Run/node = SubResource("10")
 states/Run/position = Vector2(651, 273)
 states/Spawn/node = SubResource("11")
 states/Spawn/position = Vector2(520, 75)
-transitions = ["Spawn", "Idle", SubResource("12"), "Idle", "Attack", SubResource("13"), "Attack", "Idle", SubResource("14"), "Idle", "Run", SubResource("15"), "Run", "Idle", SubResource("16"), "Attack", "Run", SubResource("17"), "Run", "Attack", SubResource("18"), "Idle", "Die", SubResource("19"), "Attack", "Die", SubResource("20"), "Run", "Die", SubResource("21")]
-graph_offset = Vector2(177, 130.36)
+states/Start/position = Vector2(272, 75)
+transitions = ["Spawn", "Idle", SubResource("12"), "Idle", "Attack", SubResource("13"), "Attack", "Idle", SubResource("14"), "Idle", "Run", SubResource("15"), "Run", "Idle", SubResource("16"), "Attack", "Run", SubResource("17"), "Run", "Attack", SubResource("18"), "Idle", "Die", SubResource("19"), "Attack", "Die", SubResource("20"), "Run", "Die", SubResource("21"), "Start", "Spawn", SubResource("AnimationNodeStateMachineTransition_5cjiv")]
+graph_offset = Vector2(1.9541, 34.008)
 
 [sub_resource type="CapsuleShape2D" id="24"]
 radius = 2.16283
@@ -222,6 +226,8 @@ height = 11.6946
 collision_layer = 8
 collision_mask = 29
 mass = 0.102041
+can_sleep = false
+lock_rotation = true
 script = ExtResource("3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -229,7 +235,7 @@ position = Vector2(0, -12)
 texture = ExtResource("2_vhim4")
 hframes = 7
 vframes = 12
-frame = 37
+frame = 44
 region_rect = Rect2(3, 0, 0, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -245,6 +251,7 @@ active = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource("24")
+debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="TargetMovement" parent="." instance=ExtResource("1")]
 TARGET_TYPE = 2
@@ -262,18 +269,23 @@ damage = 5
 crit_rate = 50
 
 [node name="Hurtbox" parent="RangeCombat" index="1"]
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(1, 1, 1, 0.0588235)
 collision_layer = 8
 
 [node name="CollisionShape2D" parent="RangeCombat/Hurtbox" index="0"]
 shape = SubResource("25")
+debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="AttackRange" parent="RangeCombat" index="2"]
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="RangeCombat/AttackRange" index="0"]
 shape = SubResource("26")
+debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="Hitbox" parent="RangeCombat/AttackRange" index="1"]
+modulate = Color(0, 1, 0, 1)
 collision_layer = 0
 collision_mask = 4
 
@@ -281,6 +293,7 @@ collision_mask = 4
 position = Vector2(13, 0)
 rotation = 1.5708
 shape = SubResource("27")
+debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [editable path="RangeCombat"]
 [editable path="RangeCombat/Hurtbox"]
